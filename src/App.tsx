@@ -6,7 +6,7 @@ import '../global.css';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar, NativeModules } from 'react-native';
 
-import { AppRouter } from '@/app/router/AppRouter';
+import { AppRouter } from '@/app/router/AppRouter.tsx';
 import { DeviceProvider } from '@/context/DeviceContext';
 import { AppBootstrap } from '@/AppBootstrap';
 

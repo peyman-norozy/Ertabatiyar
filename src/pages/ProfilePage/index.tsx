@@ -50,22 +50,24 @@ export default function ProfilePage() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>شماره فعلی مجاز: {savedNumber || 'تنظیم نشده'}</Text>
-      <TextInput
-        value={number}
-        onChangeText={setNumber}
-        placeholder="مثال: +989123456789"
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 10,
-          marginVertical: 10,
-          borderRadius: 8,
-        }}
-        keyboardType="phone-pad"
-      />
-      <Button title="ذخیره شماره" onPress={saveNumber} />
+    <View className={'flex-1'}>
+      <View className={'p-5 flex-1 bg-red-500'}>
+        <Text>شماره فعلی مجاز: {savedNumber || 'تنظیم نشده'}</Text>
+        <TextInput
+          value={number}
+          onChangeText={setNumber}
+          placeholder="مثال: +989123456789"
+          style={{
+            borderWidth: 1,
+            borderColor: '#ccc',
+            padding: 10,
+            marginVertical: 10,
+            borderRadius: 8,
+          }}
+          keyboardType="phone-pad"
+        />
+        <Button title="ذخیره شماره" onPress={saveNumber} />
+      </View>
       <CustomBottomTab />
     </View>
   );
