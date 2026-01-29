@@ -1,12 +1,13 @@
 // ui/CustomHeader.tsx
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { MenuIcon } from "@/shared/assets/icons";
+import React from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MenuIcon } from '@/shared/assets/icons';
 import {
   CustomHeaderPropsType,
   NavigationProp,
-} from "@/shared/ui/header/model";
+} from '@/shared/ui/header/model';
+import { Text } from '@/shared/ui';
 
 const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   title,
@@ -25,7 +26,7 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
           <MenuIcon
             width={30}
             height={30}
-            fill={false ? "#ff0000" : "#aaaaaa"}
+            fill={false ? '#ff0000' : '#aaaaaa'}
           />
         </TouchableOpacity>
       )}

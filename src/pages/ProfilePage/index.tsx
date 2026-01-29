@@ -15,15 +15,9 @@
 // export default ProfilePage;
 
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Alert,
-  NativeModules,
-} from 'react-native';
+import { View, TextInput, Button, Alert, NativeModules } from 'react-native';
 import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
+import { Text } from '@/shared/ui';
 
 const { SmsModule } = NativeModules;
 

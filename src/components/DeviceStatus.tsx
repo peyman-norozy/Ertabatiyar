@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useDevice } from '../context/DeviceContext';
+import { Text } from '@/shared/ui';
 
 export function DeviceStatus() {
   const { state } = useDevice();

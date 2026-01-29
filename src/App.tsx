@@ -1,7 +1,5 @@
-/**
- * @format
- */
 import React, { useEffect } from 'react';
+import './localization/i18n.ts';
 import '../global.css';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar, NativeModules } from 'react-native';
@@ -34,7 +32,7 @@ function App(): React.JSX.Element {
   return (
     <DeviceProvider>
       <SafeAreaProvider style={{ flex: 1 }}>
-        <StatusBar />
+        <StatusBar backgroundColor="white" />
         {/* فقط یک‌بار Native Event Listener */}
         <AppBootstrap />
         <AppRouter />

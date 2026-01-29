@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
   Button,
   NativeModules,
-  Text,
   View,
   PermissionsAndroid,
   Platform,
 } from 'react-native';
 import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { useDevice } from '@/context/DeviceContext';
+import { Text } from '@/shared/ui';
 
 const { SmsModule } = NativeModules;
 

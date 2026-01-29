@@ -1,8 +1,9 @@
-import React from "react";
-import { View, TouchableOpacity, Text, Animated } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MenuIcon } from "@/shared/assets/icons";
+import React from 'react';
+import { View, TouchableOpacity, Animated } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MenuIcon } from '@/shared/assets/icons';
+import { Text } from '@/shared/ui';
 
 type TabType = {
   id: string;
@@ -24,19 +25,19 @@ const CustomBottomTab = () => {
 
   const tabs: TabType[] = [
     {
-      id: "HomePage",
+      id: 'HomePage',
       icon: <MenuIcon width={24} height={24} />,
-      label: "خانه",
+      label: 'خانه',
     },
     {
-      id: "Search",
+      id: 'Search',
       icon: <MenuIcon width={24} height={24} />,
-      label: "جستجو",
+      label: 'جستجو',
     },
     {
-      id: "ProfilePage",
+      id: 'ProfilePage',
       icon: <MenuIcon width={24} height={24} />,
-      label: "پروفایل",
+      label: 'پروفایل',
     },
   ];
 
@@ -62,7 +63,7 @@ const CustomBottomTab = () => {
 
   return (
     <View className="flex-row h-[70px] bg-white border-t border-t-gray-200 px-5 justify-around">
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         const isActive = route.name === tab.id;
         return (
           <TouchableOpacity
@@ -82,7 +83,7 @@ const CustomBottomTab = () => {
             </Animated.View>
             <Text
               className={`text-xs mt-1 ${
-                isActive ? "text-red-400 font-bold" : "text-gray-500"
+                isActive ? 'text-red-400 font-bold' : 'text-gray-500'
               }`}
             >
               {tab.label}

@@ -1,7 +1,6 @@
 // AppRouter.tsx
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
-import { I18nManager } from 'react-native';
+import React, { useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,15 +14,8 @@ const Stack = createNativeStackNavigator();
 export const AppRouter = () => {
   const [isLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (!I18nManager.isRTL) {
-      I18nManager.allowRTL(true);
-      I18nManager.forceRTL(true);
-    }
-  }, []);
-
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView className={'flex-1'}>
       <NavigationContainer linking={linking}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!isLoggedIn ? (

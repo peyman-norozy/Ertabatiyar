@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Text,
   TextInput,
   TextInputProps,
   View,
   TouchableOpacity,
 } from 'react-native';
+import { Text } from '@/shared/ui';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -18,6 +18,7 @@ interface InputProps extends TextInputProps {
   rightIcon?: React.ReactNode;
   onRightIconPress?: () => void;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -31,12 +32,13 @@ const Input: React.FC<InputProps> = ({
   rightIcon,
   onRightIconPress,
   disabled = false,
+  placeholder = '',
 }) => {
   return (
     <View className={`mb-4 ${containerClassName}`}>
       {label && (
         <Text
-          className={`text-gray-700 text-base mb-1 font-medium ${labelClassName}`}
+          className={`text-gray-700 text-base mb-1 font-yekan ${labelClassName}`}
         >
           {label}
         </Text>
@@ -53,12 +55,13 @@ const Input: React.FC<InputProps> = ({
 
         <TextInput
           className={`
-            flex-1 px-4 py-3 text-base text-gray-900
+            flex-1 px-4 py-3 text-base text-gray-900 font-yekan
             ${leftIcon ? '' : 'pl-4'}
             ${rightIcon || onRightIconPress ? 'pr-2' : 'pr-4'}
             ${inputClassName}
           `}
           placeholderTextColor="#9ca3af"
+          placeholder={placeholder}
         />
 
         {(rightIcon || onRightIconPress) && (
@@ -73,7 +76,9 @@ const Input: React.FC<InputProps> = ({
       </View>
 
       {error && (
-        <Text className={`text-red-500 text-sm mt-1 ${errorClassName}`}>
+        <Text
+          className={`text-red-500 text-sm mt-1 font-yekan ${errorClassName}`}
+        >
           {error}
         </Text>
       )}

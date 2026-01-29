@@ -11,6 +11,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		746EFEA6C4C04743889161B7 /* IRANYekanXVFaNumVF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A47EFB431FB54AE3BE7874E5 /* IRANYekanXVFaNumVF.ttf */; };
+		DFB84F8098E54B01856583CD /* YekanBakhFaNum-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 945388506ABA4408B61D5026 /* YekanBakhFaNum-Thin.ttf */; };
+		9011BECD38E84BAB8F2EC48D /* YekanBakhFaNum-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9499469BDBDE4A92BC7DB12D /* YekanBakhFaNum-SemiBold.ttf */; };
+		873976F71DC94842940A8EEE /* YekanBakhFaNum-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED6929B15B8C44C69D459654 /* YekanBakhFaNum-Black.ttf */; };
+		74E40D223FD141F4BA19E101 /* YekanBakhFaNum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2298C9122422429CA37CCED8 /* YekanBakhFaNum-Bold.ttf */; };
+		94CF0418E26F4536A031BB91 /* YekanBakhFaNum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D5F3B6EF38B496EBEBA7D49 /* YekanBakhFaNum-Regular.ttf */; };
+		01336FF7E49447CF9B328B2C /* YekanBakhFaNum-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34030DD5C1414D4AB71E9E90 /* YekanBakhFaNum-Light.ttf */; };
+		0E6A31FC8C89474A983C0F35 /* YekanBakhFaNum-ExtraBlack.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7131DC10A9F4D22B3A5194E /* YekanBakhFaNum-ExtraBlack.ttf */; };
+		B241672279F146B4AB3883CF /* YekanBakhFaNum-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18A50FDADABB404ABA0971DB /* YekanBakhFaNum-ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +33,15 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Ertabatiyar/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Ertabatiyar/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		A47EFB431FB54AE3BE7874E5 /* IRANYekanXVFaNumVF.ttf */ = {isa = PBXFileReference; name = "IRANYekanXVFaNumVF.ttf"; path = "../src/shared/assets/fonts/IRANYekanXVFaNumVF.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		945388506ABA4408B61D5026 /* YekanBakhFaNum-Thin.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-Thin.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9499469BDBDE4A92BC7DB12D /* YekanBakhFaNum-SemiBold.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-SemiBold.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ED6929B15B8C44C69D459654 /* YekanBakhFaNum-Black.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-Black.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2298C9122422429CA37CCED8 /* YekanBakhFaNum-Bold.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-Bold.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6D5F3B6EF38B496EBEBA7D49 /* YekanBakhFaNum-Regular.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-Regular.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		34030DD5C1414D4AB71E9E90 /* YekanBakhFaNum-Light.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-Light.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D7131DC10A9F4D22B3A5194E /* YekanBakhFaNum-ExtraBlack.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-ExtraBlack.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-ExtraBlack.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		18A50FDADABB404ABA0971DB /* YekanBakhFaNum-ExtraBold.ttf */ = {isa = PBXFileReference; name = "YekanBakhFaNum-ExtraBold.ttf"; path = "../src/shared/assets/fonts/YekanBakhFaNum-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +92,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				611D1B36276F44FDA8CDB9E6 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -96,6 +115,23 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		611D1B36276F44FDA8CDB9E6 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				A47EFB431FB54AE3BE7874E5 /* IRANYekanXVFaNumVF.ttf */,
+				945388506ABA4408B61D5026 /* YekanBakhFaNum-Thin.ttf */,
+				9499469BDBDE4A92BC7DB12D /* YekanBakhFaNum-SemiBold.ttf */,
+				ED6929B15B8C44C69D459654 /* YekanBakhFaNum-Black.ttf */,
+				2298C9122422429CA37CCED8 /* YekanBakhFaNum-Bold.ttf */,
+				6D5F3B6EF38B496EBEBA7D49 /* YekanBakhFaNum-Regular.ttf */,
+				34030DD5C1414D4AB71E9E90 /* YekanBakhFaNum-Light.ttf */,
+				D7131DC10A9F4D22B3A5194E /* YekanBakhFaNum-ExtraBlack.ttf */,
+				18A50FDADABB404ABA0971DB /* YekanBakhFaNum-ExtraBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -159,6 +195,15 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				746EFEA6C4C04743889161B7 /* IRANYekanXVFaNumVF.ttf in Resources */,
+				DFB84F8098E54B01856583CD /* YekanBakhFaNum-Thin.ttf in Resources */,
+				9011BECD38E84BAB8F2EC48D /* YekanBakhFaNum-SemiBold.ttf in Resources */,
+				873976F71DC94842940A8EEE /* YekanBakhFaNum-Black.ttf in Resources */,
+				74E40D223FD141F4BA19E101 /* YekanBakhFaNum-Bold.ttf in Resources */,
+				94CF0418E26F4536A031BB91 /* YekanBakhFaNum-Regular.ttf in Resources */,
+				01336FF7E49447CF9B328B2C /* YekanBakhFaNum-Light.ttf in Resources */,
+				0E6A31FC8C89474A983C0F35 /* YekanBakhFaNum-ExtraBlack.ttf in Resources */,
+				B241672279F146B4AB3883CF /* YekanBakhFaNum-ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
