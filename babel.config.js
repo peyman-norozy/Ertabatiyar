@@ -1,10 +1,7 @@
 module.exports = {
   presets: [
-    [
-      '@react-native/babel-preset',
-      { jsxImportSource: 'nativewind' }
-    ],
-    'nativewind/babel'
+    ['@react-native/babel-preset', { jsxImportSource: 'nativewind' }],
+    'nativewind/babel',
   ],
   plugins: [
     [
@@ -16,6 +13,6 @@ module.exports = {
         },
       },
     ],
-    'react-native-worklets/plugin',
+    'react-native-reanimated/plugin',
   ],
 };

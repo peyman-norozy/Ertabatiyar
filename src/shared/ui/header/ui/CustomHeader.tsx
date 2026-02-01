@@ -1,5 +1,5 @@
 // ui/CustomHeader.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MenuIcon } from '@/shared/assets/icons';
@@ -7,7 +7,9 @@ import {
   CustomHeaderPropsType,
   NavigationProp,
 } from '@/shared/ui/header/model';
-import { Text } from '@/shared/ui';
+import { CustomSwitch, Text } from '@/shared/ui';
+import SettingsScreen from '@/components/SettingsScreen.tsx';
+import ThemeSwitcher from '@/components/ThemeSwitcher.tsx';
 
 const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   title,
@@ -17,17 +19,13 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <View className="flex-row-reverse items-center bg-gray-100 p-4 shadow-md">
+    <View className="flex-row-reverse items-center bg-white p-4 shadow-md">
       {showMenuButton && (
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
           className="mx-2"
         >
-          <MenuIcon
-            width={30}
-            height={30}
-            fill={false ? '#ff0000' : '#aaaaaa'}
-          />
+          <MenuIcon width={30} height={30} fill={'#aaaaaa'} />
         </TouchableOpacity>
       )}
       {showBackButton && (
@@ -35,7 +33,11 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
           {/*<Icon name="arrow-back" size={24} color="#000" />*/}
         </TouchableOpacity>
       )}
-      <Text className="flex-1 text-center text-lg font-bold">{title}</Text>
+      <Text className="flex-1 text-center" font={'font-yekan-semibold'}>
+        {title}
+      </Text>
+      <ThemeSwitcher />
+      {/*<SettingsScreen />*/}
     </View>
   );
 };

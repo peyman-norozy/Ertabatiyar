@@ -1,7 +1,7 @@
-import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export interface CustomHeaderPropsType {
-  title: string;
+  title?: string;
   showBackButton?: boolean;
   showMenuButton?: boolean;
 }

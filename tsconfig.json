@@ -5,15 +5,30 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["es2020"],                     // بدون "dom" – مهم برای جلوگیری از تداخل با RN
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "nativewind-env.d.ts",
+    "nativewind-env.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "Pods"
+    "Pods",
+    "android",
+    "ios",
+    "**/__tests__/**"                     // اگر لازم بود تست‌ها را exclude کنید
   ]
 }

@@ -11,7 +11,6 @@ import { logo } from '@/shared/assets/images';
 import { Input, Text } from '@/shared/ui';
 import { changeLanguage } from '@/localization/changeLanguage.ts';
 import { useTranslation } from 'react-i18next';
-import ThemeSwitcher from '@/components/ThemeSwitcher.tsx';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
@@ -36,7 +35,6 @@ const PersonalInformationPage = () => {
           <View className="mt-[56px] w-full">
             <Button title="فارسی" onPress={() => changeLanguage('fa')} />
             <Button title="English" onPress={() => changeLanguage('en')} />
-            <ThemeSwitcher />
 
             <Text className="bg-blue-500 dark:bg-red-500 text-white dark:text-black my-4 p-2 rounded">
               {t('peyman.name' as any)}

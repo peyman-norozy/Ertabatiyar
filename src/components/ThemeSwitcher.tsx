@@ -1,23 +1,30 @@
 import { useColorScheme } from 'nativewind';
-import { Appearance } from 'react-native';
-import { View, Pressable } from 'react-native';
-import React from 'react';
-import { Text } from '@/shared/ui';
+import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { CustomSwitch, Text } from '@/shared/ui';
 
 const ThemeSwitcher = () => {
   const { colorScheme, setColorScheme } = useColorScheme();
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    if (darkMode) {
+      setColorScheme('light');
+    } else {
+      setColorScheme('dark');
+    }
+  }, [darkMode]);
 
   return (
     <View>
-      <Pressable onPress={() => setColorScheme('light')}>
-        <Text>روشن (Light)</Text>
-      </Pressable>
-
-      <Pressable onPress={() => setColorScheme('dark')}>
-        <Text>تاریک (Dark)</Text>
-      </Pressable>
-
-      <Text>حالت فعلی: {colorScheme}</Text>
+      <View className="flex-row items-center justify-between gap-2">
+        <CustomSwitch
+          value={darkMode}
+          onValueChange={setDarkMode}
+          size="sm"
+          activeColor="#6366f1"
+        />
+      </View>
     </View>
   );
 };
