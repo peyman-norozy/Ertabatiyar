@@ -51,15 +51,17 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>IRANYekanXVFaNumVF.ttf</string>
-		<string>YekanBakhFaNum-Thin.ttf</string>
-		<string>YekanBakhFaNum-SemiBold.ttf</string>
-		<string>YekanBakhFaNum-Black.ttf</string>
-		<string>YekanBakhFaNum-Bold.ttf</string>
-		<string>YekanBakhFaNum-Regular.ttf</string>
-		<string>YekanBakhFaNum-Light.ttf</string>
-		<string>YekanBakhFaNum-ExtraBlack.ttf</string>
-		<string>YekanBakhFaNum-ExtraBold.ttf</string>
+		<string>IRANYekanXFaNum-ExtraBlack.ttf</string>
+		<string>IRANYekanXFaNum-Thin.ttf</string>
+		<string>IRANYekanXFaNum-Regular.ttf</string>
+		<string>IRANYekanXFaNum-Heavy.ttf</string>
+		<string>IRANYekanXFaNum-Bold.ttf</string>
+		<string>IRANYekanXFaNum-Light.ttf</string>
+		<string>IRANYekanXFaNum-Medium.ttf</string>
+		<string>IRANYekanXFaNum-Black.ttf</string>
+		<string>IRANYekanXFaNum-UltraLight.ttf</string>
+		<string>IRANYekanXFaNum-DemiBold.ttf</string>
+		<string>IRANYekanXFaNum-ExtraBold.ttf</string>
 	</array>
 </dict>
 </plist>
