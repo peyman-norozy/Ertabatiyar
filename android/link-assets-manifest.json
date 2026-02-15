@@ -1,0 +1,49 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-ExtraBlack.ttf",
+      "sha1": "63cf20a09c3c815a5c8aedbcdc3a167f78a273c3"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Thin.ttf",
+      "sha1": "f038b589e280e504eddf5e8924500892ac1096be"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Regular.ttf",
+      "sha1": "02bf6945a7582adc0fda7209809400353d7843f7"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Heavy.ttf",
+      "sha1": "80817575b699f788ef38c2eb336cc48583e04480"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Bold.ttf",
+      "sha1": "e704b9f1191ec13172647b739e382ecd19e38746"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Light.ttf",
+      "sha1": "299dbbe7725989b56d528ead4194eff71a7465db"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Medium.ttf",
+      "sha1": "9fe8731162cb37e6a150bbab2c1418c417fcdf3c"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-Black.ttf",
+      "sha1": "2e22fe9b2645039894bea4377517a5bde1574a0b"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-UltraLight.ttf",
+      "sha1": "952a1e07b6c35003f9e230090477839d54d2aa81"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-DemiBold.ttf",
+      "sha1": "b3ccd3d7c90e5ede623e40f65e059e263337932f"
+    },
+    {
+      "path": "src/shared/assets/fonts/IRANYekanXFaNum-ExtraBold.ttf",
+      "sha1": "9760ba49c8dc4986a94984afde232e55c4322568"
+    }
+  ]
+}
