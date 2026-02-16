@@ -4,6 +4,7 @@ export interface CustomHeaderPropsType {
   title?: string;
   showBackButton?: boolean;
   showMenuButton?: boolean;
+  showThemeSwitcher?: boolean;
 }
 
 // اگر نوع خاصی برای RootParamList دارید استفاده کنید

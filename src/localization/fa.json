@@ -1,9 +1,22 @@
 {
-  "home": "خانه",
-  "peyman": {
-    "name": "تابل"
+  "personalInformation": {
+    "input": {
+      "userName": {
+        "title": "نام کاربری",
+        "placeHolder": "وارد کنید ..."
+      },
+      "userPhoneNumber": {
+        "title": "شماره تماس خود را وارد کنید",
+        "placeHolder": "وارد کنید ..."
+      },
+      "button": {
+        "title": "تایید"
+      }
+    }
   },
-  "profile": "پروفایل",
-  "login": "ورود",
-  "next": "مرحله بعد"
+  "deviceInformation": {
+    "header": {
+      "title": "برگشت"
+    }
+  }
 }
