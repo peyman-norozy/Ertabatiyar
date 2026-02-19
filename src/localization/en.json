@@ -1,9 +1,19 @@
 {
-  "home": "Home",
-  "peyman": {
-    "name": "uuuuuu"
+  "personalInformation": {
+    "input": {
+      "userName": {
+        "title": "User name",
+        "placeHolder": "Enter ..."
+      },
+      "userPhoneNumber": {
+        "title": "User phone",
+        "placeHolder": "Enter ..."
+      }
+    }
   },
-  "profile": "Profile",
-  "login": "Login",
-  "next": "Next"
+  "deviceInformation": {
+    "header": {
+      "title": "Back"
+    }
+  }
 }

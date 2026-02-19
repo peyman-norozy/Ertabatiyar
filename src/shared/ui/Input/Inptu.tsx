@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = ({
     <View className={`mb-4 ${containerClassName}`}>
       {label && (
         <Text
-          className={`text-gray-700 text-base mb-1 font-yekan ${labelClassName}`}
+          className={`text-gray-700 text-sm mb-1 font-yekan-medium ${labelClassName}`}
         >
           {label}
         </Text>
@@ -46,8 +46,8 @@ const Input: React.FC<InputProps> = ({
 
       <View
         className={`
-          flex-row items-center bg-gray-50 border rounded-lg
-          ${error ? 'border-red-500' : 'border-gray-300'}
+          flex-row items-center bg-white border rounded-lg
+          ${error ? 'border-red-500' : 'border-stone-400'}
           ${disabled ? 'bg-gray-100' : ''}
         `}
       >

@@ -18,6 +18,9 @@ module.exports = {
         'yekan-medium': ['IRANYekanXFaNum-Medium'],
         'yekan-ultralight': ['IRANYekanXFaNum-UltraLight'],
       },
+      fontSize: {
+        base: '16px',
+      },
     },
   },
   plugins: [],

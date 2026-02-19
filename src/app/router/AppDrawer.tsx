@@ -1,8 +1,6 @@
-// app.drawer.tsx
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
-import { HomePage, ProfilePage } from '@/pages';
+import { HomePage, ProfilePage, NotificationPage } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 
 const Drawer = createDrawerNavigator();
@@ -15,6 +13,12 @@ export const AppDrawer = () => {
         drawerPosition: 'right',
         drawerType: 'slide',
         overlayColor: 'rgba(0,0,0,0.5)',
+        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+          shadowOpacity: 0,
+        },
       }}
     >
       <Drawer.Screen
@@ -27,6 +31,13 @@ export const AppDrawer = () => {
       <Drawer.Screen
         name="ProfilePage"
         component={ProfilePage}
+        options={{
+          header: () => <CustomHeader title="پروفایل" showMenuButton />,
+        }}
+      />
+      <Drawer.Screen
+        name="NotificationPage"
+        component={NotificationPage}
         options={{
           header: () => <CustomHeader title="پروفایل" showMenuButton />,
         }}
