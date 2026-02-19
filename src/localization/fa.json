@@ -18,5 +18,24 @@
     "header": {
       "title": "برگشت"
     }
+  },
+  "mainPage": {
+    "sensorsMode": "حالت حسگرها",
+    "sensorsText": "پیامک برای دستگاه ارسال نمی شود."
+  },
+  "sensorsItem": {
+    "active": "فعال",
+    "semiActive": "نیم فعال",
+    "inactive": "غیر فعال"
+  },
+  "sensors": {
+    "title": "حسگر ها"
+  },
+  "customBottom": {
+    "tabs": {
+      "notificationTitle": "اعلان ها",
+      "homeTitle": "خانه",
+      "profileTitle": "ادمین"
+    }
   }
 }

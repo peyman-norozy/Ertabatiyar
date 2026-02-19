@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   View,
+  StatusBar,
 } from 'react-native';
 import { logo } from '@/shared/assets/images';
 import { Input, Button } from '@/shared/ui';
@@ -23,6 +24,7 @@ const PersonalInformationPage = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled
     >
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView
         className="flex-1 bg-[#F9F9F9]"
         keyboardShouldPersistTaps="handled"

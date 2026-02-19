@@ -21,13 +21,13 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   const isRTL = I18nManager.isRTL;
 
   return (
-    <View className="flex-row-reverse items-center justify-between bg-white p-4 shadow-md">
+    <View className="flex-row-reverse items-center justify-between bg-white p-4 shadow-md rounded-b-2xl h-12">
       {showMenuButton && (
         <TouchableOpacity
           onPress={() => navigation.toggleDrawer()}
           className="mx-2"
         >
-          <MenuIcon width={30} height={30} fill={'#aaaaaa'} />
+          <MenuIcon width={24} height={24} fill={'#292D32'} />
         </TouchableOpacity>
       )}
       {showBackButton ? (

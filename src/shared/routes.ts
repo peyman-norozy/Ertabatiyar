@@ -1,8 +1,8 @@
 export const linking = {
-  prefixes: ["https://carpaya.com", "carpaya://"], // جایگزین با دامنه خود
+  prefixes: ['https://ertebatyar.com', 'ertebatyar://'],
   config: {
     screens: {
-      HomeScreens: "/",
+      HomeScreens: '/',
     },
   },
 };
