@@ -37,5 +37,24 @@
       "homeTitle": "خانه",
       "profileTitle": "ادمین"
     }
+  },
+  "zoneSettingsPage": {
+    "title": {
+      "placeholder": "عنوان جدید را وارد کنید",
+      "description": "در اینجا میتوان عنوان را تغییر داد",
+      "edit": "ویرایش عنوان"
+    },
+    "button": {
+      "confirm": "تایید",
+      "cancel": "انصراف"
+    },
+    "status": {
+      "off": "وضعیت خاموش",
+      "offDescription": "سیستم غیرفعال است و هیچ عملکردی انجام نمی دهد",
+      "normal": "وضعیت عادی",
+      "normalDescription": "سیستم در حال استاندارد و متعادل است",
+      "withDelay": "وضعیت با تاخیر",
+      "withDelayDescription": "سیستم با یک تاخیر زمانی مشخص انجام می شود"
+    }
   }
 }

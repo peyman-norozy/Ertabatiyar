@@ -1,6 +1,11 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { HomePage, ProfilePage, NotificationPage } from '@/pages';
+import {
+  HomePage,
+  ProfilePage,
+  NotificationPage,
+  ZoneSettingsPage,
+} from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 
 const Drawer = createDrawerNavigator();
@@ -40,6 +45,13 @@ export const AppDrawer = () => {
         component={NotificationPage}
         options={{
           header: () => <CustomHeader title="پروفایل" showMenuButton />,
+        }}
+      />
+      <Drawer.Screen
+        name="ZoneSettingsPage"
+        component={ZoneSettingsPage}
+        options={{
+          header: () => <CustomHeader title="تنظیمات" showMenuButton />,
         }}
       />
     </Drawer.Navigator>
