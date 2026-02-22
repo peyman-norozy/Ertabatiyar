@@ -4,6 +4,8 @@ import {
   View,
   Platform,
   I18nManager,
+  Text,
+  Vibration,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -18,12 +20,17 @@ import { DarkMode, LightMode } from '@/shared/assets/icons';
 interface CustomSwitchProps {
   value: boolean;
   onValueChange: (value: boolean) => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   activeColor?: string;
   inactiveColor?: string;
-  thumbColor?: string;
+  activeThumbColor?: string;
+  inactiveThumbColor?: string;
   className?: string;
   disabled?: boolean;
+  darkModeIcons?: boolean;
+  showText?: boolean;
+  textColorOn?: string;
+  textColorOff?: string;
 }
 
 export default function CustomSwitch({
@@ -32,22 +39,28 @@ export default function CustomSwitch({
   size = 'md',
   activeColor = '#3b82f6',
   inactiveColor = '#d1d5db',
-  thumbColor = '#ffffff',
+  activeThumbColor = '#ffffff',
+  inactiveThumbColor = '#ffffff',
   className = '',
   disabled = false,
+  darkModeIcons = true,
+  showText = false,
+  textColorOn = '#ffffff',
+  textColorOff = '#ffffff',
 }: CustomSwitchProps) {
   const translateX = useSharedValue(value ? 1 : 0);
   const isRTL = I18nManager.isRTL;
   const dir = isRTL ? -1 : 1;
 
   const sizes = {
+    xs: { trackW: 42, trackH: 20, thumb: 16, iconSize: 10 },
     sm: { trackW: 44, trackH: 24, thumb: 20, iconSize: 16 },
     md: { trackW: 52, trackH: 28, thumb: 24, iconSize: 18 },
     lg: { trackW: 60, trackH: 32, thumb: 28, iconSize: 20 },
   } as const;
 
   const { trackW, trackH, thumb, iconSize } = sizes[size];
-  const thumbMargin = 4;
+  const thumbMargin = 2;
   const maxTravel = trackW - thumb - thumbMargin * 2;
 
   useEffect(() => {
@@ -70,7 +83,7 @@ export default function CustomSwitch({
       {
         translateX: interpolate(
           translateX.value,
-          [0, 1],
+          [1, 0],
           [thumbMargin * dir, (maxTravel + thumbMargin) * dir],
           Extrapolation.CLAMP,
         ),
@@ -78,32 +91,39 @@ export default function CustomSwitch({
     ],
   }));
 
-  const iconOpacityOn = useAnimatedStyle(() => ({
+  const opacityOn = useAnimatedStyle(() => ({
     opacity: interpolate(translateX.value, [0, 1], [0, 1]),
   }));
 
-  const iconOpacityOff = useAnimatedStyle(() => ({
+  const opacityOff = useAnimatedStyle(() => ({
     opacity: interpolate(translateX.value, [0, 1], [1, 0]),
   }));
 
-  const iconOnPosition = useAnimatedStyle(() => ({
-    left: isRTL ? thumbMargin : trackW - iconSize - thumbMargin,
+  const positionOn = useAnimatedStyle(() => ({
+    left: isRTL
+      ? thumbMargin
+      : trackW - (showText ? 28 : iconSize) - thumbMargin,
   }));
 
-  const iconOffPosition = useAnimatedStyle(() => ({
-    left: isRTL ? trackW - iconSize - thumbMargin : thumbMargin,
+  const positionOff = useAnimatedStyle(() => ({
+    left: isRTL
+      ? trackW - (showText ? 28 : iconSize) - thumbMargin
+      : thumbMargin,
   }));
 
-  const iconVertical = (trackH - iconSize) / 2;
+  const verticalAlign = (trackH - (showText ? 16 : iconSize)) / 2;
 
   const handlePress = () => {
-    if (!disabled) onValueChange(!value);
+    if (!disabled) {
+      onValueChange(!value);
+      Vibration.vibrate(100);
+    }
   };
 
   const thumbStyleStatic: any = {
     width: thumb,
     height: thumb,
-    backgroundColor: thumbColor,
+    backgroundColor: value ? activeThumbColor : inactiveThumbColor,
     position: 'absolute',
     top: (trackH - thumb) / 2,
     borderRadius: thumb / 2,
@@ -133,29 +153,90 @@ export default function CustomSwitch({
             },
           ]}
         >
-          {/* روشن */}
-          <Animated.View
-            style={[
-              iconOpacityOn,
-              iconOnPosition,
-              { position: 'absolute', top: iconVertical },
-            ]}
-          >
-            <LightMode width={iconSize} height={iconSize} fill="#fff" />
-          </Animated.View>
+          {darkModeIcons && (
+            <>
+              <Animated.View
+                style={[
+                  opacityOn,
+                  positionOn,
+                  { position: 'absolute', top: verticalAlign },
+                ]}
+              >
+                <LightMode width={iconSize} height={iconSize} fill="#fff" />
+              </Animated.View>
 
-          {/* خاموش */}
-          <Animated.View
-            style={[
-              iconOpacityOff,
-              iconOffPosition,
-              { position: 'absolute', top: iconVertical },
-            ]}
-          >
-            <DarkMode width={iconSize} height={iconSize} fill="#fff" />
-          </Animated.View>
+              <Animated.View
+                style={[
+                  opacityOff,
+                  positionOff,
+                  { position: 'absolute', top: verticalAlign },
+                ]}
+              >
+                <DarkMode width={iconSize} height={iconSize} fill="#fff" />
+              </Animated.View>
+            </>
+          )}
 
-          {/* thumb */}
+          {showText && (
+            <>
+              <Animated.View
+                style={[
+                  opacityOn,
+                  positionOn,
+                  {
+                    position: 'absolute',
+                    height: trackH,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ...(isRTL ? { right: -16 } : { left: 'auto', right: 2 }),
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    color: textColorOn,
+                    fontSize: size === 'xs' ? 10 : 12,
+                    fontWeight: '600',
+                    includeFontPadding: false,
+                    textAlign: 'center',
+                    lineHeight: size === 'xs' ? 12 : 14,
+                    paddingHorizontal: 2,
+                  }}
+                >
+                  ON
+                </Text>
+              </Animated.View>
+
+              <Animated.View
+                style={[
+                  opacityOff,
+                  positionOff,
+                  {
+                    position: 'absolute',
+                    height: trackH,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    ...(isRTL ? { left: 2 } : { left: 2, right: 'auto' }),
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    color: textColorOff,
+                    fontSize: size === 'xs' ? 10 : 12,
+                    fontWeight: '600',
+                    includeFontPadding: false,
+                    textAlign: 'center',
+                    lineHeight: size === 'xs' ? 12 : 14,
+                    paddingHorizontal: 2,
+                  }}
+                >
+                  OFF
+                </Text>
+              </Animated.View>
+            </>
+          )}
+
           <Animated.View style={[thumbAnimatedStyle, thumbStyleStatic]} />
         </Animated.View>
       </View>

@@ -6,24 +6,19 @@ import { Home, Notification, Profile } from '@/shared/assets/icons';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { SvgProps } from 'react-native-svg';
+import { RootDrawerParamList } from '@/shared/ui/header/model';
 
 type TabType = {
-  id: keyof RootStackParamList;
+  id: keyof RootDrawerParamList;
   icon: React.FC<SvgProps>;
   label: string;
-};
-
-type RootStackParamList = {
-  HomePage: undefined;
-  NotificationPage: undefined;
-  ProfilePage: undefined;
 };
 
 const CustomBottomTab: React.FC = () => {
   const { t } = useTranslation();
 
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    useNavigation<NativeStackNavigationProp<RootDrawerParamList>>();
   const route = useRoute();
   const scaleValue = new Animated.Value(1);
 
@@ -45,9 +40,9 @@ const CustomBottomTab: React.FC = () => {
     },
   ];
 
-  const handlePress = (tabId: keyof RootStackParamList) => {
+  const handlePress = (tabId: keyof RootDrawerParamList) => {
     if (route.name !== tabId) {
-      navigation.navigate(tabId as keyof RootStackParamList);
+      navigation.navigate(tabId as keyof RootDrawerParamList);
       Animated.sequence([
         Animated.timing(scaleValue, {
           toValue: 0.8,

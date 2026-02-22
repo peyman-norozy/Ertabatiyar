@@ -39,7 +39,9 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
             <Arrow width={24} height={24} fill="#000" />
           </View>
           <Text
-            font={`font-yekan-semibold text-lg ${isRTL ? 'pb-1' : 'pt-1'} `}
+            font={`font-yekan-semibold text-lg ${
+              isRTL ? 'mt-[-3px]' : 'mt-1'
+            } `}
           >
             {title}
           </Text>

@@ -5,5 +5,8 @@ export type TabParamList = {
 };
 
 export type DrawerParamList = {
-  MainTabs: undefined;
+  HomePage: undefined;
+  ProfilePage: undefined;
+  NotificationPage: undefined;
+  SettingsPage: undefined;
 };

@@ -15,7 +15,7 @@ const ZoneSettingsPage = () => {
 
   const options: CardOption[] = [
     {
-      label: t('zoneSettingsPage.status.off'),
+      label: t('zoneSettingsPage.status.off' as any),
       value: '1',
       description: t('zoneSettingsPage.status.offDescription'),
     },

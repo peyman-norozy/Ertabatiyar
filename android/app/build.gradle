@@ -1,17 +1,13 @@
-// --- اول همه pluginها رو اعمال کن (این‌ها حتماً بالای فایل باشن) ---
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
-apply plugin: "com.facebook.react"  // خیلی مهم برای React Native
+apply plugin: "com.facebook.react"
 
-// --- تنظیمات React Native ---
 react {
     autolinkLibrariesWithApp()
 }
 
-// --- (اختیاری) تنظیم JSC اگر نیاز داری ---
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
-// --- حالا بلوک android رو بذار (بعد از pluginها!) ---
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -23,8 +19,8 @@ android {
         applicationId "com.ertabatiyar"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 10
+        versionName "1.1.8"
     }
 
     signingConfigs {
@@ -42,7 +38,6 @@ android {
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
                 keyPassword MYAPP_RELEASE_KEY_PASSWORD
             } else {
-                // fallback به debug برای تست
                 storeFile file('debug.keystore')
                 storePassword 'android'
                 keyAlias 'androiddebugkey'
@@ -64,10 +59,16 @@ android {
     }
 }
 
-// --- dependencies در آخر فایل ---
 dependencies {
     implementation("com.facebook.react:react-android")
+    implementation 'com.facebook.fresco:animated-base-support:1.3.0'
 
+    implementation 'com.facebook.fresco:animated-gif:3.6.0'
+
+    implementation 'com.facebook.fresco:animated-webp:3.6.0'
+    implementation 'com.facebook.fresco:webpsupport:3.6.0'
+
+    implementation 'com.facebook.fresco:webpsupport:3.6.0'
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

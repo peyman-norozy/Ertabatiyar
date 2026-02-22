@@ -4,3 +4,4 @@ export { default as DeviceInformationPage } from '@/pages/LoginPages/DeviceInfor
 export { default as PersonalInformationPage } from '@/pages/LoginPages/PersonalInformationPage';
 export { default as NotificationPage } from '@/pages/NotificationPage';
 export { default as ZoneSettingsPage } from '@/pages/ZoneSettingsPage';
+export { default as Language } from '@/pages/LoginPages/Language';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './localization/i18n.ts';
 import '../global.css';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar, NativeModules } from 'react-native';
 
 import { AppRouter } from '@/app/router/AppRouter.tsx';
@@ -30,14 +30,16 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <DeviceProvider>
-      <SafeAreaProvider style={{ flex: 1 }}>
-        <StatusBar backgroundColor="white" />
-        {/* فقط یک‌بار Native Event Listener */}
-        <AppBootstrap />
-        <AppRouter />
-      </SafeAreaProvider>
-    </DeviceProvider>
+    <SafeAreaView className={'flex-1'}>
+      <DeviceProvider>
+        <SafeAreaProvider style={{ flex: 1 }}>
+          <StatusBar backgroundColor="white" />
+          {/* فقط یک‌بار Native Event Listener */}
+          <AppBootstrap />
+          <AppRouter />
+        </SafeAreaProvider>
+      </DeviceProvider>
+    </SafeAreaView>
   );
 }
 

@@ -12,6 +12,8 @@ import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { useDevice } from '@/context/DeviceContext';
 import SensorsMode from '@/components/SensorsMode.tsx';
 import Sensors from '@/components/Sensors.tsx';
+import CallMode from '@/components/CallMode.tsx';
+import Admin from '@/components/Admin.tsx';
 
 const { SmsModule } = NativeModules;
 
@@ -71,6 +73,8 @@ const HomePage = () => {
         </View>
         <SensorsMode />
         <Sensors />
+        <CallMode />
+        <Admin />
       </ScrollView>
       {/*<View className="flex-1 items-center justify-center">*/}
       {/*  <Text className="text-lg text-white bg-red-500 p-4 rounded-2xl">*/}

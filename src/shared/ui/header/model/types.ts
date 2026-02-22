@@ -9,8 +9,10 @@ export interface CustomHeaderPropsType {
 
 // اگر نوع خاصی برای RootParamList دارید استفاده کنید
 export type RootDrawerParamList = {
-  Home: undefined;
-  // بقیه صفحات...
+  HomePage: undefined;
+  NotificationPage: undefined;
+  ProfilePage: undefined;
+  ZoneSettingsPage: undefined;
 };
 
 export type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;

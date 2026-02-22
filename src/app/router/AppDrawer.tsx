@@ -7,15 +7,18 @@ import {
   ZoneSettingsPage,
 } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
+import CustomDrawerContent from '@/components/CustomDrawerContent.tsx';
+import { I18nManager } from 'react-native';
+import { DrawerParamList } from '@/types/navigation.ts';
 
-const Drawer = createDrawerNavigator();
-
+const Drawer = createDrawerNavigator<DrawerParamList>();
 export const AppDrawer = () => {
   return (
     <Drawer.Navigator
       initialRouteName="HomePage"
+      drawerContent={CustomDrawerContent}
       screenOptions={{
-        drawerPosition: 'right',
+        drawerPosition: I18nManager.isRTL ? 'left' : 'right',
         drawerType: 'slide',
         overlayColor: 'rgba(0,0,0,0.5)',
         headerTransparent: true,
@@ -44,14 +47,14 @@ export const AppDrawer = () => {
         name="NotificationPage"
         component={NotificationPage}
         options={{
-          header: () => <CustomHeader title="پروفایل" showMenuButton />,
+          header: () => <CustomHeader title="اعلان ها" showMenuButton />,
         }}
       />
       <Drawer.Screen
         name="ZoneSettingsPage"
         component={ZoneSettingsPage}
         options={{
-          header: () => <CustomHeader title="تنظیمات" showMenuButton />,
+          header: () => <CustomHeader title="بازگشت" showBackButton />,
         }}
       />
     </Drawer.Navigator>

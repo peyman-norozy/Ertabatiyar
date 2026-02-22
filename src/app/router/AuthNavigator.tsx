@@ -1,7 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { DeviceInformationPage, PersonalInformationPage } from '@/pages';
+import {
+  DeviceInformationPage,
+  Language,
+  PersonalInformationPage,
+} from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 import { useTranslation } from 'react-i18next';
 
@@ -13,10 +17,19 @@ export const AuthNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: true }}>
       <Stack.Screen
+        name="language"
+        component={Language}
+        options={{
+          header: () => <CustomHeader showThemeSwitcher />,
+        }}
+      />
+      <Stack.Screen
         name="LoginStep1"
         component={PersonalInformationPage}
         options={{
-          header: () => <CustomHeader showThemeSwitcher />,
+          header: () => (
+            <CustomHeader title={'برگشت'} showThemeSwitcher showBackButton />
+          ),
         }}
       />
       <Stack.Screen
