@@ -6,6 +6,7 @@ export interface CustomHeaderPropsType {
   showMenuButton?: boolean;
   showThemeSwitcher?: boolean;
   showLogo?: boolean;
+  backUrl?: string;
 }
 
 // اگر نوع خاصی برای RootParamList دارید استفاده کنید
@@ -14,6 +15,7 @@ export type RootDrawerParamList = {
   NotificationPage: undefined;
   ProfilePage: undefined;
   ZoneSettingsPage: undefined;
+  language: undefined;
 };
 
 export type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;

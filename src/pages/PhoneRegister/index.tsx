@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
 import {
+  ScrollView,
+  View,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
-  Image,
-  View,
   StatusBar,
-  TouchableOpacity,
+  Image,
 } from 'react-native';
+
 import { logoBlue } from '@/shared/assets/images';
-import { Input, Button, Text } from '@/shared/ui';
+import { Button, Input, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { registerHandler } from 'react-native-gesture-handler/lib/typescript/handlers/handlersRegistry';
 
-const PersonalInformationPage = () => {
+const Index = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const forgotPassword = () => {};
-  const registerHandler = () => {
-    navigation.navigate('RegisterStep1');
-  };
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+  const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
 
   return (
     <KeyboardAvoidingView
@@ -46,6 +41,22 @@ const PersonalInformationPage = () => {
               <View className="w-full mt-6">
                 <Input
                   label={t(
+                    'personalInformation.input.devicePhoneNumber.title' as any,
+                  )}
+                  placeholder={t(
+                    'personalInformation.input.devicePhoneNumber.placeHolder' as any,
+                  )}
+                  keyboardType="numeric"
+                  maxLength={11}
+                  value={userPhoneNumber}
+                  onChangeText={e => {
+                    setUserPhoneNumber(e);
+                  }}
+                />
+              </View>
+              <View className="w-full mt-4">
+                <Input
+                  label={t(
                     'personalInformation.input.userPhoneNumber.title' as any,
                   )}
                   placeholder={t(
@@ -53,47 +64,26 @@ const PersonalInformationPage = () => {
                   )}
                   keyboardType="numeric"
                   maxLength={11}
-                  value={phoneNumber}
+                  value={devicePhoneNumber}
                   onChangeText={e => {
-                    setPhoneNumber(e);
-                  }}
-                />
-              </View>
-              <View className="w-full mt-4">
-                <Input
-                  label={t('personalInformation.input.password.title' as any)}
-                  placeholder={t(
-                    'personalInformation.input.password.placeHolder' as any,
-                  )}
-                  type={'password'}
-                  value={password}
-                  onChangeText={e => {
-                    setPassword(e);
+                    setDevicePhoneNumber(e);
                   }}
                 />
               </View>
             </View>
-            <TouchableOpacity
-              onPress={forgotPassword}
-              className="mt-4 self-end"
-              activeOpacity={0.7}
-            >
-              <Text className="text-[#1890FF]" font={'font-yekan-medium'}>
-                {t('personalInformation.forgotPassword' as any)}
-              </Text>
-            </TouchableOpacity>
           </View>
           <View
-            className={'flex-row items-center justify-center gap-1 mb-8 mt-10'}
+            className={
+              'bg-[#F4F6F7] mx-5 my-5 py-3 px-2 flex-row gap-2 overflow-hidden'
+            }
           >
-            <Text className={'text-base'} font={'font-yekan-medium'}>
-              {t('personalInformation.newNumber' as any)}
-            </Text>
-            <TouchableOpacity onPress={registerHandler} activeOpacity={0.7}>
-              <Text className="text-[#1890FF]" font={'font-yekan-medium'}>
-                {t('personalInformation.submit' as any)}
-              </Text>
-            </TouchableOpacity>
+            <View className={'w-2 bg-[#1659B1] h-[113px] rounded-xl'} />
+            <View className={'w-[322px]'}>
+              <Text>{t('personalInformation.warning.text1' as any)}</Text>
+              <Text>{t('personalInformation.warning.text2' as any)}</Text>
+              <Text>{t('personalInformation.warning.text3' as any)}</Text>
+              <Text>{t('personalInformation.warning.text4' as any)}</Text>
+            </View>
           </View>
         </View>
         <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
@@ -101,9 +91,11 @@ const PersonalInformationPage = () => {
             title={t('personalInformation.input.button.title' as any)}
             variant="primary"
             size="lg"
-            disabled={!(phoneNumber.length >= 11 && password.length > 2)}
             fullWidth
-            onPress={() => console.log('set any thing')}
+            disabled={
+              !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
+            }
+            onPress={() => navigation.navigate('RegisterStep2')}
           />
         </View>
       </ScrollView>
@@ -111,4 +103,4 @@ const PersonalInformationPage = () => {
   );
 };
 
-export default PersonalInformationPage;
+export default Index;

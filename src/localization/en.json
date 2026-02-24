@@ -5,13 +5,30 @@
         "title": "User name",
         "placeHolder": "Enter ..."
       },
+      "password": {
+        "title": "Enter password",
+        "placeHolder": "*********"
+      },
       "userPhoneNumber": {
         "title": "User phone",
         "placeHolder": "Enter ..."
       },
+      "devicePhoneNumber": {
+        "title": "Enter the device's SIM card number.",
+        "placeHolder": "09362718984"
+      },
       "button": {
         "title": "Confirm"
       }
+    },
+    "forgotPassword": "Forgotten password",
+    "newNumber": "Register a new number?",
+    "submit": "Register" ,
+    "warning": {
+      "text1": "This device is not registered in the system.",
+      "text2": "Please register.",
+      "text3": "If you have already registered, you may need to register again due to the app data being cleared.",
+      "text4": "See the help section for more information."
     }
   },
   "language": {

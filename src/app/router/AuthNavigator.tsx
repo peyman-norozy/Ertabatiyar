@@ -5,6 +5,7 @@ import {
   DeviceInformationPage,
   Language,
   PersonalInformationPage,
+  PhoneRegister,
 } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 import { useTranslation } from 'react-i18next';
@@ -24,8 +25,6 @@ export const AuthNavigator = () => {
       setLoading(false);
     });
   }, []);
-
-  console.log(hasLang, ' ');
 
   if (loading) {
     return <SplashScreen />;
@@ -47,6 +46,20 @@ export const AuthNavigator = () => {
       <Stack.Screen
         name="LoginStep1"
         component={PersonalInformationPage}
+        options={{
+          header: () => (
+            <CustomHeader
+              title={'برگشت'}
+              showThemeSwitcher
+              showBackButton
+              backUrl={'language'}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="RegisterStep1"
+        component={PhoneRegister}
         options={{
           header: () => (
             <CustomHeader title={'برگشت'} showThemeSwitcher showBackButton />

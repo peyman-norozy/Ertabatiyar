@@ -1,4 +1,3 @@
-// ui/CustomHeader.tsx
 import React, { useState } from 'react';
 import { View, TouchableOpacity, I18nManager, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +18,7 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   showMenuButton = false,
   showThemeSwitcher = false,
   showLogo = true,
+  backUrl,
 }) => {
   const navigation = useNavigation<NavigationProp>();
   const isRTL = I18nManager.isRTL;
@@ -44,8 +44,7 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
         <TouchableOpacity
           onPress={async () => {
             await AsyncStorage.removeItem('appLanguage');
-            // navigation.goBack();
-            navigation.navigate('language');
+            backUrl ? navigation.navigate(backUrl) : navigation.goBack();
           }}
           className="flex-row-reverse"
         >

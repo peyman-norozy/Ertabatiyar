@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   TextInputProps,
   View,
   TouchableOpacity,
+  I18nManager,
 } from 'react-native';
 import { Text } from '@/shared/ui';
+import { Eye, EyeSlash } from '@/shared/assets/icons';
 
-interface InputProps extends TextInputProps {
+interface InputProps extends Omit<TextInputProps, 'onChangeText' | 'value'> {
   label?: string;
   error?: string;
   containerClassName?: string;
@@ -18,7 +20,12 @@ interface InputProps extends TextInputProps {
   rightIcon?: React.ReactNode;
   onRightIconPress?: () => void;
   disabled?: boolean;
-  placeholder?: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
+  onlyDigits?: boolean;
+
+  // 👇 اضافه کردیم
+  type?: 'text' | 'password';
 }
 
 const Input: React.FC<InputProps> = ({
@@ -33,7 +40,30 @@ const Input: React.FC<InputProps> = ({
   onRightIconPress,
   disabled = false,
   placeholder = '',
+  keyboardType = 'default',
+  value,
+  onChangeText,
+  onlyDigits,
+  type = 'text',
+  ...rest
 }) => {
+  const [secure, setSecure] = useState(type === 'password');
+  const isRTL = I18nManager.isRTL;
+
+  const handleChange = (text: string) => {
+    if (onlyDigits) {
+      const cleaned = text.replace(/[^0-9]/g, '');
+      onChangeText?.(cleaned);
+      return;
+    }
+
+    onChangeText?.(text);
+  };
+
+  const togglePassword = () => {
+    setSecure(prev => !prev);
+  };
+
   return (
     <View className={`mb-4 ${containerClassName}`}>
       {label && (
@@ -55,23 +85,40 @@ const Input: React.FC<InputProps> = ({
 
         <TextInput
           className={`
-            flex-1 px-4 py-3 text-base text-gray-900 font-yekan
+            flex-1 px-4 py-3 text-sm text-gray-900 font-yekan
             ${leftIcon ? '' : 'pl-4'}
-            ${rightIcon || onRightIconPress ? 'pr-2' : 'pr-4'}
+            ${rightIcon || type === 'password' ? 'pr-2' : 'pr-4'}
             ${inputClassName}
           `}
+          keyboardType={keyboardType}
+          value={value}
+          onChangeText={handleChange}
+          editable={!disabled}
+          secureTextEntry={secure}
+          textAlign={isRTL ? 'right' : 'left'}
           placeholderTextColor="#9ca3af"
           placeholder={placeholder}
+          {...rest}
         />
 
-        {(rightIcon || onRightIconPress) && (
-          <TouchableOpacity
-            onPress={onRightIconPress}
-            disabled={!onRightIconPress}
-            className="pr-3"
-          >
-            {rightIcon}
+        {type === 'password' ? (
+          <TouchableOpacity onPress={togglePassword} className="pr-3">
+            {secure ? (
+              <Eye width={24} height={24} />
+            ) : (
+              <EyeSlash width={24} height={24} />
+            )}
           </TouchableOpacity>
+        ) : (
+          rightIcon && (
+            <TouchableOpacity
+              onPress={onRightIconPress}
+              disabled={!onRightIconPress}
+              className="pr-3"
+            >
+              {rightIcon}
+            </TouchableOpacity>
+          )
         )}
       </View>
 

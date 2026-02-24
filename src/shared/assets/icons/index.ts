@@ -11,6 +11,8 @@ import Signal from './Signal.tsx';
 import Setting from './setting.svg';
 import ArrowLeft from './arrow-left.svg';
 import Add from './add.svg';
+import Eye from './eye.svg';
+import EyeSlash from './eye-slash.svg';
 export {
   MenuIcon,
   LightMode,
@@ -23,5 +25,7 @@ export {
   Setting,
   ArrowLeft,
   Add,
-  Edit
+  Edit,
+  Eye,
+  EyeSlash,
 };
