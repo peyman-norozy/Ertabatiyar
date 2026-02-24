@@ -17,17 +17,17 @@ const ZoneSettingsPage = () => {
     {
       label: t('zoneSettingsPage.status.off' as any),
       value: '1',
-      description: t('zoneSettingsPage.status.offDescription'),
+      description: t('zoneSettingsPage.status.offDescription' as any),
     },
     {
-      label: t('zoneSettingsPage.status.normal'),
+      label: t('zoneSettingsPage.status.normal' as any),
       value: '2',
-      description: t('zoneSettingsPage.status.normalDescription'),
+      description: t('zoneSettingsPage.status.normalDescription' as any),
     },
     {
-      label: t('zoneSettingsPage.status.withDelay'),
+      label: t('zoneSettingsPage.status.withDelay' as any),
       value: '3',
-      description: t('zoneSettingsPage.status.withDelayDescription'),
+      description: t('zoneSettingsPage.status.withDelayDescription' as any),
     },
   ];
 
@@ -38,7 +38,7 @@ const ZoneSettingsPage = () => {
         <View className="flex-col">
           <Text className="text-gray-800 text-base font-normal">{title}</Text>
           <Text className="text-gray-500 text-sm mt-1">
-            {t('zoneSettingsPage.title.description')}
+            {t('zoneSettingsPage.title.description' as any)}
           </Text>
         </View>
 
@@ -61,7 +61,7 @@ const ZoneSettingsPage = () => {
       </ScrollView>
       <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
         <Button
-          title={t('zoneSettingsPage.button.confirm')}
+          title={t('zoneSettingsPage.button.confirm' as any)}
           variant="primary"
           size="lg"
           fullWidth

@@ -34,6 +34,8 @@ const SensorsMode = () => {
           <AnimatedButton
             key={index}
             title={item}
+            width={'w-28'}
+            height={'h-11'}
             active={active === index}
             onPress={() => setActive(index)}
           />

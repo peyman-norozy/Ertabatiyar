@@ -9,4 +9,5 @@ export type DrawerParamList = {
   ProfilePage: undefined;
   NotificationPage: undefined;
   SettingsPage: undefined;
+  ZoneSettingsPage: undefined;
 };

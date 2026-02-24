@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
@@ -8,19 +8,40 @@ import {
 } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 import { useTranslation } from 'react-i18next';
+import { checkLanguage } from '@/utils/checkLanguage.ts';
+import SplashScreen from '@/components/SplashScreen.tsx';
 
 const Stack = createNativeStackNavigator();
 
 export const AuthNavigator = () => {
   const { t } = useTranslation();
+  const [hasLang, setHasLang] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkLanguage().then(Lang => {
+      setHasLang(Lang);
+      setLoading(false);
+    });
+  }, []);
+
+  console.log(hasLang, ' ');
+
+  if (loading) {
+    return <SplashScreen />;
+  }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
+    <Stack.Navigator
+      key={hasLang}
+      initialRouteName={hasLang ? 'LoginStep1' : 'language'}
+      screenOptions={{ headerShown: true }}
+    >
       <Stack.Screen
         name="language"
         component={Language}
         options={{
-          header: () => <CustomHeader showThemeSwitcher />,
+          headerShown: false,
         }}
       />
       <Stack.Screen

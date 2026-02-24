@@ -7,9 +7,8 @@ import {
   View,
   StatusBar,
 } from 'react-native';
-import { logo } from '@/shared/assets/images';
+import { logoBlue } from '@/shared/assets/images';
 import { Input, Button } from '@/shared/ui';
-import { changeLanguage } from '@/localization/changeLanguage.ts';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 
@@ -33,7 +32,7 @@ const PersonalInformationPage = () => {
         <View className="flex-1 bg-white dark:bg-black border border-[#EFEFEF] rounded-2xl mx-4 mt-6 mb-20">
           <View className="flex-1 items-center mt-[48px] px-6">
             <View>
-              <Image source={logo} className="w-[124px] h-[117px]" />
+              <Image source={logoBlue} className="w-[124px] h-[117px]" />
             </View>
             <View className="mt-[56px] w-full">
               <View className="w-full mt-4">

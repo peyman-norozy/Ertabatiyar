@@ -8,12 +8,58 @@
       "userPhoneNumber": {
         "title": "User phone",
         "placeHolder": "Enter ..."
+      },
+      "button": {
+        "title": "Confirm"
       }
+    }
+  },
+  "language": {
+    "button": {
+      "title": "Continue"
     }
   },
   "deviceInformation": {
     "header": {
       "title": "Back"
+    }
+  },
+  "mainPage": {
+    "sensorsMode": "Sensors mode",
+    "sensorsText": "No SMS will be sent to the device."
+  },
+  "sensorsItem": {
+    "active": "Active",
+    "semiActive": "Semi-active",
+    "inactive": "Inactive"
+  },
+  "sensors": {
+    "title": "Sensors"
+  },
+  "customBottom": {
+    "tabs": {
+      "notificationTitle": "Notifications",
+      "homeTitle": "Home",
+      "profileTitle": "Admin"
+    }
+  },
+  "zoneSettingsPage": {
+    "title": {
+      "placeholder": "Enter new title",
+      "description": "You can change the title here",
+      "edit": "Edit title"
+    },
+    "button": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "off": "Off status",
+      "offDescription": "The system is inactive and performs no actions",
+      "normal": "Normal status",
+      "normalDescription": "The system is in standard and balanced mode",
+      "withDelay": "Delayed status",
+      "withDelayDescription": "The system operates with a specified time delay"
     }
   }
 }

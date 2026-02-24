@@ -14,6 +14,11 @@
       }
     }
   },
+  "language": {
+    "button": {
+      "title": "ادامه"
+    }
+  },
   "deviceInformation": {
     "header": {
       "title": "برگشت"

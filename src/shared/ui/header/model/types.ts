@@ -5,6 +5,7 @@ export interface CustomHeaderPropsType {
   showBackButton?: boolean;
   showMenuButton?: boolean;
   showThemeSwitcher?: boolean;
+  showLogo?: boolean;
 }
 
 // اگر نوع خاصی برای RootParamList دارید استفاده کنید

@@ -7,7 +7,6 @@ import { StatusBar, NativeModules } from 'react-native';
 import { AppRouter } from '@/app/router/AppRouter.tsx';
 import { DeviceProvider } from '@/context/DeviceContext';
 import { AppBootstrap } from '@/AppBootstrap';
-
 const { SmsModule } = NativeModules;
 
 function App(): React.JSX.Element {

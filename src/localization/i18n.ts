@@ -18,7 +18,7 @@ const initI18n = async () => {
 
   if (!savedLanguage) {
     // fallback به زبان دستگاه یا 'en'
-    savedLanguage = 'en'; // یا منطق تشخیص زبان دستگاه
+    savedLanguage = ''; // یا منطق تشخیص زبان دستگاه
   }
 
   const isRTL = savedLanguage === 'fa';
@@ -28,7 +28,7 @@ const initI18n = async () => {
   i18n.use(initReactI18next).init({
     resources,
     lng: savedLanguage,
-    fallbackLng: 'en',
+    fallbackLng: '',
     interpolation: {
       escapeValue: false, // برای React لازم نیست escape کنیم
     },

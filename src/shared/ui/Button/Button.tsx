@@ -19,8 +19,9 @@ interface ButtonProps {
   variant?: Variant;
   size?: Size;
   fullWidth?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  icon?: React.ReactNode;
+  iconPosition?: 'start' | 'end';
+  flipIconOnRTL?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -31,8 +32,9 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   fullWidth,
-  leftIcon,
-  rightIcon,
+  icon,
+  iconPosition = 'start',
+  flipIconOnRTL = false,
 }) => {
   const isRTL = I18nManager.isRTL;
 
@@ -66,6 +68,11 @@ const Button: React.FC<ButtonProps> = ({
     lg: 'text-base',
   };
 
+  const shouldRenderIconBeforeText =
+    (iconPosition === 'start' && !isRTL) || (iconPosition === 'end' && isRTL);
+
+  const shouldFlip = flipIconOnRTL && isRTL;
+
   return (
     <Pressable
       disabled={disabled || loading}
@@ -82,7 +89,12 @@ const Button: React.FC<ButtonProps> = ({
         <ActivityIndicator color={variant === 'outline' ? '#2563eb' : '#fff'} />
       ) : (
         <View className="flex-row items-center">
-          {!isRTL && leftIcon && <View className="mr-2">{leftIcon}</View>}
+          {icon && shouldRenderIconBeforeText && (
+            <View className={cn('mr-2', shouldFlip && 'rotate-180')}>
+              {icon}
+            </View>
+          )}
+
           <Text
             className={cn(
               'font-yekan-semibold',
@@ -92,7 +104,12 @@ const Button: React.FC<ButtonProps> = ({
           >
             {title}
           </Text>
-          {isRTL && rightIcon && <View className="ml-2">{rightIcon}</View>}
+
+          {icon && !shouldRenderIconBeforeText && (
+            <View className={cn('ml-2', !shouldFlip && 'rotate-180')}>
+              {icon}
+            </View>
+          )}
         </View>
       )}
     </Pressable>
