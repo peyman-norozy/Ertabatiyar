@@ -33,11 +33,11 @@ const PersonalInformationPage = () => {
     >
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView
-        className="flex-1 bg-[#F9F9F9]"
+        className="flex-1 bg-white dark:bg-neutral-800"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       >
-        <View className="flex-1 bg-white dark:bg-black border border-[#EFEFEF] rounded-2xl mx-4 mt-6 mb-20">
+        <View className="flex-1 mx-4 mt-6 mb-20">
           <View className="flex-1 items-center mt-[48px] px-6">
             <View>
               <Image source={logoBlue} className="w-[124px] h-[117px]" />
@@ -86,7 +86,7 @@ const PersonalInformationPage = () => {
           <View
             className={'flex-row items-center justify-center gap-1 mb-8 mt-10'}
           >
-            <Text className={'text-base'} font={'font-yekan-medium'}>
+            <Text className={'text-base dark:text-white'} font={'font-yekan-medium'}>
               {t('personalInformation.newNumber' as any)}
             </Text>
             <TouchableOpacity onPress={registerHandler} activeOpacity={0.7}>
@@ -96,7 +96,7 @@ const PersonalInformationPage = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
+        <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-neutral-800 ">
           <Button
             title={t('personalInformation.input.button.title' as any)}
             variant="primary"

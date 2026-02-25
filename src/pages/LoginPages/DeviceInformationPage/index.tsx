@@ -26,11 +26,11 @@ const DeviceInformationPage = () => {
       enabled
     >
       <ScrollView
-        className="flex-1 bg-[#F9F9F9]"
+        className="flex-1 bg-white dark:bg-neutral-800"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       >
-        <View className="flex-1 bg-white dark:bg-black border border-[#EFEFEF] rounded-2xl mx-4 mt-6 mb-20">
+        <View className="flex-1 mx-4 mt-6 mb-20">
           <View className="flex-1 items-center mt-[48px] px-6">
             <View>
               <Image source={logo} className="w-[124px] h-[117px]" />
