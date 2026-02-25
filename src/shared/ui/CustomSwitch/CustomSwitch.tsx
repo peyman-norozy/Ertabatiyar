@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   TouchableWithoutFeedback,
   View,
@@ -100,15 +100,13 @@ export default function CustomSwitch({
   }));
 
   const positionOn = useAnimatedStyle(() => ({
-    left: isRTL
-      ? thumbMargin
-      : trackW - (showText ? 28 : iconSize) - thumbMargin,
+    left: trackW - (showText ? 28 : iconSize) - thumbMargin,
+    right: thumbMargin,
   }));
 
   const positionOff = useAnimatedStyle(() => ({
-    left: isRTL
-      ? trackW - (showText ? 28 : iconSize) - thumbMargin
-      : thumbMargin,
+    right: trackW - (showText ? 28 : iconSize) - thumbMargin,
+    left: thumbMargin,
   }));
 
   const verticalAlign = (trackH - (showText ? 16 : iconSize)) / 2;

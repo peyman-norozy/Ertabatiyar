@@ -23,8 +23,6 @@ interface InputProps extends Omit<TextInputProps, 'onChangeText' | 'value'> {
   value?: string;
   onChangeText?: (text: string) => void;
   onlyDigits?: boolean;
-
-  // 👇 اضافه کردیم
   type?: 'text' | 'password';
 }
 
@@ -68,7 +66,7 @@ const Input: React.FC<InputProps> = ({
     <View className={`mb-4 ${containerClassName}`}>
       {label && (
         <Text
-          className={`text-gray-700 text-sm mb-1 font-yekan-medium ${labelClassName}`}
+          className={`text-gray-700 dark:text-gray-50 text-sm mb-1 font-yekan-medium ${labelClassName}`}
         >
           {label}
         </Text>
@@ -76,16 +74,16 @@ const Input: React.FC<InputProps> = ({
 
       <View
         className={`
-          flex-row items-center bg-white border rounded-lg
-          ${error ? 'border-red-500' : 'border-stone-400'}
-          ${disabled ? 'bg-gray-100' : ''}
+          flex-row items-center bg-white dark:bg-neutral-700 dark:border-neutral-800 border rounded-lg
+          ${error ? 'border-red-500' : 'border-stone-400 dark:border-stone-800'}
+          ${disabled ? 'bg-gray-100 dark:bg-neutral-700' : ''}
         `}
       >
         {leftIcon && <View className="pl-3">{leftIcon}</View>}
 
         <TextInput
           className={`
-            flex-1 px-4 py-3 text-sm text-gray-900 font-yekan
+            flex-1 px-4 py-3 text-sm text-gray-900 dark:text-gray-200 font-yekan
             ${leftIcon ? '' : 'pl-4'}
             ${rightIcon || type === 'password' ? 'pr-2' : 'pr-4'}
             ${inputClassName}

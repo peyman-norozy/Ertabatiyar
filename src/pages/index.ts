@@ -6,3 +6,4 @@ export { default as NotificationPage } from '@/pages/NotificationPage';
 export { default as ZoneSettingsPage } from '@/pages/ZoneSettingsPage';
 export { default as Language } from '@/pages/LoginPages/Language';
 export { default as PhoneRegister } from '@/pages/PhoneRegister';
+export { default as PasswordRegister } from '@/pages/PasswordRegister';

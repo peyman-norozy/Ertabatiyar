@@ -24,38 +24,40 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
   const isRTL = I18nManager.isRTL;
 
   return (
-    <View
-      className={`flex-row-reverse items-center justify-between bg-white p-4 shadow-md rounded-b-2xl h-12`}
-    >
-      {showMenuButton && (
-        <TouchableOpacity
-          onPress={() => navigation.toggleDrawer()}
-          className="mx-2"
-        >
-          <MenuIcon width={24} height={24} fill={'#292D32'} />
-        </TouchableOpacity>
-      )}
-      {showLogo && (
-        <View>
-          <Image source={logoHeader} className="w-[92px] h-[29px]" />
-        </View>
-      )}
-      {showBackButton ? (
-        <TouchableOpacity
-          onPress={async () => {
-            await AsyncStorage.removeItem('appLanguage');
-            backUrl ? navigation.navigate(backUrl) : navigation.goBack();
-          }}
-          className="flex-row-reverse"
-        >
-          <View className={`${isRTL ? '' : 'rotate-180'}`}>
-            <Arrow width={24} height={24} fill="#000" />
+    <View className={` bg-white dark:bg-neutral-800 h-12`}>
+      <View
+        className={`flex-row-reverse items-center justify-between w-full bg-white dark:bg-neutral-800 p-4 shadow-md dark:shadow-neutral-600 rounded-b-2xl`}
+      >
+        {showMenuButton ? (
+          <TouchableOpacity
+            onPress={() => navigation.toggleDrawer()}
+            className="mx-2"
+          >
+            <MenuIcon width={24} height={24} fill={'#292D32'} />
+          </TouchableOpacity>
+        ) : null}
+        {showLogo ? (
+          <View>
+            <Image source={logoHeader} className="w-[92px] h-[29px]" />
           </View>
-        </TouchableOpacity>
-      ) : null}
+        ) : null}
+        {showThemeSwitcher ? <ThemeSwitcher /> : null}
+        {showBackButton ? (
+          <TouchableOpacity
+            onPress={async () => {
+              await AsyncStorage.removeItem('appLanguage');
+              backUrl ? navigation.navigate(backUrl) : navigation.goBack();
+            }}
+            className="flex-row-reverse"
+          >
+            <View className={`${isRTL ? '' : 'rotate-180'}`}>
+              <Arrow width={24} height={24} fill="#000" />
+            </View>
+          </TouchableOpacity>
+        ) : null}
 
-      {/*{showThemeSwitcher && <ThemeSwitcher />}*/}
-      {/*<SettingsScreen />*/}
+        {/*<SettingsScreen />*/}
+      </View>
     </View>
   );
 };

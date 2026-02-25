@@ -7,6 +7,9 @@
       },
       "password": {
         "title": "رمز وارد کنید",
+        "current": "رمز فعلی",
+        "new": "رمز جدید",
+        "repeatNew": "تکرار رمز جدید",
         "placeHolder": "*********"
       },
       "userPhoneNumber": {
