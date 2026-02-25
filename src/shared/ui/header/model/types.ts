@@ -9,7 +9,6 @@ export interface CustomHeaderPropsType {
   backUrl?: string;
 }
 
-// اگر نوع خاصی برای RootParamList دارید استفاده کنید
 export type RootDrawerParamList = {
   HomePage: undefined;
   NotificationPage: undefined;
