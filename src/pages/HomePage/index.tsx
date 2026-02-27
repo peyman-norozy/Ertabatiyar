@@ -27,7 +27,7 @@ const HomePage = () => {
   } | null>(null);
 
   useEffect(() => {
-    SmsModule.getAllSms().then(data => {
+    SmsModule.getAllSms().then((data:any) => {
       console.log('📨 SMS LIST:', data);
     });
   }, []);
@@ -37,6 +37,8 @@ const HomePage = () => {
 
     const permissions = [
       PermissionsAndroid.PERMISSIONS.SEND_SMS,
+
+      
       PermissionsAndroid.PERMISSIONS.RECEIVE_SMS,
       PermissionsAndroid.PERMISSIONS.READ_SMS,
     ];
@@ -56,8 +58,8 @@ const HomePage = () => {
     }
 
     SmsModule.sendSms(phoneNumber, message)
-      .then(res => console.log(res, 'hhgggg'))
-      .catch(err => console.log(err));
+      .then((res:any) => console.log(res, 'hhgggg'))
+      .catch((err:any) => console.log(err));
   }
 
   return (

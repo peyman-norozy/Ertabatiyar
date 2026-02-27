@@ -33,7 +33,6 @@ export const AuthNavigator = () => {
 
   return (
     <Stack.Navigator
-      key={hasLang}
       initialRouteName={hasLang ? 'LoginStep1' : 'language'}
       screenOptions={{ headerShown: true }}
     >

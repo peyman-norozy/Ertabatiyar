@@ -46,7 +46,7 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
           <TouchableOpacity
             onPress={async () => {
               await AsyncStorage.removeItem('appLanguage');
-              backUrl ? navigation.navigate(backUrl) : navigation.goBack();
+              backUrl ? navigation.navigate(backUrl as any) : navigation.goBack();
             }}
             className="flex-row-reverse"
           >

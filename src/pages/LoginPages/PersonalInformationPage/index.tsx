@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,22 +7,38 @@ import {
   View,
   StatusBar,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { logoBlue } from '@/shared/assets/images';
 import { Input, Button, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { registerHandler } from 'react-native-gesture-handler/lib/typescript/handlers/handlersRegistry';
+import { getStorage, setStorage } from '@/utils/storage';
+import { useSms } from '@/hook/useSms';
+import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+  const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
+  console.log(loading, 'sdfjueueuggg');
+  useEffect(() => {
+    (async () => {
+      const device = await getStorage('devicePhoneNumber');
+      device ? setDevicePhoneNumber(device) : null;
+    })();
+  }, []);
+
   const forgotPassword = () => {};
   const registerHandler = () => {
     navigation.navigate('RegisterStep1');
   };
+
+  console.log(lastSms?.body, 'sdfjueueueuggg');
 
   return (
     <KeyboardAvoidingView
@@ -53,9 +69,9 @@ const PersonalInformationPage = () => {
                   )}
                   keyboardType="numeric"
                   maxLength={11}
-                  value={phoneNumber}
+                  value={userPhoneNumber}
                   onChangeText={e => {
-                    setPhoneNumber(e);
+                    setUserPhoneNumber(e);
                   }}
                 />
               </View>
@@ -86,7 +102,10 @@ const PersonalInformationPage = () => {
           <View
             className={'flex-row items-center justify-center gap-1 mb-8 mt-10'}
           >
-            <Text className={'text-base dark:text-white'} font={'font-yekan-medium'}>
+            <Text
+              className={'text-base dark:text-white'}
+              font={'font-yekan-medium'}
+            >
               {t('personalInformation.newNumber' as any)}
             </Text>
             <TouchableOpacity onPress={registerHandler} activeOpacity={0.7}>
@@ -101,9 +120,32 @@ const PersonalInformationPage = () => {
             title={t('personalInformation.input.button.title' as any)}
             variant="primary"
             size="lg"
-            disabled={!(phoneNumber.length >= 11 && password.length > 2)}
+            disabled={!(userPhoneNumber.length >= 11 && password.length > 2)}
+            loading={loading}
             fullWidth
-            onPress={() => console.log('set any thing')}
+            onPress={async () => {
+              await setStorage('userPhoneNumber', userPhoneNumber);
+              await setStorage('password', password);
+              console.log(devicePhoneNumber, 'asdfjueueufff');
+              setAllowedNumber(devicePhoneNumber)
+                .then((msg: string) => {
+                  // Alert.alert('✅', msg);
+                  sendSms(
+                    devicePhoneNumber,
+                    `${password} GETALL`,
+                    '',
+                    [''],
+                    navigation.navigate("HomePage"),
+                  );
+                })
+                .catch((err: any) => {
+                  Alert.alert('❌ خطا', err.message);
+                })
+                .finally(() => {
+                  setUserPhoneNumber('');
+                  setPassword('');
+                });
+            }}
           />
         </View>
       </ScrollView>

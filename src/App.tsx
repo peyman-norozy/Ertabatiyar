@@ -13,12 +13,12 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const interval = setInterval(async () => {
       const last = await SmsModule.getLastSms();
-      console.log('📩 last_SMS:', last);
+      // console.log('📩 last_SMS:', last);
 
       if (!last) return;
 
       const sms = JSON.parse(last);
-      console.log('📩 SMS:', sms);
+      // console.log('📩 SMS:', sms);
 
       if (sms.body === 'LIGHT ON') {
         // دستور

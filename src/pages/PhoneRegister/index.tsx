@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -6,18 +6,30 @@ import {
   Platform,
   StatusBar,
   Image,
+  Alert,
 } from 'react-native';
 
 import { logoBlue } from '@/shared/assets/images';
 import { Button, Input, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import { getStorage, setStorage } from '@/utils/storage';
+import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
+import { useSms } from '@/hook/useSms';
 
 const Index = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
+  const { sendSms, setAllowedNumber } = useSms();
+
+  useEffect(() => {
+    (async () => {
+      const a = await getStorage('devicePhoneNumber');
+      console.log(a, 'ajsdfjueueueuu');
+    })();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -48,9 +60,9 @@ const Index = () => {
                   )}
                   keyboardType="numeric"
                   maxLength={11}
-                  value={userPhoneNumber}
+                  value={devicePhoneNumber}
                   onChangeText={e => {
-                    setUserPhoneNumber(e);
+                    setDevicePhoneNumber(e);
                   }}
                 />
               </View>
@@ -64,9 +76,9 @@ const Index = () => {
                   )}
                   keyboardType="numeric"
                   maxLength={11}
-                  value={devicePhoneNumber}
+                  value={userPhoneNumber}
                   onChangeText={e => {
-                    setDevicePhoneNumber(e);
+                    setUserPhoneNumber(e);
                   }}
                 />
               </View>
@@ -103,7 +115,24 @@ const Index = () => {
             disabled={
               !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
             }
-            onPress={() => navigation.navigate('RegisterStep2')}
+            onPress={async () => {
+              await setStorage('devicePhoneNumber', devicePhoneNumber);
+              await setStorage('userPhoneNumber', userPhoneNumber);
+              // navigation.navigate('RegisterStep2');
+              setAllowedNumber(devicePhoneNumber)
+                .then((msg: string) => {
+                  Alert.alert('✅', msg);
+                  sendSms(
+                    devicePhoneNumber,
+                    `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
+                    'Admin_number_updated.',
+                    ['wrong_password'],
+                  );
+                })
+                .catch((err: any) => {
+                  Alert.alert('❌ خطا', err.message);
+                });
+            }}
           />
         </View>
       </ScrollView>

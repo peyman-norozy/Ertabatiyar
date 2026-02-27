@@ -13,7 +13,7 @@ object SmsProcessor {
 
         // 2️⃣ اگر فرستنده مجاز نیست، فقط ذخیره می‌کنیم
         if (!SmsSecurity.isAllowedSender(context, from)) {
-            SmsSender.send(context, from, "BLOCKED")
+            // SmsSender.send(context, from, "BLOCKED") // ❌ کامنت شد
             return
         }
 
@@ -23,17 +23,17 @@ object SmsProcessor {
 
             "LIGHT_ON" -> {
                 DeviceController.lightOn()
-                SmsSender.send(context, from, "LIGHT_IS_ON")
+                // SmsSender.send(context, from, "LIGHT_IS_ON") // ❌ کامنت شد
             }
 
             "LIGHT_OFF" -> {
                 DeviceController.lightOff()
-                SmsSender.send(context, from, "LIGHT_IS_OFF")
+                // SmsSender.send(context, from, "LIGHT_IS_OFF") // ❌ کامنت شد
             }
 
             else -> {
                 // دستور نامعتبر
-                SmsSender.send(context, from, "UNKNOWN_COMMAND")
+                // SmsSender.send(context, from, "UNKNOWN_COMMAND") // ❌ کامنت شد
             }
         }
     }

@@ -81,5 +81,14 @@
       "withDelay": "وضعیت با تاخیر",
       "withDelayDescription": "سیستم با یک تاخیر زمانی مشخص انجام می شود"
     }
+  },
+  "errorSMS": {
+    "wrong_password": "رمز عبور اشتباه است!",
+    "access_denied": "دسترسی غیرمجاز"
+  },
+  "successSMS": {
+    "password_change": "رمز عبور با موفقیت تغییر یافت.",
+    "admin_number_updated": "شماره مدیر با موفقیت به‌روزرسانی شد.",
+    "admin_number_deleted": "شماره مدیر با موفقیت حذف شد."
   }
 }
