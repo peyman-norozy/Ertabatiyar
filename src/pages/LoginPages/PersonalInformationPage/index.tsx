@@ -150,8 +150,8 @@ const PersonalInformationPage = () => {
                   Alert.alert('❌ خطا', err.message);
                 })
                 .finally(() => {
-                  setUserPhoneNumber('');
-                  setPassword('');
+                  // setUserPhoneNumber('');
+                  // setPassword('');
                 });
             }}
           />

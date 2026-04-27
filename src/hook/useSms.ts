@@ -50,7 +50,6 @@ export const useSms = () => {
         console.log('📩 SMS:', sms?.body?.includes(expectedText));
 
         if (expectedText && sms?.body?.includes(expectedText)) {
-          console.log('jsjsjsjsjuuuuiiiididdddllll');
           stopListening();
           setLoading(false);
           setError(null);
