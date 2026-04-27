@@ -1,13 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, RootDrawerParamList } from '@/shared/ui/header/model';
+import { getStorage } from '@/utils/storage';
+import { useSms } from '@/hook/useSms';
 
-const SensorsCard = () => {
+interface SenesorsCardtypeProps {
+  item: string;
+}
+
+const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item }) => {
   const [notifications, setNotifications] = useState(false);
   const navigation = useNavigation<NavigationProp>();
+  const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
+
+  useEffect(() => {
+    (async () => {
+      const device = await getStorage('devicePhoneNumber');
+      const password = await getStorage('password');
+      device ? setDevicePhoneNumber(device) : null;
+      password ? setPassword(password) : null;
+    })();
+  }, []);
+
+  const zoneSwitchHandler = (a: boolean) => {
+    console.log(a, item, 'sdfjueueu');
+    sendSms(
+      devicePhoneNumber,
+      `${password} ${item}=${a ? 'OFF' : 'NORMAL'}`,
+      '',
+      ['access_denied'],
+    );
+  };
 
   return (
     <View>
@@ -24,6 +53,7 @@ const SensorsCard = () => {
           textColorOff={'#616161'}
           size={'xs'}
           darkModeIcons={false}
+          switchHandler={zoneSwitchHandler}
         />
         <Signal
           width={24}

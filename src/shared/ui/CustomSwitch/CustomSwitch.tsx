@@ -31,6 +31,7 @@ interface CustomSwitchProps {
   showText?: boolean;
   textColorOn?: string;
   textColorOff?: string;
+  switchHandler:(value: boolean) => void
 }
 
 export default function CustomSwitch({
@@ -47,6 +48,7 @@ export default function CustomSwitch({
   showText = false,
   textColorOn = '#ffffff',
   textColorOff = '#ffffff',
+  switchHandler
 }: CustomSwitchProps) {
   const translateX = useSharedValue(value ? 1 : 0);
   const isRTL = I18nManager.isRTL;
@@ -112,10 +114,13 @@ export default function CustomSwitch({
   const verticalAlign = (trackH - (showText ? 16 : iconSize)) / 2;
 
   const handlePress = () => {
+    console.log(value,'jsdfuuegggg')
+    switchHandler(value)
     if (!disabled) {
       onValueChange(!value);
       Vibration.vibrate(100);
     }
+
   };
 
   const thumbStyleStatic: any = {

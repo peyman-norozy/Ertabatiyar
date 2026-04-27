@@ -17,6 +17,7 @@ import { registerHandler } from 'react-native-gesture-handler/lib/typescript/han
 import { getStorage, setStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
+import { useAuth } from '@/context/AuthContext';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
@@ -25,7 +26,9 @@ const PersonalInformationPage = () => {
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
-  console.log(loading, 'sdfjueueuggg');
+  const { login } = useAuth();
+
+  console.log(loading, devicePhoneNumber, 'sdfjueueuggg');
   useEffect(() => {
     (async () => {
       const device = await getStorage('devicePhoneNumber');
@@ -130,12 +133,17 @@ const PersonalInformationPage = () => {
               setAllowedNumber(devicePhoneNumber)
                 .then((msg: string) => {
                   // Alert.alert('✅', msg);
+                  console.log(
+                    devicePhoneNumber,
+                    `${password} GETALL`,
+                    'jsdjfuuuyytytytytyy',
+                  );
                   sendSms(
                     devicePhoneNumber,
                     `${password} GETALL`,
-                    '',
-                    [''],
-                    navigation.navigate("HomePage"),
+                    'CALL:OFF',
+                    ['access_denied'],
+                    login,
                   );
                 })
                 .catch((err: any) => {

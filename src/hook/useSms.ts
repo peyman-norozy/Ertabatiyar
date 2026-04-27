@@ -11,6 +11,7 @@ export const useSms = () => {
     body: string;
     time: number;
   } | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const navigation = useNavigation<any>();
 
@@ -33,7 +34,7 @@ export const useSms = () => {
   function startListening(
     expectedText?: string,
     errorTexts: string[] = [],
-    newRoute?: () => void,
+    onSuccess?: () => void,
   ) {
     stopListening();
 
@@ -44,24 +45,25 @@ export const useSms = () => {
         if (!last) return;
 
         const sms = JSON.parse(last);
-        setLastSms(sms); // ✅ آخرین SMS را ذخیره می‌کنیم
+        setLastSms(sms);
 
-        console.log('📩 SMS:', sms);
+        console.log('📩 SMS:', sms?.body?.includes(expectedText));
 
-        if (sms?.body) {
+        if (expectedText && sms?.body?.includes(expectedText)) {
+          console.log('jsjsjsjsjuuuuiiiididdddllll');
+          stopListening();
           setLoading(false);
-          newRoute && newRoute();
+          setError(null);
+          onSuccess?.();
+          return;
         }
 
-        // ✅ اگر متن پاسخ مورد انتظار است
-        if (expectedText && sms.body.includes(expectedText)) {
+        if (errorTexts.some(err => sms?.body?.includes(err))) {
           stopListening();
-        }
+          setLoading(false);
 
-        // ✅ اگر متن پاسخ یک خطا است
-        if (errorTexts.some(err => sms.body.includes(err))) {
-          stopListening();
           console.log('❌ SMS Error received:', sms.body);
+          return;
         }
       } catch (e) {
         console.log(e);
@@ -83,21 +85,26 @@ export const useSms = () => {
     errorTexts: string[] = [],
     newRoute?: () => void,
   ) {
+    setError(null);
+
     const hasPermission = await requestSmsPermissions();
 
     if (!hasPermission) {
-      console.log('❌ اجازه SMS داده نشد');
+      setError('دسترسی به پیامک‌ها داده نشده است. لطفاً مجوزها را فعال کنید.');
       return;
     }
 
     try {
       setLoading(true);
+      console.log(phoneNumber, message, 'aaaaayyyuuutttereee');
       await SmsModule.sendSms(phoneNumber, message);
 
       startListening(expectedReply, errorTexts, newRoute);
     } catch (err) {
       setLoading(false);
       throw err;
+    } finally {
+      setLoading(false);
     }
   }
 

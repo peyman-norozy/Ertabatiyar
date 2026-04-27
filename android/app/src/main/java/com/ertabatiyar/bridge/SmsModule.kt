@@ -30,30 +30,40 @@ class SmsModule(
 
     // 📤 ارسال SMS
     @ReactMethod
-    fun sendSms(phoneNumber: String, message: String, promise: Promise) {
-        try {
-            val smsManager =
-                reactApplicationContext.getSystemService(SmsManager::class.java)
+fun sendSms(phoneNumber: String, message: String, promise: Promise) {
+    try {
+        val cleanNumber = phoneNumber.trim()
 
-            if (smsManager == null) {
-                promise.reject("SMS_ERROR", "SmsManager در دسترس نیست")
-                return
-            }
+        Log.d("SmsModule", "PHONE CLEAN: '$cleanNumber'")
 
-            smsManager.sendTextMessage(
-                phoneNumber,
-                null,
-                message,
-                null,
-                null
-            )
-
-            promise.resolve("✅ SMS ارسال شد")
-        } catch (e: Exception) {
-            Log.e("SmsModule", "❌ sendSms error", e)
-            promise.reject("SMS_ERROR", "❌ خطا در ارسال: ${e.message}")
+        if (cleanNumber.isEmpty()) {
+            promise.reject("SMS_ERROR", "شماره خالی است")
+            return
         }
+
+        val smsManager =
+            reactApplicationContext.getSystemService(SmsManager::class.java)
+
+        if (smsManager == null) {
+            promise.reject("SMS_ERROR", "SmsManager در دسترس نیست")
+            return
+        }
+
+        smsManager.sendTextMessage(
+            cleanNumber,
+            null,
+            message,
+            null,
+            null
+        )
+
+        promise.resolve("✅ SMS ارسال شد")
+
+    } catch (e: Exception) {
+        Log.e("SmsModule", "❌ sendSms error", e)
+        promise.reject("SMS_ERROR", "❌ خطا در ارسال: ${e.message}")
     }
+}
 
     // 🔐 ذخیره شماره مجاز
     @ReactMethod

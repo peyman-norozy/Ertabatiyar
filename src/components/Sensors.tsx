@@ -6,7 +6,7 @@ import SensorsCard from '@/components/card/SensorsCard.tsx';
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const data = [0, 0, 0, 0, 0];
+  const data = ['ZONE1', 'ZONE2', 'ZONE3', 'ZONE4', 'ZONE5'];
 
   return (
     <View
@@ -22,7 +22,7 @@ const Sensors = () => {
         {data.map((item, index) => (
           <View key={index} className="w-1/2 px-3 pb-3">
             <View className="bg-white border border-[#EFEFEF] rounded-2xl py-3 px-2">
-              <SensorsCard />
+              <SensorsCard item={item} />
             </View>
           </View>
         ))}

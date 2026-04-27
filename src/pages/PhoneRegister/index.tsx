@@ -118,7 +118,6 @@ const Index = () => {
             onPress={async () => {
               await setStorage('devicePhoneNumber', devicePhoneNumber);
               await setStorage('userPhoneNumber', userPhoneNumber);
-              // navigation.navigate('RegisterStep2');
               setAllowedNumber(devicePhoneNumber)
                 .then((msg: string) => {
                   Alert.alert('✅', msg);
@@ -128,6 +127,7 @@ const Index = () => {
                     'Admin_number_updated.',
                     ['wrong_password'],
                   );
+                  navigation.navigate('RegisterStep2');
                 })
                 .catch((err: any) => {
                   Alert.alert('❌ خطا', err.message);
