@@ -41,6 +41,38 @@ const PersonalInformationPage = () => {
     navigation.navigate('RegisterStep1');
   };
 
+  const registerButtonHandler = async () => {
+    await setStorage('userPhoneNumber', userPhoneNumber);
+    await setStorage('password', password);
+    console.log(devicePhoneNumber, 'asdfjueueufff');
+    if (!devicePhoneNumber) {
+      Alert.alert('✅', t('personalInformation.warning.text5' as any));
+      return;
+    }
+    setAllowedNumber(devicePhoneNumber)
+      .then((msg: string) => {
+        console.log(
+          devicePhoneNumber,
+          `${password} GETALL`,
+          'jsdjfuuuyytytytytyy',
+        );
+        sendSms(
+          devicePhoneNumber,
+          `${password} GETALL`,
+          'CALL:OFF',
+          ['access_denied'],
+          login,
+        );
+      })
+      .catch((err: any) => {
+        Alert.alert('❌ خطا', err.message);
+      })
+      .finally(() => {
+        // setUserPhoneNumber('');
+        // setPassword('');
+      });
+  };
+
   console.log(lastSms?.body, 'sdfjueueueuggg');
 
   return (
@@ -126,34 +158,7 @@ const PersonalInformationPage = () => {
             disabled={!(userPhoneNumber.length >= 11 && password.length > 2)}
             loading={loading}
             fullWidth
-            onPress={async () => {
-              await setStorage('userPhoneNumber', userPhoneNumber);
-              await setStorage('password', password);
-              console.log(devicePhoneNumber, 'asdfjueueufff');
-              setAllowedNumber(devicePhoneNumber)
-                .then((msg: string) => {
-                  // Alert.alert('✅', msg);
-                  console.log(
-                    devicePhoneNumber,
-                    `${password} GETALL`,
-                    'jsdjfuuuyytytytytyy',
-                  );
-                  sendSms(
-                    devicePhoneNumber,
-                    `${password} GETALL`,
-                    'CALL:OFF',
-                    ['access_denied'],
-                    login,
-                  );
-                })
-                .catch((err: any) => {
-                  Alert.alert('❌ خطا', err.message);
-                })
-                .finally(() => {
-                  // setUserPhoneNumber('');
-                  // setPassword('');
-                });
-            }}
+            onPress={registerButtonHandler}
           />
         </View>
       </ScrollView>
