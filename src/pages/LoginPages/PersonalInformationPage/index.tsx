@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -13,67 +12,59 @@ import { logoBlue } from '@/shared/assets/images';
 import { Input, Button, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { registerHandler } from 'react-native-gesture-handler/lib/typescript/handlers/handlersRegistry';
-import { getStorage, setStorage } from '@/utils/storage';
+import { setStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
-import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 import { useAuth } from '@/context/AuthContext';
+import { useIsLogin } from '@/hook/useIsLogin';
+import { useEffect, useState } from 'react';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
-  const [userPhoneNumber, setUserPhoneNumber] = useState('');
-  const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
-  const { login } = useAuth();
 
-  console.log(loading, devicePhoneNumber, 'sdfjueueuggg');
-  useEffect(() => {
-    (async () => {
-      const device = await getStorage('devicePhoneNumber');
-      device ? setDevicePhoneNumber(device) : null;
-    })();
-  }, []);
+  const { sendSms, setAllowedNumber, loading } = useSms();
+  const { login } = useAuth();
+  const { devicePhoneNumber, setIsLogin } = useIsLogin();
+
+  const [newDevicePhoneNumber, setNewDevicePhoneNumber] = useState('');
+  const [newUserPhoneNumber, setNewUserPhoneNumber] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const forgotPassword = () => {};
   const registerHandler = () => {
     navigation.navigate('RegisterStep1');
   };
 
-  const registerButtonHandler = async () => {
-    await setStorage('userPhoneNumber', userPhoneNumber);
-    await setStorage('password', password);
-    console.log(devicePhoneNumber, 'asdfjueueufff');
-    if (!devicePhoneNumber) {
-      Alert.alert('✅', t('personalInformation.warning.text5' as any));
-      return;
+  useEffect(() => {
+    if (devicePhoneNumber) {
+      setIsLogin(pre => !pre);
     }
-    setAllowedNumber(devicePhoneNumber)
+  }, [devicePhoneNumber]);
+
+  const registerButtonHandler = async () => {
+    // if (!devicePhoneNumber && !userPhoneNumber) {
+    //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
+    //   return;
+    // }
+
+    setAllowedNumber(newDevicePhoneNumber)
       .then((msg: string) => {
-        console.log(
-          devicePhoneNumber,
-          `${password} GETALL`,
-          'jsdjfuuuyytytytytyy',
-        );
         sendSms(
-          devicePhoneNumber,
-          `${password} GETALL`,
+          newDevicePhoneNumber,
+          `${newPassword} GETALL`,
           'CALL:OFF',
           ['access_denied'],
           login,
+          async () => {
+            await setStorage('userPhoneNumber', newUserPhoneNumber);
+            await setStorage('password', newPassword);
+          },
         );
       })
       .catch((err: any) => {
         Alert.alert('❌ خطا', err.message);
-      })
-      .finally(() => {
-        // setUserPhoneNumber('');
-        // setPassword('');
       });
   };
-
-  console.log(lastSms?.body, 'sdfjueueueuggg');
 
   return (
     <KeyboardAvoidingView
@@ -97,6 +88,22 @@ const PersonalInformationPage = () => {
               <View className="w-full mt-6">
                 <Input
                   label={t(
+                    'personalInformation.input.devicePhoneNumber.title' as any,
+                  )}
+                  placeholder={t(
+                    'personalInformation.input.devicePhoneNumber.placeHolder' as any,
+                  )}
+                  keyboardType="numeric"
+                  maxLength={11}
+                  value={newDevicePhoneNumber}
+                  onChangeText={e => {
+                    setNewDevicePhoneNumber(e);
+                  }}
+                />
+              </View>
+              <View className="w-full mt-6">
+                <Input
+                  label={t(
                     'personalInformation.input.userPhoneNumber.title' as any,
                   )}
                   placeholder={t(
@@ -104,9 +111,9 @@ const PersonalInformationPage = () => {
                   )}
                   keyboardType="numeric"
                   maxLength={11}
-                  value={userPhoneNumber}
+                  value={newUserPhoneNumber}
                   onChangeText={e => {
-                    setUserPhoneNumber(e);
+                    setNewUserPhoneNumber(e);
                   }}
                 />
               </View>
@@ -117,9 +124,9 @@ const PersonalInformationPage = () => {
                     'personalInformation.input.password.placeHolder' as any,
                   )}
                   type={'password'}
-                  value={password}
+                  value={newPassword}
                   onChangeText={e => {
-                    setPassword(e);
+                    setNewPassword(e);
                   }}
                 />
               </View>
@@ -155,7 +162,13 @@ const PersonalInformationPage = () => {
             title={t('personalInformation.input.button.title' as any)}
             variant="primary"
             size="lg"
-            disabled={!(userPhoneNumber.length >= 11 && password.length > 2)}
+            disabled={
+              !(
+                newDevicePhoneNumber?.length >= 11 &&
+                newUserPhoneNumber?.length >= 11 &&
+                newPassword?.length > 2
+              )
+            }
             loading={loading}
             fullWidth
             onPress={registerButtonHandler}

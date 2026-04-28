@@ -22,7 +22,7 @@ const Index = () => {
   const navigation = useNavigation<any>();
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
-  const { sendSms, setAllowedNumber } = useSms();
+  const { sendSms, setAllowedNumber, loading } = useSms();
 
   useEffect(() => {
     (async () => {
@@ -112,6 +112,7 @@ const Index = () => {
             variant="primary"
             size="lg"
             fullWidth
+            loading={loading}
             disabled={
               !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
             }
@@ -121,14 +122,17 @@ const Index = () => {
 
               setAllowedNumber(devicePhoneNumber)
                 .then((msg: string) => {
-                  Alert.alert('✅', msg);
+                  // Alert.alert('✅', msg);
                   sendSms(
                     devicePhoneNumber,
-                    `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
+                    `1234 SETADMIN=1,${formatIranPhoneNumber(userPhoneNumber)}`,
                     'Admin_number_updated.',
                     ['wrong_password'],
+                    () => {},
+                    () => {
+                      navigation.navigate('RegisterStep1');
+                    },
                   );
-                  navigation.navigate('RegisterStep2');
                 })
                 .catch((err: any) => {
                   Alert.alert('❌ خطا', err.message);

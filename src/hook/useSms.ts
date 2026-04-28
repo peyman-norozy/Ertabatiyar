@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Platform, PermissionsAndroid, NativeModules } from 'react-native';
+import {
+  Platform,
+  PermissionsAndroid,
+  NativeModules,
+  Alert,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const { SmsModule } = NativeModules;
@@ -35,6 +40,7 @@ export const useSms = () => {
     expectedText?: string,
     errorTexts: string[] = [],
     onSuccess?: () => void,
+    onFinal?: () => void,
   ) {
     stopListening();
 
@@ -49,8 +55,10 @@ export const useSms = () => {
 
         console.log('📩 SMS:', sms?.body?.includes(expectedText));
 
+        console.log('✅ Expected SMS received:', sms.body);
         if (expectedText && sms?.body?.includes(expectedText)) {
           stopListening();
+          onFinal?.();
           setLoading(false);
           setError(null);
           onSuccess?.();
@@ -60,7 +68,7 @@ export const useSms = () => {
         if (errorTexts.some(err => sms?.body?.includes(err))) {
           stopListening();
           setLoading(false);
-
+          Alert.alert('✅', sms.body);
           console.log('❌ SMS Error received:', sms.body);
           return;
         }
@@ -83,6 +91,7 @@ export const useSms = () => {
     expectedReply?: string,
     errorTexts: string[] = [],
     newRoute?: () => void,
+    onFinal?: () => void,
   ) {
     setError(null);
 
@@ -97,13 +106,10 @@ export const useSms = () => {
       setLoading(true);
       console.log(phoneNumber, message, 'aaaaayyyuuutttereee');
       await SmsModule.sendSms(phoneNumber, message);
-
-      startListening(expectedReply, errorTexts, newRoute);
+      startListening(expectedReply, errorTexts, newRoute, onFinal);
     } catch (err) {
       setLoading(false);
       throw err;
-    } finally {
-      setLoading(false);
     }
   }
 

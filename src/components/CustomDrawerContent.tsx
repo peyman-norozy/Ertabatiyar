@@ -9,6 +9,10 @@ const CustomDrawerContent = (props: any) => {
       label="تنظیمات"
       onPress={() => props.navigation.navigate('SettingsPage')}
     />,
+    <DrawerItem
+      label="تdsadasت"
+      onPress={() => props.navigation.navigate('SettingsPage')}
+    />,
   );
 };
 
