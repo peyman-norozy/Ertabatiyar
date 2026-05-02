@@ -102,7 +102,8 @@
   },
   "errorSMS": {
     "wrong_password": "رمز عبور اشتباه است!",
-    "access_denied": "دسترسی غیرمجاز"
+    "access_denied": "دسترسی غیرمجاز",
+    "SETADMIN": "لطفا ثبت نام کنید"
   },
   "successSMS": {
     "password_change": "رمز عبور با موفقیت تغییر یافت.",

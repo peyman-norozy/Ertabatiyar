@@ -29,24 +29,27 @@ class SmsModule(
     }
 
     // 📤 ارسال SMS
-    @ReactMethod
+@ReactMethod
 fun sendSms(phoneNumber: String, message: String, promise: Promise) {
     try {
         val cleanNumber = phoneNumber.trim()
-
-        Log.d("SmsModule", "PHONE CLEAN: '$cleanNumber'")
 
         if (cleanNumber.isEmpty()) {
             promise.reject("SMS_ERROR", "شماره خالی است")
             return
         }
 
-        val smsManager =
-            reactApplicationContext.getSystemService(SmsManager::class.java)
+        val smsManager = try {
+            val subscriptionId =
+                android.telephony.SubscriptionManager.getDefaultSmsSubscriptionId()
 
-        if (smsManager == null) {
-            promise.reject("SMS_ERROR", "SmsManager در دسترس نیست")
-            return
+            if (subscriptionId != android.telephony.SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
+                SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
+            } else {
+                SmsManager.getDefault()
+            }
+        } catch (e: Exception) {
+            SmsManager.getDefault()
         }
 
         smsManager.sendTextMessage(
@@ -61,7 +64,7 @@ fun sendSms(phoneNumber: String, message: String, promise: Promise) {
 
     } catch (e: Exception) {
         Log.e("SmsModule", "❌ sendSms error", e)
-        promise.reject("SMS_ERROR", "❌ خطا در ارسال: ${e.message}")
+        promise.reject("SMS_ERROR", "❌ خطا: ${e.message}")
     }
 }
 

@@ -6,6 +6,7 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { errorFun } from '@/utils/errorTranslating';
 
 const { SmsModule } = NativeModules;
 
@@ -56,6 +57,7 @@ export const useSms = () => {
         console.log('📩 SMS:', sms?.body?.includes(expectedText));
 
         console.log('✅ Expected SMS received:', sms.body);
+        console.log(errorTexts,'sdjfuasasaseueu')
         if (expectedText && sms?.body?.includes(expectedText)) {
           stopListening();
           onFinal?.();
@@ -63,12 +65,10 @@ export const useSms = () => {
           setError(null);
           onSuccess?.();
           return;
-        }
-
-        if (errorTexts.some(err => sms?.body?.includes(err))) {
+        } else if (errorTexts.some(err => sms.body.includes(err))) {
           stopListening();
           setLoading(false);
-          Alert.alert('✅', sms.body);
+          Alert.alert('✅', errorFun(sms.body));
           console.log('❌ SMS Error received:', sms.body);
           return;
         }

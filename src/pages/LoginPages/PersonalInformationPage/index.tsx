@@ -47,7 +47,14 @@ const PersonalInformationPage = () => {
     //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
     //   return;
     // }
+    console.log(
+      newDevicePhoneNumber,
+      newPassword,
+      newUserPhoneNumber,
+      'all_device',
+    );
 
+<<<<<<< HEAD
 
     // setAllowedNumber(newDevicePhoneNumber)
     //   .then((msg: string) => {
@@ -66,6 +73,26 @@ const PersonalInformationPage = () => {
     //   .catch((err: any) => {
     //     Alert.alert('❌ خطا', err.message);
     //   });
+=======
+    setAllowedNumber(newDevicePhoneNumber)
+      .then((msg: string) => {
+        sendSms(
+          newDevicePhoneNumber,
+          `${newPassword} GETALL`,
+          'CALL:OFF',
+          ['access_denied', 'SETADMIN'],
+          login,
+          async () => {
+            await setStorage('userPhoneNumber', newUserPhoneNumber);
+            await setStorage('devicePhoneNumber', newDevicePhoneNumber);
+            await setStorage('password', newPassword);
+          },
+        );
+      })
+      .catch((err: any) => {
+        Alert.alert('❌ خطا', err.message);
+      });
+>>>>>>> 1fbdd13f823498c478afdbcee2116fc8af9812a5
   };
 
   return (

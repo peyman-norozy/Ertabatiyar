@@ -37,8 +37,6 @@ const HomePage = () => {
 
     const permissions = [
       PermissionsAndroid.PERMISSIONS.SEND_SMS,
-
-      
       PermissionsAndroid.PERMISSIONS.RECEIVE_SMS,
       PermissionsAndroid.PERMISSIONS.READ_SMS,
     ];
