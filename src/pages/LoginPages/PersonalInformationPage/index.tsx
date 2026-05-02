@@ -41,29 +41,31 @@ const PersonalInformationPage = () => {
     }
   }, [devicePhoneNumber]);
 
+  login();
   const registerButtonHandler = async () => {
     // if (!devicePhoneNumber && !userPhoneNumber) {
     //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
     //   return;
     // }
 
-    setAllowedNumber(newDevicePhoneNumber)
-      .then((msg: string) => {
-        sendSms(
-          newDevicePhoneNumber,
-          `${newPassword} GETALL`,
-          'CALL:OFF',
-          ['access_denied'],
-          login,
-          async () => {
-            await setStorage('userPhoneNumber', newUserPhoneNumber);
-            await setStorage('password', newPassword);
-          },
-        );
-      })
-      .catch((err: any) => {
-        Alert.alert('❌ خطا', err.message);
-      });
+
+    // setAllowedNumber(newDevicePhoneNumber)
+    //   .then((msg: string) => {
+    //     sendSms(
+    //       newDevicePhoneNumber,
+    //       `${newPassword} GETALL`,
+    //       'CALL:OFF',
+    //       ['access_denied'],
+    //       login,
+    //       async () => {
+    //         await setStorage('userPhoneNumber', newUserPhoneNumber);
+    //         await setStorage('password', newPassword);
+    //       },
+    //     );
+    //   })
+    //   .catch((err: any) => {
+    //     Alert.alert('❌ خطا', err.message);
+    //   });
   };
 
   return (

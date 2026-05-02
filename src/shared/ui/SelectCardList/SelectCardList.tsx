@@ -1,4 +1,5 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
+import { Text } from '@/shared/ui';
 
 export type CardOption = {
   label: string;
@@ -42,17 +43,20 @@ export function SelectCardList({
   }
 
   return (
-    <View>
-      {options.map(item => {
+    <View className="p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200">
+      {options.map((item, index) => {
         const isSelected = value === item.value;
         const isDisabled = item.disabled;
+        const isLast = index === options.length - 1;
 
         return (
           <Pressable
             key={item.value}
             onPress={() => !isDisabled && onChange(item.value)}
             disabled={isDisabled}
-            className="flex-row items-start p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200"
+            className={`flex-row items-start mt-4 pb-4 ${
+              !isLast ? 'border-b border-gray-200' : ''
+            }`}
           >
             <View
               className={`w-5 h-5 rounded-full border-2 mr-3 mt-1 items-center justify-center ${
@@ -69,15 +73,15 @@ export function SelectCardList({
             </View>
             <View className="flex-1">
               <Text
-                className={`text-base font-bold ${
-                  isDisabled ? 'text-gray-400' : 'text-gray-800'
-                }`}
+                font={'font-yekan-semibold'}
+                className={`${isDisabled ? 'text-gray-400' : 'text-gray-800'}`}
               >
                 {item.label}
               </Text>
 
               {item.description && (
                 <Text
+                  font={'font-yekan-medium'}
                   className={`text-sm mt-1 ${
                     isDisabled ? 'text-gray-400' : 'text-gray-500'
                   }`}

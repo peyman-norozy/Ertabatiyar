@@ -1,6 +1,5 @@
 import { View, ScrollView, StatusBar, Pressable } from 'react-native';
 import { Button, SelectCardList, Text } from '@/shared/ui';
-import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { Edit } from '@/shared/assets/icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,6 +28,23 @@ const ZoneSettingsPage = () => {
       value: '3',
       description: t('zoneSettingsPage.status.withDelayDescription' as any),
     },
+    {
+      label: t('zoneSettingsPage.status.twentyFourHours' as any),
+      value: '4',
+      description: t(
+        'zoneSettingsPage.status.twentyFourHoursDescription' as any,
+      ),
+    },
+    {
+      label: t('zoneSettingsPage.status.silent' as any),
+      value: '5',
+      description: t('zoneSettingsPage.status.silentDescription' as any),
+    },
+    {
+      label: t('zoneSettingsPage.status.warning' as any),
+      value: '6',
+      description: t('zoneSettingsPage.status.warningDescription' as any),
+    },
   ];
 
   return (
@@ -36,8 +52,11 @@ const ZoneSettingsPage = () => {
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <View className="flex-row justify-between items-start p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4 mt-20">
         <View className="flex-col">
-          <Text className="text-gray-800 text-base font-normal">{title}</Text>
-          <Text className="text-gray-500 text-sm mt-1">
+          <Text font={'font-yekan-bold'}>{title}</Text>
+          <Text
+            font={'font-yekan-medium'}
+            className="text-gray-500 text-sm mt-1"
+          >
             {t('zoneSettingsPage.title.description' as any)}
           </Text>
         </View>
