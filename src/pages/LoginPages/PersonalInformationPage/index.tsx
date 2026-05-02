@@ -46,6 +46,12 @@ const PersonalInformationPage = () => {
     //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
     //   return;
     // }
+    console.log(
+      newDevicePhoneNumber,
+      newPassword,
+      newUserPhoneNumber,
+      'all_device',
+    );
 
     setAllowedNumber(newDevicePhoneNumber)
       .then((msg: string) => {
@@ -53,10 +59,11 @@ const PersonalInformationPage = () => {
           newDevicePhoneNumber,
           `${newPassword} GETALL`,
           'CALL:OFF',
-          ['access_denied'],
+          ['access_denied', 'SETADMIN'],
           login,
           async () => {
             await setStorage('userPhoneNumber', newUserPhoneNumber);
+            await setStorage('devicePhoneNumber', newDevicePhoneNumber);
             await setStorage('password', newPassword);
           },
         );

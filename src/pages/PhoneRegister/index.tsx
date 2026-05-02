@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getStorage, setStorage } from '@/utils/storage';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 import { useSms } from '@/hook/useSms';
+import { useAuth } from '@/context/AuthContext';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ const Index = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const { sendSms, setAllowedNumber, loading } = useSms();
+  const { login } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -125,12 +127,14 @@ const Index = () => {
                   // Alert.alert('✅', msg);
                   sendSms(
                     devicePhoneNumber,
-                    `1234 SETADMIN=1,${formatIranPhoneNumber(userPhoneNumber)}`,
+                    `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
                     'Admin_number_updated.',
-                    ['wrong_password'],
-                    () => {},
-                    () => {
-                      navigation.navigate('RegisterStep1');
+                    ["wrong_password!"],
+                    login,
+                    async () => {
+                      await setStorage('userPhoneNumber', userPhoneNumber);
+                      await setStorage('devicePhoneNumber', devicePhoneNumber);
+                      login()
                     },
                   );
                 })
