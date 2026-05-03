@@ -17,14 +17,15 @@ import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
 import { useIsLogin } from '@/hook/useIsLogin';
 import { useEffect, useState } from 'react';
+import SplashScreen from '@/components/SplashScreen.tsx';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
 
   const { sendSms, setAllowedNumber, loading } = useSms();
-  const { login } = useAuth();
-  const { devicePhoneNumber, setIsLogin } = useIsLogin();
+  const { login ,isLoggedIn} = useAuth();
+  const { devicePhoneNumber, setIsLogin, isLogin } = useIsLogin();
 
   const [newDevicePhoneNumber, setNewDevicePhoneNumber] = useState('');
   const [newUserPhoneNumber, setNewUserPhoneNumber] = useState('');
@@ -41,7 +42,6 @@ const PersonalInformationPage = () => {
     }
   }, [devicePhoneNumber]);
 
-  login();
   const registerButtonHandler = async () => {
     // if (!devicePhoneNumber && !userPhoneNumber) {
     //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
@@ -54,26 +54,6 @@ const PersonalInformationPage = () => {
       'all_device',
     );
 
-<<<<<<< HEAD
-
-    // setAllowedNumber(newDevicePhoneNumber)
-    //   .then((msg: string) => {
-    //     sendSms(
-    //       newDevicePhoneNumber,
-    //       `${newPassword} GETALL`,
-    //       'CALL:OFF',
-    //       ['access_denied'],
-    //       login,
-    //       async () => {
-    //         await setStorage('userPhoneNumber', newUserPhoneNumber);
-    //         await setStorage('password', newPassword);
-    //       },
-    //     );
-    //   })
-    //   .catch((err: any) => {
-    //     Alert.alert('❌ خطا', err.message);
-    //   });
-=======
     setAllowedNumber(newDevicePhoneNumber)
       .then((msg: string) => {
         sendSms(
@@ -92,8 +72,11 @@ const PersonalInformationPage = () => {
       .catch((err: any) => {
         Alert.alert('❌ خطا', err.message);
       });
->>>>>>> 1fbdd13f823498c478afdbcee2116fc8af9812a5
   };
+
+  console.log(isLoggedIn, 'asdjfuuzxzxzxeu');
+
+  
 
   return (
     <KeyboardAvoidingView

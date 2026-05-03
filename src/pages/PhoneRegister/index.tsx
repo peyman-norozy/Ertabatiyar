@@ -129,12 +129,13 @@ const Index = () => {
                     devicePhoneNumber,
                     `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
                     'Admin_number_updated.',
-                    ["wrong_password!"],
-                    login,
+                    ['wrong_password!'],
+                    () => {
+                      navigation.navigate('LoginStep1');
+                    },
                     async () => {
                       await setStorage('userPhoneNumber', userPhoneNumber);
                       await setStorage('devicePhoneNumber', devicePhoneNumber);
-                      login()
                     },
                   );
                 })
