@@ -23,8 +23,8 @@ const PersonalInformationPage = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
 
-  const { sendSms, setAllowedNumber, loading } = useSms();
-  const { login ,isLoggedIn} = useAuth();
+  const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
+  const { login, isLoggedIn } = useAuth();
   const { devicePhoneNumber, setIsLogin, isLogin } = useIsLogin();
 
   const [newDevicePhoneNumber, setNewDevicePhoneNumber] = useState('');
@@ -55,8 +55,8 @@ const PersonalInformationPage = () => {
     );
 
     setAllowedNumber(newDevicePhoneNumber)
-      .then((msg: string) => {
-        sendSms(
+      .then(async (msg: string) => {
+        const getLastsms = await sendSms(
           newDevicePhoneNumber,
           `${newPassword} GETALL`,
           'CALL:OFF',
@@ -68,15 +68,25 @@ const PersonalInformationPage = () => {
             await setStorage('password', newPassword);
           },
         );
+        const body = getLastsms.body;
+        const mainPart = body.split('ADM:')[0];
+        const callIndex = mainPart.indexOf('CALL:');
+        const callSection = mainPart.slice(callIndex).trim();
+        const lines = callSection.split('\n');
+        const result = lines.map(line => {
+          const [key, value] = line.split(':');
+          const mainValue = value.split('/')[0];
+          return { [key]: mainValue };
+        });
+        console.log(result, 'asdddddvfvfddd');
+        await setStorage('deviceZones', JSON.stringify(result));
       })
       .catch((err: any) => {
         Alert.alert('❌ خطا', err.message);
       });
   };
 
-  console.log(isLoggedIn, 'asdjfuuzxzxzxeu');
-
-  
+  console.log(isLoggedIn, lastSms, 'asdjfuuzxzxzxeu');
 
   return (
     <KeyboardAvoidingView

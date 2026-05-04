@@ -10,8 +10,8 @@ interface AnimatedButtonTypeProps {
   title: string;
   active: boolean;
   onPress: () => void;
-  image: any;
-  showIcon: boolean;
+  image?: any;
+  showIcon?: boolean;
   width: string;
   height: string;
   fontSize?: string;

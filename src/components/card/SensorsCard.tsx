@@ -6,18 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, RootDrawerParamList } from '@/shared/ui/header/model';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
+import type { ZoneKeyType } from '@/types/zone';
+import { useZones } from '@/hook/useZones';
 
 interface SenesorsCardtypeProps {
-  item: string;
+  item: ZoneKeyType;
+  value: string;
 }
 
-const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item }) => {
-  const [notifications, setNotifications] = useState(false);
+const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
+  const [notifications, setNotifications] = useState(value !== 'OFF');
   const navigation = useNavigation<NavigationProp>();
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
   const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
+  const { updateZone } = useZones();
 
   useEffect(() => {
     (async () => {
@@ -28,15 +32,45 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item }) => {
     })();
   }, []);
 
-  const zoneSwitchHandler = (a: boolean) => {
-    console.log(a, item, 'sdfjueueu');
-    sendSms(
-      devicePhoneNumber,
-      `${password} ${item}=${a ? 'OFF' : 'NORMAL'}`,
-      '',
-      ['access_denied'],
-    );
+  useEffect(() => {
+    setNotifications(value !== 'OFF');
+  }, [value]);
+
+  const zoneSwitchHandler = async (toggle: boolean) => {
+    const zoneKey: Record<ZoneKeyType, string> = {
+      Z1: 'ZONE1',
+      Z2: 'ZONE2',
+      Z3: 'ZONE3',
+      Z4: 'ZONE4',
+      Z5: 'ZONE5',
+    };
+    const zoneValue = {
+      N: 'NORMAL',
+      I: 'INSTANT',
+      '24H': '24HOUR',
+      D: 'DELAY',
+      F: 'FIRE',
+    };
+
+    try {
+      const sms = await sendSms(
+        devicePhoneNumber,
+        `${password} ${zoneKey[item]}=${toggle ? 'OFF' : 'NORMAL'}`,
+        `Zone_${item.split('')[1]}_set`,
+        ['access_denied'],
+      );
+
+      if (sms.body === `Zone_${item.split('')[1]}_set`) {
+        updateZone(item as ZoneKeyType, toggle ? 'OFF' : 'N');
+        setNotifications(!toggle);
+      }
+    } catch (e) {
+      console.log('SMS failed:', e);
+    }
   };
+  console.log(loading, 'sdfjueueu');
+
+  console.log(notifications, 'sdfjnnbnbnbhh');
 
   return (
     <View>
@@ -54,12 +88,13 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item }) => {
           size={'xs'}
           darkModeIcons={false}
           switchHandler={zoneSwitchHandler}
+          disabled={loading}
+          loading={loading}
         />
         <Signal
           width={24}
           height={24}
           stroke={notifications ? '#3E9911' : '#616161'}
-          fill="none"
         />
       </View>
       <Pressable

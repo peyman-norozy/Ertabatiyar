@@ -1,13 +1,16 @@
-import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import SensorsCard from '@/components/card/SensorsCard.tsx';
+import type { ZoneKeyType } from '@/types/zone';
+import { useZones } from '@/hook/useZones';
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const data = ['ZONE1', 'ZONE2', 'ZONE3', 'ZONE4', 'ZONE5'];
+  const { zones } = useZones();
 
+  const zoneEntries = Object.entries(zones);
+  console.log(zoneEntries, 'aajajnnnghgghhhh');
   return (
     <View
       className={
@@ -19,10 +22,10 @@ const Sensors = () => {
       </Text>
 
       <View className="flex-row flex-wrap -mx-4 -mb-4">
-        {data.map((item, index) => (
+        {zoneEntries.map(([key, value], index) => (
           <View key={index} className="w-1/2 px-3 pb-3">
             <View className="bg-white border border-[#EFEFEF] rounded-2xl py-3 px-2">
-              <SensorsCard item={item} />
+              <SensorsCard item={key as ZoneKeyType} value={value || ''} />
             </View>
           </View>
         ))}

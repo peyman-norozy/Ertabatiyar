@@ -6,6 +6,7 @@ import {
   I18nManager,
   Text,
   Vibration,
+  ActivityIndicator,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -16,7 +17,6 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import { DarkMode, LightMode } from '@/shared/assets/icons';
-
 interface CustomSwitchProps {
   value: boolean;
   onValueChange: (value: boolean) => void;
@@ -31,7 +31,8 @@ interface CustomSwitchProps {
   showText?: boolean;
   textColorOn?: string;
   textColorOff?: string;
-  switchHandler:(value: boolean) => void
+  switchHandler: (value: boolean) => void;
+  loading?: boolean;
 }
 
 export default function CustomSwitch({
@@ -48,7 +49,8 @@ export default function CustomSwitch({
   showText = false,
   textColorOn = '#ffffff',
   textColorOff = '#ffffff',
-  switchHandler
+  switchHandler,
+  loading = false,
 }: CustomSwitchProps) {
   const translateX = useSharedValue(value ? 1 : 0);
   const isRTL = I18nManager.isRTL;
@@ -114,13 +116,9 @@ export default function CustomSwitch({
   const verticalAlign = (trackH - (showText ? 16 : iconSize)) / 2;
 
   const handlePress = () => {
-    console.log(value,'jsdfuuegggg')
-    switchHandler(value)
-    if (!disabled) {
-      onValueChange(!value);
-      Vibration.vibrate(100);
-    }
-
+    if (disabled) return;
+    switchHandler(value);
+    Vibration.vibrate(100);
   };
 
   const thumbStyleStatic: any = {
@@ -142,7 +140,10 @@ export default function CustomSwitch({
   }
 
   return (
-    <TouchableWithoutFeedback onPress={handlePress} disabled={disabled}>
+    <TouchableWithoutFeedback
+      onPress={handlePress}
+      disabled={disabled || loading}
+    >
       <View className={`items-center justify-center ${className}`}>
         <Animated.View
           style={[
@@ -152,7 +153,7 @@ export default function CustomSwitch({
               height: trackH,
               borderRadius: trackH / 2,
               overflow: 'hidden',
-              opacity: disabled ? 0.6 : 1,
+              opacity: disabled || loading ? 0.6 : 1,
             },
           ]}
         >
@@ -179,7 +180,6 @@ export default function CustomSwitch({
               </Animated.View>
             </>
           )}
-
           {showText && (
             <>
               <Animated.View
@@ -191,7 +191,7 @@ export default function CustomSwitch({
                     height: trackH,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    ...(isRTL ? { right: -16 } : { left: 'auto', right: 2 }),
+                    ...(isRTL ? { right: -8 } : { left: 'auto', right: 2 }),
                   },
                 ]}
               >
@@ -219,7 +219,7 @@ export default function CustomSwitch({
                     height: trackH,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    ...(isRTL ? { left: 2 } : { left: 2, right: 'auto' }),
+                    ...(isRTL ? { left: -3 } : { left: 2, right: 'auto' }),
                   },
                 ]}
               >
@@ -239,8 +239,10 @@ export default function CustomSwitch({
               </Animated.View>
             </>
           )}
-
           <Animated.View style={[thumbAnimatedStyle, thumbStyleStatic]} />
+          <Text>
+            {loading && <ActivityIndicator size="small" color="#999" />}
+          </Text>
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>

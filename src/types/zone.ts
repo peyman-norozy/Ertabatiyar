@@ -1,0 +1,1 @@
+export type ZoneKeyType = 'Z1' | 'Z2' | 'Z3' | 'Z4' | 'Z5';
