@@ -3,11 +3,11 @@ import { Pressable, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProp, RootDrawerParamList } from '@/shared/ui/header/model';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
 import type { ZoneKeyType } from '@/types/zone';
-import { useZones } from '@/hook/useZones';
+import { AppNavigation } from '@/helpers/appNavigation';
+import { useZonesContext } from '@/context/ZonesContext';
 
 interface SenesorsCardtypeProps {
   item: ZoneKeyType;
@@ -16,12 +16,12 @@ interface SenesorsCardtypeProps {
 
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
   const [notifications, setNotifications] = useState(value !== 'OFF');
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<AppNavigation>();
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
-  const { sendSms, setAllowedNumber, lastSms, loading } = useSms();
-  const { updateZone } = useZones();
+  const { sendSms, loading } = useSms();
+  const { zones, updateZone } = useZonesContext();
 
   useEffect(() => {
     (async () => {
@@ -33,8 +33,8 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
   }, []);
 
   useEffect(() => {
-    setNotifications(value !== 'OFF');
-  }, [value]);
+    setNotifications(zones[item] !== 'OFF');
+  }, [zones]);
 
   const zoneSwitchHandler = async (toggle: boolean) => {
     const zoneKey: Record<ZoneKeyType, string> = {
@@ -43,13 +43,6 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
       Z3: 'ZONE3',
       Z4: 'ZONE4',
       Z5: 'ZONE5',
-    };
-    const zoneValue = {
-      N: 'NORMAL',
-      I: 'INSTANT',
-      '24H': '24HOUR',
-      D: 'DELAY',
-      F: 'FIRE',
     };
 
     try {
@@ -99,7 +92,9 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
       </View>
       <Pressable
         onPress={() =>
-          navigation.navigate('ZoneSettingsPage' as keyof RootDrawerParamList)
+          navigation.navigate('ZoneSettingsPage', {
+            zoneId: item,
+          })
         }
       >
         <View>

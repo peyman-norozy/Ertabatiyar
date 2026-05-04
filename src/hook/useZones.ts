@@ -55,7 +55,6 @@ export const useZones = () => {
       ...zones,
       [key]: value,
     };
-
     await saveZones(updated);
   };
 

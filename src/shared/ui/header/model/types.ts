@@ -1,3 +1,4 @@
+import { ZoneKeyType } from '@/types/zone';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export interface CustomHeaderPropsType {
@@ -13,7 +14,7 @@ export type RootDrawerParamList = {
   HomePage: undefined;
   NotificationPage: undefined;
   ProfilePage: undefined;
-  ZoneSettingsPage: undefined;
+  ZoneSettingsPage: { zoneId: ZoneKeyType };
   language: undefined;
 };
 

@@ -7,6 +7,7 @@ import { StatusBar, NativeModules } from 'react-native';
 import { AppRouter } from '@/app/router/AppRouter.tsx';
 import { DeviceProvider } from '@/context/DeviceContext';
 import { AppBootstrap } from '@/AppBootstrap';
+import { ZonesProvider } from './context/ZonesContext.tsx';
 const { SmsModule } = NativeModules;
 
 function App(): React.JSX.Element {
@@ -30,14 +31,16 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView className={'flex-1'}>
-      <DeviceProvider>
-        <SafeAreaProvider style={{ flex: 1 }}>
-          <StatusBar backgroundColor="white" />
-          {/* فقط یک‌بار Native Event Listener */}
-          <AppBootstrap />
-          <AppRouter />
-        </SafeAreaProvider>
-      </DeviceProvider>
+      <ZonesProvider>
+        <DeviceProvider>
+          <SafeAreaProvider style={{ flex: 1 }}>
+            <StatusBar backgroundColor="white" />
+            {/* فقط یک‌بار Native Event Listener */}
+            <AppBootstrap />
+            <AppRouter />
+          </SafeAreaProvider>
+        </DeviceProvider>
+      </ZonesProvider>
     </SafeAreaView>
   );
 }
