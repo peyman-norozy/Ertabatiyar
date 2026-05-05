@@ -17,7 +17,7 @@ import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
 import { useIsLogin } from '@/hook/useIsLogin';
 import { useEffect, useState } from 'react';
-import SplashScreen from '@/components/SplashScreen.tsx';
+import { parseDeviceSms } from '@/utils/parseDeviceSms';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
@@ -43,23 +43,12 @@ const PersonalInformationPage = () => {
   }, [devicePhoneNumber]);
 
   const registerButtonHandler = async () => {
-    // if (!devicePhoneNumber && !userPhoneNumber) {
-    //   Alert.alert('✅', t('personalInformation.warning.text5' as any));
-    //   return;
-    // }
-    console.log(
-      newDevicePhoneNumber,
-      newPassword,
-      newUserPhoneNumber,
-      'all_device',
-    );
-
     setAllowedNumber(newDevicePhoneNumber)
       .then(async (msg: string) => {
         const getLastsms = await sendSms(
           newDevicePhoneNumber,
           `${newPassword} GETALL`,
-          'CALL:OFF',
+          'CALL:',
           ['access_denied', 'SETADMIN'],
           login,
           async () => {
@@ -68,18 +57,9 @@ const PersonalInformationPage = () => {
             await setStorage('password', newPassword);
           },
         );
-        const body = getLastsms.body;
-        const mainPart = body.split('ADM:')[0];
-        const callIndex = mainPart.indexOf('CALL:');
-        const callSection = mainPart.slice(callIndex).trim();
-        const lines = callSection.split('\n');
-        const result = lines.map(line => {
-          const [key, value] = line.split(':');
-          const mainValue = value.split('/')[0];
-          return { [key]: mainValue };
-        });
-        console.log(result, 'asdddddvfvfddd');
-        await setStorage('deviceZones', JSON.stringify(result));
+        const parsedData = parseDeviceSms(getLastsms.body);
+console.log(parsedData,'sdfjueuegfgfgg')
+        await setStorage('deviceZones', JSON.stringify(parsedData));
       })
       .catch((err: any) => {
         Alert.alert('❌ خطا', err.message);

@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getStorage, setStorage } from '@/utils/storage';
-import type { ZoneKeyType } from '@/types/zone';
-
-type ZonesType = Partial<Record<ZoneKeyType, string>>;
 
 export const useZones = () => {
-  const [zones, setZones] = useState<ZonesType>({});
+  const [zones, setZones] = useState<Record<string, string>>({});
+  const [call, setCall] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
-  // ✅ load از storage
   const loadZones = async () => {
     try {
       const value = await getStorage('deviceZones');
@@ -16,11 +13,8 @@ export const useZones = () => {
       if (value) {
         const parsed = JSON.parse(value);
 
-        const objectData = Array.isArray(parsed)
-          ? Object.assign({}, ...parsed.filter((item: any) => !item.CALL))
-          : parsed;
-
-        setZones(objectData);
+        setZones(parsed.zones || {});
+        setCall(parsed.call || {});
       }
     } catch (e) {
       console.log('loadZones error:', e);
@@ -33,36 +27,65 @@ export const useZones = () => {
     loadZones();
   }, []);
 
-  // ✅ ذخیره در storage
-  const saveZones = async (newZones: ZonesType) => {
+  const saveZones = async (newZones: Record<string, string>) => {
     try {
+      const value = await getStorage('deviceZones');
+      const parsed = value ? JSON.parse(value) : {};
+
+      const updated = {
+        ...parsed,
+        zones: newZones,
+      };
+
       setZones(newZones);
-
-      // اگر بخوای همون فرمت قبلی (array) رو نگه داری:
-      const arrayFormat = Object.entries(newZones).map(([key, value]) => ({
-        [key]: value,
-      }));
-
-      await setStorage('deviceZones', JSON.stringify(arrayFormat));
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
       console.log('saveZones error:', e);
     }
   };
 
-  // ✅ آپدیت یک zone
-  const updateZone = async (key: ZoneKeyType, value: string) => {
-    const updated = {
-      ...zones,
-      [key]: value,
-    };
-    await saveZones(updated);
+  const updateZone = async (key: string, value: string) => {
+    try {
+      const valueStorage = await getStorage('deviceZones');
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
+      console.log(parsed, 'sdjfueeeuhfgfg');
+      let updated;
+
+      if (key === 'CALL') {
+        updated = {
+          ...parsed,
+          call: {
+            ...parsed.call,
+            [key]: value,
+          },
+        };
+
+        setCall(updated.call);
+      } else {
+        const newZones = {
+          ...zones,
+          [key]: value,
+        };
+
+        updated = {
+          ...parsed,
+          zones: newZones,
+        };
+
+        setZones(newZones);
+      }
+
+      await setStorage('deviceZones', JSON.stringify(updated));
+    } catch (e) {
+      console.log('updateZone error:', e);
+    }
   };
 
   return {
     zones,
+    call,
     loading,
-    setZones: saveZones, // full replace
-    updateZone, // update تک آیتم
+    updateZone,
     reload: loadZones,
   };
 };

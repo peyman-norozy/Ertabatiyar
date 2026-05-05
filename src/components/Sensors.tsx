@@ -3,14 +3,19 @@ import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import SensorsCard from '@/components/card/SensorsCard.tsx';
 import type { ZoneKeyType } from '@/types/zone';
-import { useZones } from '@/hook/useZones';
+import { useZonesContext } from '@/context/ZonesContext';
+import { useEffect } from 'react';
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const { zones } = useZones();
+  const { zones, reload } = useZonesContext();
 
   const zoneEntries = Object.entries(zones);
-  console.log(zoneEntries, 'aajajnnnghgghhhh');
+
+  useEffect(() => {
+    reload();
+  }, []);
+
   return (
     <View
       className={

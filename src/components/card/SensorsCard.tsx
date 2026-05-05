@@ -15,28 +15,16 @@ interface SenesorsCardtypeProps {
 }
 
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
-  const [notifications, setNotifications] = useState(value !== 'OFF');
-  const navigation = useNavigation<AppNavigation>();
-  const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-
   const { sendSms, loading } = useSms();
   const { zones, updateZone } = useZonesContext();
 
-  useEffect(() => {
-    (async () => {
-      const device = await getStorage('devicePhoneNumber');
-      const password = await getStorage('password');
-      device ? setDevicePhoneNumber(device) : null;
-      password ? setPassword(password) : null;
-    })();
-  }, []);
+  const isOn = value !== 'OFF';
 
-  useEffect(() => {
-    setNotifications(zones[item] !== 'OFF');
-  }, [zones]);
+  const navigation = useNavigation<AppNavigation>();
 
   const zoneSwitchHandler = async (toggle: boolean) => {
+    const devicePhoneNumber = await getStorage('devicePhoneNumber');
+    const password = await getStorage('password');
     const zoneKey: Record<ZoneKeyType, string> = {
       Z1: 'ZONE1',
       Z2: 'ZONE2',
@@ -47,7 +35,7 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
 
     try {
       const sms = await sendSms(
-        devicePhoneNumber,
+        devicePhoneNumber ? devicePhoneNumber : '',
         `${password} ${zoneKey[item]}=${toggle ? 'OFF' : 'NORMAL'}`,
         `Zone_${item.split('')[1]}_set`,
         ['access_denied'],
@@ -55,22 +43,17 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
 
       if (sms.body === `Zone_${item.split('')[1]}_set`) {
         updateZone(item as ZoneKeyType, toggle ? 'OFF' : 'N');
-        setNotifications(!toggle);
       }
     } catch (e) {
       console.log('SMS failed:', e);
     }
   };
-  console.log(loading, 'sdfjueueu');
-
-  console.log(notifications, 'sdfjnnbnbnbhh');
 
   return (
     <View>
       <View className={'flex-row-reverse justify-between'}>
         <CustomSwitch
-          value={notifications}
-          onValueChange={setNotifications}
+          value={isOn}
           activeColor="#3E9911"
           inactiveColor={'#E2E2E2'}
           inactiveThumbColor={'#414141'}
@@ -84,11 +67,7 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
           disabled={loading}
           loading={loading}
         />
-        <Signal
-          width={24}
-          height={24}
-          stroke={notifications ? '#3E9911' : '#616161'}
-        />
+        <Signal width={24} height={24} stroke={isOn ? '#3E9911' : '#616161'} />
       </View>
       <Pressable
         onPress={() =>

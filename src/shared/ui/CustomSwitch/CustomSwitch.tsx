@@ -19,7 +19,6 @@ import Animated, {
 import { DarkMode, LightMode } from '@/shared/assets/icons';
 interface CustomSwitchProps {
   value: boolean;
-  onValueChange: (value: boolean) => void;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   activeColor?: string;
   inactiveColor?: string;
@@ -37,7 +36,7 @@ interface CustomSwitchProps {
 
 export default function CustomSwitch({
   value,
-  onValueChange,
+  
   size = 'md',
   activeColor = '#3b82f6',
   inactiveColor = '#d1d5db',

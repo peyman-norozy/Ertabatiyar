@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
+import { useZonesContext } from '@/context/ZonesContext';
+import { getStorage } from '@/utils/storage';
+import { useSms } from '@/hook/useSms';
 
 const CallMode = () => {
-  const [notifications, setNotifications] = useState(false);
+  const { call, updateZone } = useZonesContext();
+  const { sendSms, loading } = useSms();
 
+  const isOn = call['CALL'] !== 'OFF';
+
+  const callSwitchHandler = async (currentValue: boolean) => {
+    const devicePhoneNumber = await getStorage('devicePhoneNumber');
+    const password = await getStorage('password');
+
+    const newValue = !currentValue;
+    try {
+      const sms = await sendSms(
+        devicePhoneNumber ? devicePhoneNumber : '',
+        `${password} CALL${newValue ? 'ON' : 'OFF'}`,
+        `call_function_${newValue ? 'enabled.' : 'disabled.'}`,
+        ['access_denied'],
+      );
+
+      if (sms.body === `call_function_${newValue ? 'enabled.' : 'disabled.'}`) {
+        updateZone('CALL', newValue ? 'ON' : 'OFF');
+      }
+    } catch (e) {
+      console.log('SMS failed:', e);
+    }
+  };
   return (
     <View
       className={
@@ -22,8 +48,7 @@ const CallMode = () => {
         </Text>
       </View>
       <CustomSwitch
-        value={notifications}
-        onValueChange={setNotifications}
+        value={isOn}
         activeColor="#3E9911"
         inactiveColor={'#E2E2E2'}
         inactiveThumbColor={'#414141'}
@@ -33,6 +58,9 @@ const CallMode = () => {
         textColorOff={'#616161'}
         size={'xs'}
         darkModeIcons={false}
+        switchHandler={callSwitchHandler}
+        disabled={loading}
+        loading={loading}
       />
     </View>
   );
