@@ -4,6 +4,7 @@ import { getStorage, setStorage } from '@/utils/storage';
 export const useZones = () => {
   const [zones, setZones] = useState<Record<string, string>>({});
   const [call, setCall] = useState<Record<string, string>>({});
+  const [system, setSystem] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   const loadZones = async () => {
@@ -12,9 +13,10 @@ export const useZones = () => {
 
       if (value) {
         const parsed = JSON.parse(value);
-
+        console.log(parsed, 'ajajjajajajueueueu');
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
+        setSystem(parsed.system || {});
       }
     } catch (e) {
       console.log('loadZones error:', e);
@@ -48,9 +50,7 @@ export const useZones = () => {
     try {
       const valueStorage = await getStorage('deviceZones');
       const parsed = valueStorage ? JSON.parse(valueStorage) : {};
-      console.log(parsed, 'sdjfueeeuhfgfg');
       let updated;
-
       if (key === 'CALL') {
         updated = {
           ...parsed,
@@ -61,6 +61,16 @@ export const useZones = () => {
         };
 
         setCall(updated.call);
+      } else if (key === 'SYS') {
+        updated = {
+          ...parsed,
+          system: {
+            ...parsed.system,
+            [key]: value,
+          },
+        };
+
+        setSystem(updated.system);
       } else {
         const newZones = {
           ...zones,
@@ -84,6 +94,7 @@ export const useZones = () => {
   return {
     zones,
     call,
+    system,
     loading,
     updateZone,
     reload: loadZones,

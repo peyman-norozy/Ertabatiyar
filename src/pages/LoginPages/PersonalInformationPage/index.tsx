@@ -58,7 +58,6 @@ const PersonalInformationPage = () => {
           },
         );
         const parsedData = parseDeviceSms(getLastsms.body);
-console.log(parsedData,'sdfjueuegfgfgg')
         await setStorage('deviceZones', JSON.stringify(parsedData));
       })
       .catch((err: any) => {

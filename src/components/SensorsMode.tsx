@@ -3,15 +3,60 @@ import { View } from 'react-native';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import AnimatedButton from '@/components/AnimatedButton.tsx';
+import { useZonesContext } from '@/context/ZonesContext';
+import { useSms } from '@/hook/useSms';
+import { getStorage } from '@/utils/storage';
 
 const SensorsMode = () => {
+  const { system, updateZone } = useZonesContext();
+  const { sendSms, loading } = useSms();
+  console.log(system, 'ahghgytytyt');
+  const isOn = system['SYS'];
+
+  console.log(system, 'asjdfueueu');
+
   const { t } = useTranslation();
-  const [active, setActive] = useState(0);
+
   const items = [
-    t('sensorsItem.active' as any),
-    t('sensorsItem.semiActive' as any),
-    t('sensorsItem.inactive' as any),
+    { title: t('sensorsItem.active' as any), value: 'ARM', disabled: loading },
+    {
+      title: t('sensorsItem.semiActive' as any),
+      value: 'SEMIARM',
+      disabled: loading,
+    },
+    {
+      title: t('sensorsItem.inactive' as any),
+      value: 'DISARM',
+      disabled: loading,
+    },
   ];
+
+  const systemSwitchHandler = async (currentValue: string) => {
+    const devicePhoneNumber = await getStorage('devicePhoneNumber');
+    const password = await getStorage('password');
+    const systemMap: Record<string, string> = {
+      ARM: 'system_armed.',
+      DISARM: 'system_disarmed.',
+      SEMIARM: 'system_semiarmed.',
+    };
+
+    try {
+      const sms = await sendSms(
+        devicePhoneNumber ? devicePhoneNumber : '',
+        `${password} ${currentValue}`,
+        `${systemMap[currentValue]}`,
+        ['access_denied'],
+      );
+
+      if (sms.body === `${systemMap[currentValue]}`) {
+        updateZone('SYS', currentValue);
+      }
+    } catch (e) {
+      console.log('SMS failed:', e);
+    }
+  };
+
+  console.log(isOn, 'ayyutuurt');
 
   return (
     <View
@@ -30,14 +75,16 @@ const SensorsMode = () => {
         </Text>
       </View>
       <View className="flex-row justify-between px-5 mt-3">
-        {items.map((item, index) => (
+        {items.map(item => (
           <AnimatedButton
-            key={index}
-            title={item}
+            key={item.value}
+            title={item?.title}
             width={'w-28'}
             height={'h-11'}
-            active={active === index}
-            onPress={() => setActive(index)}
+            active={isOn == item.value}
+            onPress={() => systemSwitchHandler(item.value)}
+            disabled={item.disabled}
+            loading={item.disabled}
           />
         ))}
       </View>

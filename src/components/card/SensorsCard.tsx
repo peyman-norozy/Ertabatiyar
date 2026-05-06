@@ -16,7 +16,7 @@ interface SenesorsCardtypeProps {
 
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
   const { sendSms, loading } = useSms();
-  const { zones, updateZone } = useZonesContext();
+  const { updateZone } = useZonesContext();
 
   const isOn = value !== 'OFF';
 
