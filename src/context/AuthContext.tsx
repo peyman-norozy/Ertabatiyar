@@ -1,3 +1,4 @@
+import { clearStorage } from '@/utils/storage';
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 type AuthContextType = {
@@ -12,7 +13,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => setIsLoggedIn(true);
-  const logout = () => setIsLoggedIn(false);
+  const logout = async () => {
+    setIsLoggedIn(false);
+    await clearStorage();
+  };
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>

@@ -8,7 +8,7 @@ const THEME_KEY = '@app_theme'; // یا هر نامی که دوست داری
 
 const ThemeSwitcher = () => {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const [isDark, setIsDark] = useState<boolean | null>(null); // null = هنوز لود نشده
+  const [isDark, setIsDark] = useState<boolean | null>(false); // null = هنوز لود نشده
 
   // لود تم ذخیره‌شده موقع mount
   useEffect(() => {
@@ -28,7 +28,8 @@ const ThemeSwitcher = () => {
 
   // وقتی کاربر سوییچ کرد → ذخیره کن + اعمال کن
   const handleToggle = (value: boolean) => {
-    setIsDark(value);
+    console.log('تغییر تم:', value);
+    setIsDark(!value);
     const newScheme = value ? 'dark' : 'light';
     setColorScheme(newScheme);
     AsyncStorage.setItem(THEME_KEY, newScheme).catch(() => {});
@@ -44,7 +45,7 @@ const ThemeSwitcher = () => {
       <View className="flex-row items-center justify-between gap-2">
         <CustomSwitch
           value={isDark}
-          onValueChange={handleToggle}
+          switchHandler={handleToggle}
           size="sm"
           activeColor="#6366f1"
         />
