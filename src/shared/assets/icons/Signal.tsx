@@ -14,7 +14,7 @@ const Signal: React.FC<Props> = ({ width, height, stroke }) => {
       height={height}
       viewBox="0 0 24 27"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      // xmlns="http://www.w3.org/2000/svg"
     >
       <Path
         d="M12 15.75C13.1046 15.75 14 14.7426 14 13.5C14 12.2574 13.1046 11.25 12 11.25C10.8954 11.25 10 12.2574 10 13.5C10 14.7426 10.8954 15.75 12 15.75Z"

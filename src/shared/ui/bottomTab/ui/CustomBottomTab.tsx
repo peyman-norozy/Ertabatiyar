@@ -1,102 +1,168 @@
-import React from 'react';
-import { View, TouchableOpacity, Animated } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Animated,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Home, Notification, Profile } from '@/shared/assets/icons';
+import {
+  Home,
+  Notification,
+  Profile,
+  Synchronization,
+} from '@/shared/assets/icons';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
-import { SvgProps } from 'react-native-svg';
 import { RootDrawerParamList } from '@/shared/ui/header/model';
-
-type TabType = {
-  id: keyof RootDrawerParamList;
-  icon: React.FC<SvgProps>;
-  label: string;
-};
+import { getStorage, setStorage } from '@/utils/storage';
+import { useSms } from '@/hook/useSms';
+import { useAuth } from '@/context/AuthContext';
+import { parseDeviceSms } from '@/utils/parseDeviceSms';
 
 const CustomBottomTab: React.FC = () => {
   const { t } = useTranslation();
+  const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
+  const { login, isLoggedIn } = useAuth();
+  const [cooldown, setCooldown] = useState(false);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootDrawerParamList>>();
   const route = useRoute();
-  const scaleValue = new Animated.Value(1);
 
-  const tabs: TabType[] = [
-    {
-      id: 'NotificationPage',
-      icon: Notification,
-      label: t('customBottom.tabs.notificationTitle' as any),
-    },
-    {
-      id: 'HomePage',
-      icon: Home,
-      label: t('customBottom.tabs.homeTitle' as any),
-    },
-    {
-      id: 'ProfilePage',
-      icon: Profile,
-      label: t('customBottom.tabs.profileTitle' as any),
-    },
-  ];
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  const handlePress = (tabId: keyof RootDrawerParamList) => {
-    if (route.name !== tabId) {
-      navigation.navigate(tabId as keyof RootDrawerParamList);
-      Animated.sequence([
-        Animated.timing(scaleValue, {
-          toValue: 0.8,
-          duration: 50,
-          useNativeDriver: true,
-        }),
-        Animated.timing(scaleValue, {
-          toValue: 1,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-      ]).start();
+  const handleTabPress = (routeName: keyof RootDrawerParamList) => {
+    if (route.name !== routeName) {
+      navigation.navigate(routeName as any);
     }
   };
 
-  return (
-    <View className="flex-row h-[70px] bg-white border-t border-t-gray-200 px-5 justify-around">
-      {tabs.map(tab => {
-        const isActive = route.name === tab.id;
-        const Icon = tab.icon;
+  const handleSync = async () => {
+    const devicePhoneNumber = (await getStorage('devicePhoneNumber')) ?? '';
+    const password = (await getStorage('password')) ?? '';
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.85,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 120,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
-        return (
-          <TouchableOpacity
-            key={tab.id}
-            onPress={() => handlePress(tab.id)}
-            className="items-center justify-center pt-2 flex-1"
-            activeOpacity={0.7}
+    try {
+      const getLastsms = await sendSms(
+        devicePhoneNumber,
+        `${password} GETALL`,
+        'CALL:',
+        ['access_denied', 'SETADMIN'],
+      );
+
+      if (getLastsms.body.includes('CALL:')) {
+        const parsedData = parseDeviceSms(getLastsms.body);
+        await setStorage('deviceZones', JSON.stringify(parsedData));
+        setCooldown(true);
+      }
+      setTimeout(() => {
+        setCooldown(false);
+      }, 2 * 60 * 1000);
+    } catch (e) {
+      console.log('SMS failed:', e);
+    }
+  };
+  console.log(cooldown, 'ueueueyryry');
+
+  return (
+    <View className="h-[80px] bg-white border-t border-gray-200 justify-center">
+      <View className="absolute self-center -top-8 z-10 items-center">
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={handleSync}
+          disabled={loading || cooldown}
+          className="bg-[#F9F9F9] rounded-full p-2"
+        >
+          <Animated.View
+            style={{
+              transform: [{ scale: scaleAnim }],
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 6,
+              elevation: 6,
+              opacity: loading || cooldown ? 0.5 : 1,
+            }}
+            className={`w-[50px] h-[50px] rounded-full ${
+              cooldown ? 'bg-[#A2A2A2]' : ' bg-[#3260C3]'
+            } items-center justify-center`}
           >
-            <Animated.View
-              style={{
-                transform: [{ scale: isActive ? scaleValue : 1 }],
-                opacity: isActive ? 1 : 0.6,
-              }}
-              className="items-center"
-            >
-              <Icon
-                width={24}
-                height={24}
-                stroke={isActive ? '#3260C3' : '#616161'}
-                fill="none"
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Synchronization
+                width={26}
+                height={26}
+                stroke={loading ? '#3E9911' : '#FFFFFF'}
               />
-            </Animated.View>
-            <Text
-              className={`text-sm mt-1 ${
-                isActive
-                  ? 'text-[#3260C3] font-yekan-bold border-b border-b-[#3260C3] w-20 text-center'
-                  : 'text-[#616161]'
-              }`}
-            >
-              {tab.label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+            )}
+          </Animated.View>
+        </TouchableOpacity>
+
+        <Text
+          className={`mt-2  text-sm ${
+            loading ? 'text-[#3260C3] font-yekan-bold' : ' text-[#616161]'
+          }`}
+        >
+          {t('customBottom.tabs.synchronization' as any)}
+        </Text>
+      </View>
+
+      <View className="flex-row justify-between px-10">
+        <TouchableOpacity
+          onPress={() => handleTabPress('NotificationPage')}
+          className="items-center"
+        >
+          <Notification
+            width={24}
+            height={24}
+            stroke={route.name === 'NotificationPage' ? '#3260C3' : '#616161'}
+          />
+          <Text
+            className={`mt-1 text-sm ${
+              route.name === 'NotificationPage'
+                ? 'text-[#3260C3] font-yekan-bold'
+                : 'text-[#616161]'
+            }`}
+          >
+            {t('customBottom.tabs.notificationTitle' as any)}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => handleTabPress('ProfilePage')}
+          className="items-center"
+        >
+          <Profile
+            width={24}
+            height={24}
+            stroke={route.name === 'ProfilePage' ? '#3260C3' : '#616161'}
+          />
+          <Text
+            className={`mt-1 text-sm ${
+              route.name === 'ProfilePage'
+                ? 'text-[#3260C3] font-yekan-bold'
+                : 'text-[#616161]'
+            }`}
+          >
+            {t('customBottom.tabs.profileTitle' as any)}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -61,7 +61,8 @@
     "tabs": {
       "notificationTitle": "اعلان ها",
       "homeTitle": "خانه",
-      "profileTitle": "ادمین"
+      "profileTitle": "ادمین",
+      "synchronization": "همگام سازی"
     }
   },
   "settingsPage": {

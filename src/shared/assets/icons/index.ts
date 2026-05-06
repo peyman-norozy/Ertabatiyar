@@ -8,6 +8,7 @@ import Home from './Home.tsx';
 import Notification from './Notification.tsx';
 import Profile from './Profile.tsx';
 import Signal from './Signal.tsx';
+import Synchronization from './Synchronization.tsx';
 import Setting from './setting.svg';
 import ArrowLeft from './arrow-left.svg';
 import Add from './add.svg';
@@ -22,6 +23,7 @@ export {
   Profile,
   Notification,
   Signal,
+  Synchronization,
   Setting,
   ArrowLeft,
   Add,
