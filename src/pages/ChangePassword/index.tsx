@@ -6,20 +6,45 @@ import {
   Platform,
   StatusBar,
   Image,
+  Alert,
 } from 'react-native';
 
 import { logoBlue } from '@/shared/assets/images';
-import { Button, Input, Text } from '@/shared/ui';
+import { Button, Input } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
+import { useSms } from '@/hook/useSms';
+import { useAuth } from '@/context/AuthContext';
+import { getStorage, setStorage } from '@/utils/storage';
 
 const Index = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation<any>();
+  const { sendSms, setAllowedNumber, loading } = useSms();
+  const { login } = useAuth();
   const [userCurrentPassword, setUserCurrentPassword] = useState('');
   const [userNewPassword, setUserNewPassword] = useState('');
   const [userRepeatPassword, setUserRepeatPassword] = useState('');
   const [userErrorRepeatPassword, setUserErrorRepeatPassword] = useState('');
+
+  const onClick = async () => {
+    const devicePhoneNumber = (await getStorage('devicePhoneNumber')) || '';
+    setAllowedNumber(devicePhoneNumber as any)
+      .then(async () => {
+        await sendSms(
+          devicePhoneNumber as any,
+          `${userCurrentPassword} NEWPASS=${userNewPassword}`,
+          'password_changed_successfully.',
+          ['access_denied', 'wrong_password!'],
+          login,
+          async () => {
+            await setStorage('password', userNewPassword);
+            Alert.alert('✅ موفقیت', t('successSMS.password_change'));
+          },
+        );
+      })
+      .catch((err: any) => {
+        Alert.alert('❌ خطا', err.message);
+      });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -103,14 +128,15 @@ const Index = () => {
             variant="primary"
             size="lg"
             fullWidth
+            loading={loading}
             disabled={
               !(
-                userCurrentPassword.length >= 8 &&
-                userNewPassword.length >= 8 &&
-                userRepeatPassword.length >= 8
+                userCurrentPassword.length >= 4 &&
+                userNewPassword.length >= 4 &&
+                userRepeatPassword.length >= 4
               )
             }
-            onPress={() => navigation.navigate('RegisterStep2')}
+            onPress={onClick}
           />
         </View>
       </ScrollView>

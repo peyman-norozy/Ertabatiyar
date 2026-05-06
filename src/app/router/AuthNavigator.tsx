@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   DeviceInformationPage,
   Language,
-  PasswordRegister,
   PersonalInformationPage,
   PhoneRegister,
 } from '@/pages';
@@ -72,20 +71,7 @@ export const AuthNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
-        name="RegisterStep2"
-        component={PasswordRegister}
-        options={{
-          header: () => (
-            <CustomHeader
-              title={'برگشت'}
-              showThemeSwitcher
-              showBackButton
-              showLogo={false}
-            />
-          ),
-        }}
-      />
+
       <Stack.Screen
         name="LoginStep2"
         component={DeviceInformationPage}

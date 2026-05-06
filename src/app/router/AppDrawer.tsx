@@ -5,6 +5,9 @@ import {
   ProfilePage,
   NotificationPage,
   ZoneSettingsPage,
+  ChangePasswordPage,
+  ChangeLanguagePage,
+  TermsAndConditionsPage
 } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 import CustomDrawerContent from '@/components/CustomDrawerContent.tsx';
@@ -53,6 +56,27 @@ export const AppDrawer = () => {
       <Drawer.Screen
         name="ZoneSettingsPage"
         component={ZoneSettingsPage}
+        options={{
+          header: () => <CustomHeader title="بازگشت" showBackButton />,
+        }}
+      />
+      <Drawer.Screen
+        name="ChangePasswordPage"
+        component={ChangePasswordPage}
+        options={{
+          header: () => <CustomHeader title="بازگشت" showBackButton />,
+        }}
+      />
+      <Drawer.Screen
+        name="ChangeLanguagePage"
+        component={ChangeLanguagePage}
+        options={{
+          header: () => <CustomHeader title="بازگشت" showBackButton />,
+        }}
+      />
+      <Drawer.Screen
+        name="TermsAndConditionsPage"
+        component={TermsAndConditionsPage}
         options={{
           header: () => <CustomHeader title="بازگشت" showBackButton />,
         }}
