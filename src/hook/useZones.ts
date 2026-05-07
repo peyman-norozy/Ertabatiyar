@@ -97,6 +97,7 @@ export const useZones = () => {
     system,
     loading,
     updateZone,
+    saveZones,
     reload: loadZones,
   };
 };

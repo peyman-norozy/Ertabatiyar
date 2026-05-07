@@ -7,7 +7,7 @@ const Admin = () => {
   return (
     <View
       className={
-        'bg-white border border-[#EFEFEF] mx-4 mt-6 rounded-lg p-3 flex mb-5'
+        'bg-white border border-[#EFEFEF] mx-4 mt-6 rounded-lg p-3 flex mb-16'
       }
     >
       <Text

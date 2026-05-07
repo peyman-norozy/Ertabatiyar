@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -21,13 +21,16 @@ import { getStorage, setStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
 import { parseDeviceSms } from '@/utils/parseDeviceSms';
+import { useZonesContext } from '@/context/ZonesContext';
+
+const COOLDOWN_KEY = 'syncCooldownUntil';
 
 const CustomBottomTab: React.FC = () => {
   const { t } = useTranslation();
   const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
   const { login, isLoggedIn } = useAuth();
   const [cooldown, setCooldown] = useState(false);
-
+  const { reload } = useZonesContext();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootDrawerParamList>>();
   const route = useRoute();
@@ -67,15 +70,43 @@ const CustomBottomTab: React.FC = () => {
       if (getLastsms.body.includes('CALL:')) {
         const parsedData = parseDeviceSms(getLastsms.body);
         await setStorage('deviceZones', JSON.stringify(parsedData));
+        const now = Date.now();
+        const cooldownUntil = now + 2 * 60 * 1000;
+
+        await setStorage(COOLDOWN_KEY, cooldownUntil.toString());
+        reload();
         setCooldown(true);
+
+        setTimeout(() => {
+          setCooldown(false);
+        }, 2 * 60 * 1000);
       }
-      setTimeout(() => {
-        setCooldown(false);
-      }, 2 * 60 * 1000);
     } catch (e) {
       console.log('SMS failed:', e);
     }
   };
+
+  useEffect(() => {
+    const checkCooldown = async () => {
+      const saved = await getStorage(COOLDOWN_KEY);
+
+      if (saved) {
+        const remaining = Number(saved) - Date.now();
+
+        if (remaining > 0) {
+          setCooldown(true);
+
+          setTimeout(() => {
+            setCooldown(false);
+          }, remaining);
+        } else {
+          setCooldown(false);
+        }
+      }
+    };
+
+    checkCooldown();
+  }, []);
   console.log(cooldown, 'ueueueyryry');
 
   return (

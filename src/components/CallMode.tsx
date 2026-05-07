@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { useZonesContext } from '@/context/ZonesContext';
