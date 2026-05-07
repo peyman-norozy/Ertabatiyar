@@ -36,23 +36,26 @@ const Index = () => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-      enabled
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={0}
     >
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView
         className="flex-1 bg-white dark:bg-neutral-800"
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 16,
+          paddingBottom: 120,
+        }}
       >
-        <View className="flex-1 mx-4 mt-6 mb-20">
+        <View className="flex-1 mx-4">
           <View className="flex-1 items-center mt-[48px] px-6">
             <View>
-              <Image source={logoBlue} className="w-[124px] h-[117px]" />
+              <Image source={logoBlue} className="w-[110px] h-[110px]" />
             </View>
-            <View className="mt-[56px] w-full">
-              <View className="w-full mt-6">
+            <View className="mt-[40px] w-full">
+              <View className="w-full mt-1">
                 <Input
                   label={t(
                     'personalInformation.input.devicePhoneNumber.title' as any,
@@ -88,11 +91,11 @@ const Index = () => {
           </View>
           <View
             className={
-              'bg-[#F4F6F7] dark:bg-neutral-600 rounded-lg mx-6 my-5 py-3 px-2 flex-row gap-2 overflow-hidden'
+              'bg-[#F4F6F7] dark:bg-neutral-600 rounded-lg mt-3 py-3 px-2 flex-row gap-2 overflow-hidden'
             }
           >
-            <View className={'w-2 bg-[#1659B1] h-[113px] rounded-xl'} />
-            <View className={'w-[322px]'}>
+            <View className={'w-2 bg-[#1659B1] rounded-xl'} />
+            <View className={'flex-1'}>
               <Text className="dark:text-white">
                 {t('personalInformation.warning.text1' as any)}
               </Text>
@@ -108,44 +111,49 @@ const Index = () => {
             </View>
           </View>
         </View>
-        <View className="absolute bottom-0 left-0 right-0 px-6 py-6 ">
-          <Button
-            title={t('personalInformation.input.button.title' as any)}
-            variant="primary"
-            size="lg"
-            fullWidth
-            loading={loading}
-            disabled={
-              !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
-            }
-            onPress={async () => {
-              await setStorage('devicePhoneNumber', devicePhoneNumber);
-              await setStorage('userPhoneNumber', userPhoneNumber);
-
-              setAllowedNumber(devicePhoneNumber)
-                .then((msg: string) => {
-                  // Alert.alert('✅', msg);
-                  sendSms(
-                    devicePhoneNumber,
-                    `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
-                    'Admin_number_updated.',
-                    ['wrong_password!'],
-                    () => {
-                      navigation.navigate('LoginStep1');
-                    },
-                    async () => {
-                      await setStorage('userPhoneNumber', userPhoneNumber);
-                      await setStorage('devicePhoneNumber', devicePhoneNumber);
-                    },
-                  );
-                })
-                .catch((err: any) => {
-                  Alert.alert('❌ خطا', err.message);
-                });
-            }}
-          />
-        </View>
       </ScrollView>
+      <View
+        style={{
+          padding: 16,
+          backgroundColor: 'white',
+        }}
+        className="dark:bg-neutral-800 border-t border-neutral-200"
+      >
+        <Button
+          title={t('personalInformation.input.button.title' as any)}
+          variant="primary"
+          size="lg"
+          fullWidth
+          loading={loading}
+          disabled={
+            !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
+          }
+          onPress={async () => {
+            await setStorage('devicePhoneNumber', devicePhoneNumber);
+            await setStorage('userPhoneNumber', userPhoneNumber);
+
+            setAllowedNumber(devicePhoneNumber)
+              .then(() => {
+                sendSms(
+                  devicePhoneNumber,
+                  `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
+                  'Admin_number_updated.',
+                  ['wrong_password!'],
+                  () => {
+                    navigation.navigate('LoginStep1');
+                  },
+                  async () => {
+                    await setStorage('userPhoneNumber', userPhoneNumber);
+                    await setStorage('devicePhoneNumber', devicePhoneNumber);
+                  },
+                );
+              })
+              .catch(err => {
+                Alert.alert('❌ خطا', err.message);
+              });
+          }}
+        />
+      </View>
     </KeyboardAvoidingView>
   );
 };
