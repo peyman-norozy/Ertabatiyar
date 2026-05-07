@@ -4,9 +4,9 @@ import {
   View,
   PermissionsAndroid,
   Platform,
-  Image,
   StatusBar,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { useDevice } from '@/context/DeviceContext';
@@ -14,20 +14,20 @@ import SensorsMode from '@/components/SensorsMode.tsx';
 import Sensors from '@/components/Sensors.tsx';
 import CallMode from '@/components/CallMode.tsx';
 import Admin from '@/components/Admin.tsx';
+import { Text } from 'react-native-gesture-handler';
 
 const { SmsModule } = NativeModules;
 
 const HomePage = () => {
   const { state } = useDevice();
 
-  // State برای ذخیره آخرین پیام دریافتی
   const [lastSms, setLastSms] = useState<{
     phoneNumber: string;
     message: string;
   } | null>(null);
 
   useEffect(() => {
-    SmsModule.getAllSms().then((data:any) => {
+    SmsModule.getAllSms().then((data: any) => {
       console.log('📨 SMS LIST:', data);
     });
   }, []);
@@ -56,20 +56,34 @@ const HomePage = () => {
     }
 
     SmsModule.sendSms(phoneNumber, message)
-      .then((res:any) => console.log(res, 'hhgggg'))
-      .catch((err:any) => console.log(err));
+      .then((res: any) => console.log(res, 'hhgggg'))
+      .catch((err: any) => console.log(err));
   }
 
   return (
     <View className="flex-1 bg-[#F9F9F9]">
       <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView>
-        <View className="w-full h-72 overflow-hidden pt-6">
-          <Image
+        <View className="w-full h-72 pt-10">
+          <ImageBackground
             source={require('../../shared/assets/images/banner_main.png')}
             resizeMode="cover"
-            className="w-full h-full"
-          />
+            className="w-full h-full justify-end"
+          >
+            {/* overlay برای بهتر دیده شدن متن */}
+            <View className="absolute inset-0 bg-black/30" />
+
+            {/* متن‌ها */}
+            <View className="px-5 pb-6 absolute top-14 flex-col gap-5">
+              <Text className="text-white text-xl font-yekan-medium">
+                کنترل پیشرفته حسگرها
+              </Text>
+
+              <Text className="text-white text-sm font-yekan-medium mt-2 opacity-90">
+                جایی که دقت با امنیت یکی می‌شه
+              </Text>
+            </View>
+          </ImageBackground>
         </View>
         <SensorsMode />
         <Sensors />
