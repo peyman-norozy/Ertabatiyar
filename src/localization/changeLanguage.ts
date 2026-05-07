@@ -4,14 +4,18 @@ import { I18nManager } from 'react-native';
 import Restart from 'react-native-restart';
 
 export const changeLanguage = async (lng: 'fa' | 'en') => {
-  await i18n.changeLanguage(lng);
+  const isRTL = lng === 'fa';
 
   await AsyncStorage.setItem('appLanguage', lng);
 
-  const isRTL = lng === 'fa';
   if (I18nManager.isRTL !== isRTL) {
     I18nManager.allowRTL(isRTL);
     I18nManager.forceRTL(isRTL);
+
     Restart.Restart();
+
+    return;
   }
+
+  await i18n.changeLanguage(lng);
 };
