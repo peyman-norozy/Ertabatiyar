@@ -10,10 +10,8 @@ import { getStorage } from '@/utils/storage';
 const SensorsMode = () => {
   const { system, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
-  console.log(system, 'ahghgytytyt');
   const isOn = system['SYS'];
 
-  console.log(system, 'asjdfueueu');
 
   const { t } = useTranslation();
 
@@ -56,7 +54,6 @@ const SensorsMode = () => {
     }
   };
 
-  console.log(isOn, 'ayyutuurt');
 
   return (
     <View

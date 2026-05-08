@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getStorage, setStorage } from '@/utils/storage';
+import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 
 export const useZones = () => {
   const [zones, setZones] = useState<Record<string, string>>({});
   const [call, setCall] = useState<Record<string, string>>({});
   const [system, setSystem] = useState<Record<string, string>>({});
+  const [admin, setAdmin] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadZones = async () => {
@@ -17,6 +19,7 @@ export const useZones = () => {
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
         setSystem(parsed.system || {});
+        setAdmin(parsed.admin || []);
       }
     } catch (e) {
       console.log('loadZones error:', e);
@@ -71,6 +74,30 @@ export const useZones = () => {
         };
 
         setSystem(updated.system);
+      } else if (key === 'ADMIN') {
+        const currentAdmins = parsed.admin || [];
+
+        const formattedValue = formatIranPhoneNumber(value);
+
+        const newAdmin = currentAdmins.includes(formattedValue)
+          ? currentAdmins
+          : [...currentAdmins, formattedValue];
+
+        updated = {
+          ...parsed,
+          admin: newAdmin,
+        };
+
+        setAdmin(newAdmin);
+      } else if (key === 'REMOVE_ADMIN') {
+        const newAdmin = JSON.parse(value);
+
+        updated = {
+          ...parsed,
+          admin: newAdmin,
+        };
+
+        setAdmin(newAdmin);
       } else {
         const newZones = {
           ...zones,
@@ -95,6 +122,7 @@ export const useZones = () => {
     zones,
     call,
     system,
+    admin,
     loading,
     updateZone,
     saveZones,

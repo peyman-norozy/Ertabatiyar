@@ -50,6 +50,7 @@ export const useSms = () => {
     onSuccess?: (sms: any) => void,
     onFinal?: () => void,
     sentAt?: number,
+    reject?: any,
   ) {
     stopListening();
 
@@ -94,8 +95,9 @@ export const useSms = () => {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
           }
-          Alert.alert('✅', errorFun(sms.body));
+          // Alert.alert('✅', errorFun(sms.body));
           console.log('❌ SMS Error received:', sms.body);
+          reject(sms.body)
           return;
         }
       } catch (e) {
@@ -146,6 +148,7 @@ export const useSms = () => {
               },
               onFinal,
               sentAt,
+              reject,
             );
           })
           .catch((err: any) => {

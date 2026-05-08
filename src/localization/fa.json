@@ -105,7 +105,8 @@
   "errorSMS": {
     "wrong_password": "رمز عبور اشتباه است!",
     "access_denied": "دسترسی غیرمجاز",
-    "SETADMIN": "لطفا ثبت نام کنید"
+    "SETADMIN": "لطفا ثبت نام کنید",
+    "already_assigned": "این شماره قبلا به عنوان ادمین ثبت شده است."
   },
   "successSMS": {
     "password_change": "رمز عبور با موفقیت تغییر یافت.",
