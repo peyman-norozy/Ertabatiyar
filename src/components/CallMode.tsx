@@ -3,10 +3,12 @@ import { CustomSwitch, Text } from '@/shared/ui';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
+import { useAuth } from '@/context/AuthContext';
 
 const CallMode = () => {
   const { call, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
+  const { logout } = useAuth();
 
   const isOn = call['CALL'] !== 'OFF';
 
@@ -20,13 +22,16 @@ const CallMode = () => {
         devicePhoneNumber ? devicePhoneNumber : '',
         `${password} CALL${newValue ? 'ON' : 'OFF'}`,
         `call_function_${newValue ? 'enabled.' : 'disabled.'}`,
-        ['access_denied'],
+        ['access_denied', 'SETADMIN'],
       );
 
       if (sms.body === `call_function_${newValue ? 'enabled.' : 'disabled.'}`) {
         updateZone('CALL', newValue ? 'ON' : 'OFF');
       }
     } catch (e) {
+      if (e === 'SETADMIN') {
+        logout();
+      }
       console.log('SMS failed:', e);
     }
   };

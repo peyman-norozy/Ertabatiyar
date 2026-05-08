@@ -12,7 +12,6 @@ const SensorsMode = () => {
   const { sendSms, loading } = useSms();
   const isOn = system['SYS'];
 
-
   const { t } = useTranslation();
 
   const items = [
@@ -43,17 +42,18 @@ const SensorsMode = () => {
         devicePhoneNumber ? devicePhoneNumber : '',
         `${password} ${currentValue}`,
         `${systemMap[currentValue]}`,
-        ['access_denied'],
+        ['access_denied', 'SETADMIN'],
       );
 
       if (sms.body === `${systemMap[currentValue]}`) {
         updateZone('SYS', currentValue);
       }
     } catch (e) {
-      console.log('SMS failed:', e);
+      if (e === 'SETADMIN') {
+        logout();
+      }
     }
   };
-
 
   return (
     <View

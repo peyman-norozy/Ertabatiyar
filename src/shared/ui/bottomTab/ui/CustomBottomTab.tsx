@@ -28,7 +28,7 @@ const COOLDOWN_KEY = 'syncCooldownUntil';
 const CustomBottomTab: React.FC = () => {
   const { t } = useTranslation();
   const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
-  const { login, isLoggedIn } = useAuth();
+  const { logout } = useAuth();
   const [cooldown, setCooldown] = useState(false);
   const { reload } = useZonesContext();
   const navigation =
@@ -60,15 +60,15 @@ const CustomBottomTab: React.FC = () => {
     ]).start();
 
     try {
-      const getLastsms = await sendSms(
+      const sms = await sendSms(
         devicePhoneNumber,
         `${password} GETALL`,
         'CALL:',
         ['access_denied', 'SETADMIN'],
       );
 
-      if (getLastsms.body.includes('CALL:')) {
-        const parsedData = parseDeviceSms(getLastsms.body);
+      if (sms.body.includes('CALL:')) {
+        const parsedData = parseDeviceSms(sms.body);
         await setStorage('deviceZones', JSON.stringify(parsedData));
         const now = Date.now();
         const cooldownUntil = now + 2 * 60 * 1000;
@@ -82,7 +82,9 @@ const CustomBottomTab: React.FC = () => {
         }, 2 * 60 * 1000);
       }
     } catch (e) {
-      console.log('SMS failed:', e);
+      if (e === 'SETADMIN') {
+        logout();
+      }
     }
   };
 

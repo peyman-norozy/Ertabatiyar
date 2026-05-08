@@ -18,10 +18,12 @@ import { useAuth } from '@/context/AuthContext';
 import { useIsLogin } from '@/hook/useIsLogin';
 import { useEffect, useState } from 'react';
 import { parseDeviceSms } from '@/utils/parseDeviceSms';
+import { useToast } from '@/context/ToastContext';
 
 const PersonalInformationPage = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const { showToast } = useToast();
 
   const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
   const { login, isLoggedIn } = useAuth();
@@ -61,7 +63,9 @@ const PersonalInformationPage = () => {
         await setStorage('deviceZones', JSON.stringify(parsedData));
       })
       .catch((err: any) => {
-        Alert.alert('❌ خطا', err.message);
+        if (err === 'SETADMIN') {
+          showToast('لطفا ثبت نام کنید!!', 'error');
+        }
       });
   };
 

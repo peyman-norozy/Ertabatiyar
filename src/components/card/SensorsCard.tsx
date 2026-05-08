@@ -8,6 +8,7 @@ import { useSms } from '@/hook/useSms';
 import type { ZoneKeyType } from '@/types/zone';
 import { AppNavigation } from '@/helpers/appNavigation';
 import { useZonesContext } from '@/context/ZonesContext';
+import { useAuth } from '@/context/AuthContext';
 
 interface SenesorsCardtypeProps {
   item: ZoneKeyType;
@@ -17,6 +18,7 @@ interface SenesorsCardtypeProps {
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
   const { sendSms, loading } = useSms();
   const { updateZone } = useZonesContext();
+  const { logout } = useAuth();
 
   const isOn = value !== 'OFF';
 
@@ -38,14 +40,16 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
         devicePhoneNumber ? devicePhoneNumber : '',
         `${password} ${zoneKey[item]}=${toggle ? 'OFF' : 'NORMAL'}`,
         `Zone_${item.split('')[1]}_set`,
-        ['access_denied'],
+        ['access_denied', 'SETADMIN'],
       );
 
       if (sms.body === `Zone_${item.split('')[1]}_set`) {
         updateZone(item as ZoneKeyType, toggle ? 'OFF' : 'N');
       }
     } catch (e) {
-      console.log('SMS failed:', e);
+      if (e === 'SETADMIN') {
+        logout();
+      }
     }
   };
 
