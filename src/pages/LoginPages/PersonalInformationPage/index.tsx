@@ -69,7 +69,6 @@ const PersonalInformationPage = () => {
       });
   };
 
-  console.log(isLoggedIn, lastSms, 'asdjfuuzxzxzxeu');
 
   return (
     <KeyboardAvoidingView

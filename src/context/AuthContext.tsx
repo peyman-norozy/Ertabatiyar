@@ -1,8 +1,14 @@
-import { clearStorage } from '@/utils/storage';
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { clearStorage, getStorage } from '@/utils/storage';
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 type AuthContextType = {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | null;
   login: () => void;
   logout: () => void;
 };
@@ -10,16 +16,37 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  const checkLogin = async () => {
+    try {
+      const devicePhone = await getStorage('devicePhoneNumber');
+
+      setIsLoggedIn(!!devicePhone);
+    } catch (e) {
+      setIsLoggedIn(false);
+    }
+  };
 
   const login = () => setIsLoggedIn(true);
+
   const logout = async () => {
     setIsLoggedIn(false);
     await clearStorage();
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

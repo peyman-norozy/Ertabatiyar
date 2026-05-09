@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
@@ -6,10 +5,13 @@ import AnimatedButton from '@/components/AnimatedButton.tsx';
 import { useZonesContext } from '@/context/ZonesContext';
 import { useSms } from '@/hook/useSms';
 import { getStorage } from '@/utils/storage';
+import { useAuth } from '@/context/AuthContext';
 
 const SensorsMode = () => {
   const { system, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
+  const { logout } = useAuth();
+
   const isOn = system['SYS'];
 
   const { t } = useTranslation();

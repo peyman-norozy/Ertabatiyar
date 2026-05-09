@@ -15,22 +15,31 @@ class SmsReceiver : BroadcastReceiver() {
         if (context == null) return
         if (intent?.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
 
-        val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
+        val messages =
+            Telephony.Sms.Intents.getMessagesFromIntent(intent)
+
         if (messages.isNullOrEmpty()) return
 
-        for (sms in messages) {
-            val from = sms.originatingAddress ?: continue
-            val body = sms.messageBody ?: continue
+        val fullBody = StringBuilder()
+        var from = ""
 
-            if (!SmsSecurity.isAllowedSender(context, from)) {
-                Log.d("SmsReceiver", "⛔ SMS از شماره غیرمجاز: $from")
-                continue
-            }
-
-            Log.d("SmsReceiver", "📩 SMS معتبر: $from → $body")
-
-            SmsProcessor.handle(context, from, body)
-            SmsStorage.save(from, body)
+        messages.forEach { sms ->
+            from = sms.originatingAddress ?: from
+            fullBody.append(sms.messageBody ?: "")
         }
+
+        if (from.isBlank()) return
+
+        val body = fullBody.toString().trim()
+
+        if (!SmsSecurity.isAllowedSender(context, from)) {
+            Log.d("SmsReceiver", "⛔ SMS از شماره غیرمجاز: $from")
+            return
+        }
+
+        Log.d("SmsReceiver", "📩 SMS کامل: $from → $body")
+
+        SmsProcessor.handle(context, from, body)
+        SmsStorage.save(from, body)
     }
 }

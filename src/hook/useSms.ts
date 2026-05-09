@@ -59,14 +59,14 @@ export const useSms = () => {
       setLoading(false);
       setError('timeout');
       Alert.alert('⏱', 'پاسخی دریافت نشد');
-    }, 20000);
+    }, 30000);
 
     intervalRef.current = setInterval(async () => {
       try {
         const last = await SmsModule.getLastSms();
 
         if (!last) return;
-
+        console.log(last, 'RAW SMS');
         const sms = JSON.parse(last);
         if (sentAt && sms.time < sentAt) {
           return;
@@ -74,7 +74,7 @@ export const useSms = () => {
         setLastSms(sms);
 
         console.log('📩 SMS:', sms?.body?.includes(expectedText));
-
+        console.log(sms, 'sdfjyytoiuoiopopo');
         console.log('✅ Expected SMS received:', sms.body);
         console.log(errorTexts, 'sdjfuasasaseueu');
         if (expectedText && sms?.body?.includes(expectedText)) {
@@ -97,7 +97,7 @@ export const useSms = () => {
           }
           // Alert.alert('✅', errorFun(sms.body));
           console.log('❌ SMS Error received:', sms.body);
-          reject(sms.body)
+          reject(sms.body);
           return;
         }
       } catch (e) {

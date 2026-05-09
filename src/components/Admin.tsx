@@ -25,7 +25,9 @@ const Admin = () => {
 
   const addAdminHandler = async () => {
     if (admin.length >= 5) {
-      Alert.alert('خطا', 'بیشتر از ۵ ادمین نمی‌توانید اضافه کنید');
+      showToast('بیشتر از ۵ ادمین نمی‌توانید اضافه کنید', 'warning');
+      setModalVisible(false);
+      setAdminPhone('');
       return;
     }
     try {
