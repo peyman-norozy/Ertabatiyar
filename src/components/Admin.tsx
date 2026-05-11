@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Modal, TouchableOpacity, Alert } from 'react-native';
 import { Input, Text } from '@/shared/ui';
-import { Add, Trash } from '@/shared/assets/icons';
+import { Add, Trash, UserAdmin } from '@/shared/assets/icons';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
@@ -126,7 +126,10 @@ const Admin = () => {
                 'flex-row-reverse justify-between items-center w-full bg-[#F5F5F5] px-4 py-3 rounded-xl'
               }
             >
-              <Text>{item}</Text>
+              <Text>
+                <UserAdmin width={18} height={18} />
+                {item}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   setSelectedAdmin({
