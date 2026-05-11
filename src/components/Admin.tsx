@@ -203,7 +203,7 @@ const Admin = () => {
                 <Button
                   title={loading ? 'در حال ارسال...' : 'افزودن'}
                   size="md"
-                  disabled={loading}
+                  disabled={loading || adminPhone.length !== 11}
                   fullWidth
                   onPress={addAdminHandler}
                 />
