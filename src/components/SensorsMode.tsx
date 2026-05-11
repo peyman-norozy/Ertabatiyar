@@ -4,13 +4,18 @@ import { useTranslation } from 'react-i18next';
 import AnimatedButton from '@/components/AnimatedButton.tsx';
 import { useZonesContext } from '@/context/ZonesContext';
 import { useSms } from '@/hook/useSms';
-import { getStorage } from '@/utils/storage';
+import { getStorage, setStorage } from '@/utils/storage';
 import { useAuth } from '@/context/AuthContext';
+import { parseDeviceSms } from '@/utils/parseDeviceSms';
+import { useState } from 'react';
+import SensorsModeModal from './SensorsModeModal';
 
 const SensorsMode = () => {
-  const { system, updateZone } = useZonesContext();
+  const { system, updateZone, reload } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
+  const [sensorModalVisible, setSensorModalVisible] = useState(false);
+  const [systemSwitchCurrentValue, setsystemSwitchCurrentValue] = useState('');
 
   const isOn = system['SYS'];
 
@@ -31,30 +36,41 @@ const SensorsMode = () => {
   ];
 
   const systemSwitchHandler = async (currentValue: string) => {
+    if (isOn === currentValue) return;
+    setsystemSwitchCurrentValue(currentValue);
+    setSensorModalVisible(true);
+  };
+
+  const submitSensorsModeHandler = async () => {
     const devicePhoneNumber = await getStorage('devicePhoneNumber');
     const password = await getStorage('password');
-    const systemMap: Record<string, string> = {
-      ARM: 'system_armed.',
-      DISARM: 'system_disarmed.',
-      SEMIARM: 'system_semiarmed.',
-    };
+    // const systemMap: Record<string, string> = {
+    //   ARM: 'system_armed.',
+    //   DISARM: 'system_disarmed.',
+    //   SEMIARM: 'system_semiarmed.',
+    // };
 
     try {
       const sms = await sendSms(
         devicePhoneNumber ? devicePhoneNumber : '',
-        `${password} ${currentValue}`,
-        `${systemMap[currentValue]}`,
+        `${password} ${systemSwitchCurrentValue}`,
+        'CALL:',
         ['access_denied', 'SETADMIN'],
       );
 
-      if (sms.body === `${systemMap[currentValue]}`) {
-        updateZone('SYS', currentValue);
+      if (sms.body.includes('CALL:')) {
+        const parsedData = parseDeviceSms(sms.body);
+        await setStorage('deviceZones', JSON.stringify(parsedData));
+        reload();
+        // updateZone('SYS', systemSwitchCurrentValue);
       }
     } catch (e) {
       if (e === 'SETADMIN') {
         logout();
       }
     }
+
+    setSensorModalVisible(false);
   };
 
   return (
@@ -82,11 +98,16 @@ const SensorsMode = () => {
             height={'h-11'}
             active={isOn == item.value}
             onPress={() => systemSwitchHandler(item.value)}
-            disabled={item.disabled}
-            loading={item.disabled}
           />
         ))}
       </View>
+      <SensorsModeModal
+        visible={sensorModalVisible}
+        onClose={() => setSensorModalVisible(false)}
+        onConfirm={submitSensorsModeHandler}
+        disabled={loading}
+        loading={loading}
+      />
     </View>
   );
 };

@@ -16,7 +16,9 @@ export type AddedZone = {
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const { zones, reload, addedZones, loadAddedZones } = useZonesContext();
+  const { zones, reload, addedZones, loadAddedZones } =
+    useZonesContext();
+
   const { modalVisible, selectedZone, mode, openAddModal, closeModal } =
     useZoneModalContext();
   console.log(modalVisible, 'skjdfdueuegfgfytyt');
@@ -52,7 +54,6 @@ const Sensors = () => {
     );
     return c;
   };
-  console.log(sort(), 'sort');
 
   return (
     <View
@@ -93,7 +94,7 @@ const Sensors = () => {
                   onPress={openAddModal}
                   className="flex justify-center items-center bg-[#E8E8E8] rounded-full"
                 >
-                  <Add width={58} height={58} stroke={"#979797"} />
+                  <Add width={58} height={58} stroke={'#979797'} />
                 </TouchableOpacity>
 
                 <Text className="text-[#616161] font-yekan-medium text-sm">

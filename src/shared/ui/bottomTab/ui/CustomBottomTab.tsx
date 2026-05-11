@@ -39,7 +39,7 @@ const CustomBottomTab: React.FC = () => {
 
   const handleTabPress = (routeName: keyof RootDrawerParamList) => {
     if (route.name !== routeName) {
-      navigation.navigate(routeName as any);
+      navigation.navigate(routeName as any);  
     }
   };
 

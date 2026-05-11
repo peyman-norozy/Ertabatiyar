@@ -51,8 +51,8 @@
   },
   "sensorsItem": {
     "active": "فعال",
-    "semiActive": "نیم فعال",
-    "inactive": "غیر فعال"
+    "semiActive": "نیمه فعال",
+    "inactive": "خاموش"
   },
   "sensors": {
     "title": "حسگر ها"

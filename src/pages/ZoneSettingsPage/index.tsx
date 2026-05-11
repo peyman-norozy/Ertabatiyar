@@ -29,7 +29,10 @@ const ZoneSettingsPage = () => {
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const { zones, updateZone, addedZones, loadAddedZones } = useZonesContext();
+  const { system, zones, updateZone, addedZones, loadAddedZones } =
+    useZonesContext();
+
+
   const {
     modalVisible,
     selectedZone,

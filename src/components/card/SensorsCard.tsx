@@ -25,10 +25,11 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
   onZoneAdded,
 }) => {
   const { sendSms, loading } = useSms();
-  const { updateZone } = useZonesContext();
+  const { system, updateZone } = useZonesContext();
   const { logout } = useAuth();
 
   const isOn = active;
+  const isSystemOn = system['SYS'];
 
   const navigation = useNavigation<AppNavigation>();
 
@@ -76,7 +77,7 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
           size={'xs'}
           darkModeIcons={false}
           switchHandler={zoneSwitchHandler}
-          disabled={loading}
+          disabled={loading || isSystemOn === 'DISARM'}
           loading={loading}
         />
         <View className="flex flex-row items-center gap-2">
