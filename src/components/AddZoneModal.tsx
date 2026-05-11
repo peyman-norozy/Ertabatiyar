@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, View, TouchableOpacity, TextInput } from 'react-native';
-import { Text } from '@/shared/ui';
+import { Modal, View } from 'react-native';
+import { Button, Input, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage, setStorage } from '@/utils/storage';
-import type { AddedZone } from './Sensors';
-import { Edit } from '@/shared/assets/icons';
+import { BlueAdd, BlueEdit } from '@/shared/assets/icons';
 
 type Props = {
   visible: boolean;
@@ -100,43 +99,57 @@ const AddZoneModal: React.FC<Props> = ({
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 bg-black/50 justify-center items-center px-5">
         <View className="bg-white w-full rounded-3xl p-5">
-          <View>
-            <Edit stroke="#3B82F6" />{' '}
-          </View>
+          {mode == 'edit' ? (
+            <View className="flex items-center justify-center">
+              <View className="bg-[#8CC8FF33] p-4 rounded-full">
+                <BlueEdit width={36} height={36} stroke="#1890FF" />
+              </View>
+            </View>
+          ) : (
+            <View className="flex items-center justify-center">
+              <View className="bg-[#8CC8FF33] p-4 rounded-full">
+                <BlueAdd width={38} height={38} stroke="#1890FF" />
+              </View>
+            </View>
+          )}
 
           <Text className="mb-2">شماره Zone</Text>
 
-          <TextInput
+          <Input
             value={zoneNumber}
             onChangeText={setZoneNumber}
             keyboardType="numeric"
             placeholder="مثلا 5"
-            className="border border-gray-300 rounded-xl px-4 py-3 mb-4"
+            disabled={mode == 'edit'}
           />
 
           <Text className="mb-2">اسم Zone</Text>
 
-          <TextInput
+          <Input
             value={zoneName}
             onChangeText={setZoneName}
             placeholder="مثلا سنسور موتور"
-            className="border border-gray-300 rounded-xl px-4 py-3 mb-5"
           />
 
-          <View className="flex-row justify-between">
-            <TouchableOpacity
-              onPress={onClose}
-              className="bg-gray-200 rounded-xl px-5 py-3"
-            >
-              <Text>لغو</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={handleSubmit}
-              className="bg-blue-500 rounded-xl px-5 py-3"
-            >
-              <Text className="text-white">فعال‌سازی</Text>
-            </TouchableOpacity>
+          <View className="flex-row gap-3 mt-6">
+            <View className="w-1/2">
+              <Button
+                title="انصراف"
+                variant="outline"
+                size="md"
+                fullWidth
+                onPress={onClose}
+              />
+            </View>
+            <View className="w-1/2">
+              <Button
+                title={mode == 'edit' ? 'تایید' : 'افزودن'}
+                variant="primary"
+                size="md"
+                fullWidth
+                onPress={handleSubmit}
+              />
+            </View>
           </View>
         </View>
       </View>
