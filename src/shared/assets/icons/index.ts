@@ -5,7 +5,7 @@ import DarkMode from './dark-mode.svg';
 import Arrow from './arrow.svg';
 import Edit from './edit.svg';
 import BlueEdit from './BlueEdit.tsx';
-import Trash from './trash.svg';
+import Trash from './Trash.tsx';
 import Home from './Home.tsx';
 import Notification from './Notification.tsx';
 import Profile from './Profile.tsx';

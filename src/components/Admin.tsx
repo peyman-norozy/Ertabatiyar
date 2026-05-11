@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { View, Modal, TouchableOpacity, Alert } from 'react-native';
-import { Input, Text } from '@/shared/ui';
+import { View, Modal, TouchableOpacity } from 'react-native';
+import { Button, Input, Text } from '@/shared/ui';
 import { Add, Trash, UserAdmin } from '@/shared/assets/icons';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
@@ -126,10 +126,10 @@ const Admin = () => {
                 'flex-row-reverse justify-between items-center w-full bg-[#F5F5F5] px-4 py-3 rounded-xl'
               }
             >
-              <Text>
+              <View className="flex items-center flex-row-reverse gap-2">
                 <UserAdmin width={18} height={18} />
-                {item}
-              </Text>
+                <Text>{item?.split('+')}</Text>
+              </View>
               <TouchableOpacity
                 onPress={() => {
                   setSelectedAdmin({
@@ -169,14 +169,12 @@ const Admin = () => {
 
       <Modal visible={modalVisible} transparent animationType="fade">
         <View className={'flex-1 justify-center items-center bg-black/40 px-6'}>
-          <View className={'bg-white w-full rounded-2xl p-5'}>
-            <Text
-              className={'text-lg mb-4 text-center'}
-              font={'font-yekan-medium'}
-            >
-              افزودن ادمین
-            </Text>
-
+          <View className={'bg-white w-full rounded-2xl p-5 gap-6'}>
+            <View className="flex justify-center items-center">
+              <View className="bg-[#8CC8FF33] py-3 w-16 rounded-full flex justify-center items-center">
+                <Add width={39} height={37} stroke="#1890FF" />
+              </View>
+            </View>
             <Input
               label={t(
                 'personalInformation.input.devicePhoneNumber.title' as any,
@@ -191,69 +189,74 @@ const Admin = () => {
                 setAdminPhone(e);
               }}
             />
-
-            <TouchableOpacity
-              onPress={addAdminHandler}
-              disabled={loading}
-              className={
-                'bg-black rounded-xl py-3 mt-5 justify-center items-center'
-              }
-            >
-              <Text className={'text-white'}>
-                {loading ? 'در حال ارسال...' : 'ثبت'}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              className={'mt-3 justify-center items-center'}
-            >
-              <Text className={'text-red-500'}>بستن</Text>
-            </TouchableOpacity>
+            <View className="flex-row gap-3 mt-6">
+              <View className="flex-1">
+                <Button
+                  title="انصراف"
+                  variant="outline"
+                  size="md"
+                  fullWidth
+                  onPress={() => setModalVisible(false)}
+                />
+              </View>
+              <View className="flex-1">
+                <Button
+                  title={loading ? 'در حال ارسال...' : 'افزودن'}
+                  size="md"
+                  disabled={loading}
+                  fullWidth
+                  onPress={addAdminHandler}
+                />
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
       <Modal visible={deleteModalVisible} transparent animationType="fade">
         <View className={'flex-1 justify-center items-center bg-black/40 px-6'}>
-          <View className={'bg-white w-full rounded-2xl p-5'}>
+          <View
+            className={
+              'bg-white w-full rounded-2xl p-5 flex justify-center items-center gap-6'
+            }
+          >
+            <View className="bg-[#FFA6A733] py-3 w-16 rounded-full flex justify-center items-center">
+              <Trash width={39} height={37} />
+            </View>
+            <Text className={'text-center text-[#616161]'}>
+              {`ادمین شماره ${selectedAdmin?.phone?.replace(
+                '+',
+                '',
+              )} حذف خواهد شد`}
+            </Text>
             <Text
               className={'text-lg text-center mb-3'}
               font={'font-yekan-medium'}
             >
-              حذف ادمین
+              آیا مطمئن هستید؟
             </Text>
-
-            <Text className={'text-center text-[#616161]'}>
-              آیا از حذف این ادمین مطمئن هستید؟
-            </Text>
-
-            <Text className={'text-center mt-2'}>{selectedAdmin?.phone}</Text>
-
-            <View className={'flex-row-reverse gap-3 mt-6'}>
-              <TouchableOpacity
-                onPress={confirmDeleteAdmin}
-                disabled={loading}
-                className={
-                  'flex-1 bg-red-500 rounded-xl py-3 justify-center items-center'
-                }
-              >
-                <Text className={'text-white'}>
-                  {loading ? 'در حال ارسال...' : 'حذف'}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  setDeleteModalVisible(false);
-                  setSelectedAdmin(null);
-                }}
-                disabled={loading}
-                className={
-                  'flex-1 bg-[#E8E8E8] rounded-xl py-3 justify-center items-center'
-                }
-              >
-                <Text>انصراف</Text>
-              </TouchableOpacity>
+            <View className="flex-row gap-3 mt-6">
+              <View className="flex-1">
+                <Button
+                  title="انصراف"
+                  variant="outline"
+                  size="md"
+                  fullWidth
+                  onPress={() => {
+                    setDeleteModalVisible(false);
+                    setSelectedAdmin(null);
+                  }}
+                />
+              </View>
+              <View className="flex-1">
+                <Button
+                  title={loading ? 'در حال ارسال...' : 'حذف'}
+                  size="md"
+                  variant="danger"
+                  disabled={loading}
+                  fullWidth
+                  onPress={confirmDeleteAdmin}
+                />
+              </View>
             </View>
           </View>
         </View>

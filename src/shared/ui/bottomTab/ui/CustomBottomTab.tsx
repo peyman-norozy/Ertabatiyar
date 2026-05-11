@@ -112,7 +112,7 @@ const CustomBottomTab: React.FC = () => {
   console.log(cooldown, 'ueueueyryry');
 
   return (
-    <View className="h-[80px] bg-white border-t border-gray-200 justify-center">
+    <View className="h-[80px] bg-white border rounded-t-[40px] border-gray-200 justify-center">
       <View className="absolute self-center -top-8 z-10 items-center">
         <TouchableOpacity
           activeOpacity={0.8}
