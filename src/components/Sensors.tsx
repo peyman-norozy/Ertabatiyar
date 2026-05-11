@@ -88,7 +88,7 @@ const Sensors = () => {
                 sort().length % 2 === 1 ? 'w-1/2' : 'w-full'
               }`}
             >
-              <View className="flex items-center justify-center border-dashed border-2 border-[#bababa] py-3 rounded-[16px] gap-3">
+              <View className="flex items-center justify-center border-dashed border-2 border-[#bababa] py-3 rounded-[16px] gap-3 mt-2">
                 <TouchableOpacity
                   onPress={openAddModal}
                   className="flex justify-center items-center bg-[#E8E8E8] rounded-full"
