@@ -4,6 +4,7 @@ import LightMode from './light-mode.svg';
 import DarkMode from './dark-mode.svg';
 import Arrow from './arrow.svg';
 import Edit from './edit.svg';
+import Trash from './trash.svg';
 import Home from './Home.tsx';
 import Notification from './Notification.tsx';
 import Profile from './Profile.tsx';
@@ -30,4 +31,5 @@ export {
   Edit,
   Eye,
   EyeSlash,
+  Trash,
 };

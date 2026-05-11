@@ -2,12 +2,28 @@ import { useEffect, useState } from 'react';
 import { getStorage, setStorage } from '@/utils/storage';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 
+export type AddedZone = {
+  key: string;
+  title: string;
+};
+
 export const useZones = () => {
   const [zones, setZones] = useState<Record<string, string>>({});
   const [call, setCall] = useState<Record<string, string>>({});
   const [system, setSystem] = useState<Record<string, string>>({});
   const [admin, setAdmin] = useState<string[]>([]);
+  const [addedZones, setAddedZones] = useState<AddedZone[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const loadAddedZones = async () => {
+    try {
+      const savedZones = await getStorage('addedZones');
+
+      setAddedZones(savedZones ? JSON.parse(savedZones) : []);
+    } catch (e) {
+      console.log('loadAddedZones error:', e);
+    }
+  };
 
   const loadZones = async () => {
     try {
@@ -15,12 +31,16 @@ export const useZones = () => {
 
       if (value) {
         const parsed = JSON.parse(value);
+
         console.log(parsed, 'ajajjajajajueueueu');
+
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
         setSystem(parsed.system || {});
         setAdmin(parsed.admin || []);
       }
+
+      await loadAddedZones();
     } catch (e) {
       console.log('loadZones error:', e);
     } finally {
@@ -43,6 +63,7 @@ export const useZones = () => {
       };
 
       setZones(newZones);
+
       await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
       console.log('saveZones error:', e);
@@ -53,7 +74,9 @@ export const useZones = () => {
     try {
       const valueStorage = await getStorage('deviceZones');
       const parsed = valueStorage ? JSON.parse(valueStorage) : {};
+
       let updated;
+
       if (key === 'CALL') {
         updated = {
           ...parsed,
@@ -123,6 +146,9 @@ export const useZones = () => {
     call,
     system,
     admin,
+    addedZones,
+    setAddedZones,
+    loadAddedZones,
     loading,
     updateZone,
     saveZones,

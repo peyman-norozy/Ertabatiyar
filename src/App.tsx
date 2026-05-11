@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Restart from 'react-native-restart';
 import SplashScreen from './components/SplashScreen.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
+import { ZoneModalProvider } from './context/ZoneModalContext.tsx';
 
 const { SmsModule } = NativeModules;
 
@@ -67,16 +68,18 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView className={'flex-1'}>
       <ZonesProvider>
-        <DeviceProvider>
-          <ToastProvider>
-            <SafeAreaProvider style={{ flex: 1 }}>
-              <StatusBar backgroundColor="white" />
-              {/* فقط یک‌بار Native Event Listener */}
-              <AppBootstrap />
-              <AppRouter />
-            </SafeAreaProvider>
-          </ToastProvider>
-        </DeviceProvider>
+        <ZoneModalProvider>
+          <DeviceProvider>
+            <ToastProvider>
+              <SafeAreaProvider style={{ flex: 1 }}>
+                <StatusBar backgroundColor="white" />
+                {/* فقط یک‌بار Native Event Listener */}
+                <AppBootstrap />
+                <AppRouter />
+              </SafeAreaProvider>
+            </ToastProvider>
+          </DeviceProvider>
+        </ZoneModalProvider>
       </ZonesProvider>
     </SafeAreaView>
   );

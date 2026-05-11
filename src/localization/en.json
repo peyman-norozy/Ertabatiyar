@@ -63,7 +63,7 @@
   "zoneSettingsPage": {
     "title": {
       "placeholder": "Enter new title",
-      "description": "You can change the title here",
+      "description": "Give the zone a personal name.",
       "edit": "Edit title"
     },
     "button": {

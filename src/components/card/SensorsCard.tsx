@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
@@ -13,14 +12,23 @@ import { useAuth } from '@/context/AuthContext';
 interface SenesorsCardtypeProps {
   item: ZoneKeyType;
   value: string;
+  active: boolean;
+  title: string;
+  onZoneAdded: () => void;
 }
 
-const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
+const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
+  item,
+  value,
+  active,
+  title,
+  onZoneAdded,
+}) => {
   const { sendSms, loading } = useSms();
   const { updateZone } = useZonesContext();
   const { logout } = useAuth();
 
-  const isOn = value !== 'OFF';
+  const isOn = active;
 
   const navigation = useNavigation<AppNavigation>();
 
@@ -71,7 +79,23 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
           disabled={loading}
           loading={loading}
         />
-        <Signal width={24} height={24} stroke={isOn ? '#3E9911' : '#616161'} />
+        <View className="flex flex-row items-center gap-2">
+          <Signal
+            width={24}
+            height={24}
+            stroke={isOn ? '#3E9911' : '#616161'}
+          />
+          <Text>{item}</Text>
+        </View>
+      </View>
+
+      <View className="flex flex-row items-center justify-between">
+        <Text
+          className={'text-[#020202] mt-4 text-sm'}
+          font={'font-yekan-medium'}
+        >
+          {title}
+        </Text>
       </View>
       <Pressable
         onPress={() =>
@@ -80,14 +104,6 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({ item, value }) => {
           })
         }
       >
-        <View>
-          <Text
-            className={'text-[#020202] mt-4 text-sm'}
-            font={'font-yekan-medium'}
-          >
-            عنوان ۱
-          </Text>
-        </View>
         <View className={'mt-4 flex-row items-center gap-1'}>
           <Setting width={15} height={15} />
           <Text className={'text-[#616161] text-sm'} font={'font-yekan-medium'}>

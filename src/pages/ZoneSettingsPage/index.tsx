@@ -1,26 +1,46 @@
-import { View, ScrollView, StatusBar, Pressable } from 'react-native';
+import {
+  View,
+  ScrollView,
+  StatusBar,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import { Button, SelectCardList, Text } from '@/shared/ui';
-import { Edit } from '@/shared/assets/icons';
+import { Edit, Trash } from '@/shared/assets/icons';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardOption } from '@/shared/ui/SelectCardList/SelectCardList';
 import EditTitleModal from './titleEditModal';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootDrawerParamList } from '@/shared/ui/header/model';
 import { useZonesContext } from '@/context/ZonesContext';
 import { useSms } from '@/hook/useSms';
-import { getStorage } from '@/utils/storage';
+import { getStorage, setStorage } from '@/utils/storage';
 import { ZoneKeyType } from '@/types/zone';
+import DeleteZoneModal from '@/components/DeleteZoneModal';
+import { AppNavigation } from '@/helpers/appNavigation';
+import AddZoneModal from '@/components/AddZoneModal';
+import { useZoneModalContext } from '@/context/ZoneModalContext';
 
 type RouteType = RouteProp<RootDrawerParamList, 'ZoneSettingsPage'>;
 
 const ZoneSettingsPage = () => {
   const { t } = useTranslation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [title, setTitle] = useState('عنوان');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const { zones, updateZone } = useZonesContext();
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const { zones, updateZone, addedZones, loadAddedZones } = useZonesContext();
+  const {
+    modalVisible,
+    selectedZone,
+    mode,
+    openAddModal,
+    openEditModal,
+    closeModal,
+  } = useZoneModalContext();
+
+  const navigation = useNavigation<AppNavigation>();
+
   const route = useRoute<RouteType>();
   const { zoneId } = route.params;
   const [selected, setSelected] = useState('');
@@ -36,7 +56,7 @@ const ZoneSettingsPage = () => {
     })();
   }, []);
 
-  console.log(zones, 'sdjfueueugfgfgfgfgf');
+  console.log(zones, addedZones, 'sdjfueueugfgfgfgfgf');
 
   const options: CardOption[] = [
     {
@@ -126,25 +146,50 @@ const ZoneSettingsPage = () => {
     }
   };
 
-  console.log(zones, selected, 'sdjfueueu');
+  console.log(zoneId, 'sjfeueugfgftrt');
+
+  const deleteZone = async () => {
+    const saved = await getStorage('addedZones');
+
+    const parsed = saved ? JSON.parse(saved) : [];
+
+    const updated = parsed.filter((z: any) => z.key !== zoneId);
+
+    await setStorage('addedZones', JSON.stringify(updated));
+
+    await loadAddedZones();
+  };
+
+  const newTitle = addedZones.find(item => item.key === zoneId)?.title;
 
   return (
     <View className="flex-1 bg-[#F9F9F9]">
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <View className="flex-row justify-between items-start p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4 mt-20">
-        <View className="flex-col">
-          <Text font={'font-yekan-bold'}>{title}</Text>
-          <Text
-            font={'font-yekan-medium'}
-            className="text-gray-500 text-sm mt-1"
-          >
-            {t('zoneSettingsPage.title.description' as any)}
-          </Text>
+      <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4 mt-20">
+        <View className="flex-row justify-between w-full">
+          <Text font={'font-yekan-bold'}>{newTitle}</Text>
+          <Pressable onPress={() => setDeleteModalVisible(true)}>
+            <Trash />
+          </Pressable>
         </View>
-
-        <Pressable onPress={() => setModalVisible(true)}>
-          <Edit />
-        </Pressable>
+        <TouchableOpacity
+          onPress={() =>
+            openEditModal({
+              key: zoneId,
+              title: newTitle ? newTitle : '',
+            })
+          }
+        >
+          <View className="flex-row items-center gap-1">
+            <Edit width={16} height={16} />
+            <Text
+              font={'font-yekan-medium'}
+              className="text-gray-500 text-xs mt-1"
+            >
+              {t('zoneSettingsPage.title.description' as any)}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <ScrollView
         className="bg-[#F9F9F9]"
@@ -169,11 +214,30 @@ const ZoneSettingsPage = () => {
           onPress={selectSubmitHandler}
         />
       </View>
-      <EditTitleModal
+      <AddZoneModal
+        visible={modalVisible}
+        onClose={closeModal}
+        mode={mode}
+        selectedZone={selectedZone}
+        onZoneAdded={async () => {
+          await loadAddedZones();
+        }}
+      />
+      {/* <EditTitleModal
         visible={modalVisible}
         title={title}
         onClose={() => setModalVisible(false)}
         onChange={newTitle => setTitle(newTitle)}
+      /> */}
+      <DeleteZoneModal
+        visible={deleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        onConfirm={async () => {
+          await deleteZone();
+          setDeleteModalVisible(false);
+          navigation.goBack();
+        }}
+        title={newTitle ? newTitle : ''}
       />
     </View>
   );

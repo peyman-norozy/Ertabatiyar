@@ -151,7 +151,7 @@ const Admin = () => {
       </View>
 
       {/* ADD BUTTON */}
-      <View className={'flex justify-center items-center'}>
+      <View className={'flex justify-center items-center gap-3'}>
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           className={
@@ -160,6 +160,7 @@ const Admin = () => {
         >
           <Add width={58} height={58} />
         </TouchableOpacity>
+        <Text className='text-[#616161] font-yekan-medium text-sm'>افزودن ادمین</Text>
       </View>
 
       <Modal visible={modalVisible} transparent animationType="fade">
