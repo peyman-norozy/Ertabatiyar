@@ -12,7 +12,7 @@ import Signal from './Signal.tsx';
 import Synchronization from './Synchronization.tsx';
 import Setting from './setting.svg';
 import ArrowLeft from './arrow-left.svg';
-import Add from './add.svg';
+import Add from './Add.tsx';
 import Eye from './eye.svg';
 import EyeSlash from './eye-slash.svg';
 export {

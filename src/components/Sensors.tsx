@@ -64,9 +64,9 @@ const Sensors = () => {
         {t('sensors.title' as any)}
       </Text>
 
-      <View className="flex-row flex-wrap -mx-4 -mb-4">
-        {sort().map((item, index) => {
-          return (
+      <View className="flex-row flex-wrap -mb-4">
+        <View className="flex-row flex-wrap -mx-4">
+          {sort().map((item, index) => (
             <View key={index} className="w-1/2 px-3 pb-3">
               <View className="bg-white border border-[#EFEFEF] rounded-2xl py-3 px-2">
                 <SensorsCard
@@ -80,27 +80,29 @@ const Sensors = () => {
                 />
               </View>
             </View>
-          );
-        })}
-        {addedZones.length < 5 && (
-          <View
-            className={`flex items-center gap-3 ${
-              addedZones.length === 0 ? 'w-full mb-4' : 'w-1/2'
-            }`}
-          >
-            <TouchableOpacity
-              onPress={openAddModal}
-              className={
-                'flex justify-center items-center mt-4 bg-[#E8E8E8] rounded-full'
-              }
+          ))}
+
+          {addedZones.length < 5 && (
+            <View
+              className={`px-3 pb-3 ${
+                sort().length % 2 === 1 ? 'w-1/2' : 'w-full'
+              }`}
             >
-              <Add width={58} height={58} />
-            </TouchableOpacity>
-            <Text className="text-[#616161] font-yekan-medium text-sm">
-              افزودن حسگرها
-            </Text>
-          </View>
-        )}
+              <View className="flex items-center justify-center border-dashed border-2 border-[#bababa] py-3 rounded-[16px] gap-3">
+                <TouchableOpacity
+                  onPress={openAddModal}
+                  className="flex justify-center items-center bg-[#E8E8E8] rounded-full"
+                >
+                  <Add width={58} height={58} stroke={"#979797"} />
+                </TouchableOpacity>
+
+                <Text className="text-[#616161] font-yekan-medium text-sm">
+                  افزودن حسگر
+                </Text>
+              </View>
+            </View>
+          )}
+        </View>
         <AddZoneModal
           visible={modalVisible}
           onClose={closeModal}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, Modal, TouchableOpacity, Alert } from 'react-native';
 import { Input, Text } from '@/shared/ui';
-import { Add } from '@/shared/assets/icons';
+import { Add, Trash } from '@/shared/assets/icons';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
@@ -24,8 +24,8 @@ const Admin = () => {
   } | null>(null);
 
   const addAdminHandler = async () => {
-    if (admin.length >= 5) {
-      showToast('بیشتر از ۵ ادمین نمی‌توانید اضافه کنید', 'warning');
+    if (admin.length >= 10) {
+      showToast('بیشتر از ۱۰ ادمین نمی‌توانید اضافه کنید', 'warning');
       setModalVisible(false);
       setAdminPhone('');
       return;
@@ -111,18 +111,13 @@ const Admin = () => {
         ادمین
       </Text>
       <Text
-        className={'text-[#616161] text-sm mt-3'}
+        className={'text-[#616161] text-sm mt-3 text-justify'}
         font={'font-yekan-medium'}
       >
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
+        در این قسمت امکان افزودن حداکثر ۱۰ شماره تلفن به‌ عنوان ادمین فراهم شده
+        است تا شماره های منتخب بتوانند برنامه را مدیریت کنند.
       </Text>
-      <Text
-        className={'text-[#616161] text-sm mt-2'}
-        font={'font-yekan-medium'}
-      >
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
-      </Text>
-      <View className={'flex justify-center items-center gap-2 mt-5'}>
+      <View className={'flex justify-center items-center gap-2 my-5'}>
         {admin?.map((item, index) => {
           return (
             <View
@@ -141,27 +136,33 @@ const Admin = () => {
 
                   setDeleteModalVisible(true);
                 }}
-                className={'bg-red-500 px-3 py-1 rounded-lg'}
+                className={'bg-[#FFA6A733] p-1 rounded-lg'}
               >
-                <Text className={'text-white text-xs'}>حذف</Text>
+                <Trash />
               </TouchableOpacity>
             </View>
           );
         })}
       </View>
-
-      {/* ADD BUTTON */}
-      <View className={'flex justify-center items-center gap-3'}>
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
+      {admin.length >= 10 ? null : (
+        <View
           className={
-            'flex justify-center items-center mt-8 bg-[#E8E8E8] rounded-full'
+            'flex justify-center items-center gap-3 border-dashed border-2 py-3 rounded-[16px] my-4 border-[#bababa]'
           }
         >
-          <Add width={58} height={58} />
-        </TouchableOpacity>
-        <Text className='text-[#616161] font-yekan-medium text-sm'>افزودن ادمین</Text>
-      </View>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            className={
+              'flex justify-center items-center mt-8 bg-[#E8E8E8] rounded-full'
+            }
+          >
+            <Add width={58} height={58} stroke={'#979797'} />
+          </TouchableOpacity>
+          <Text className="text-[#616161] text-sm" font="font-yekan-medium">
+            افزودن ادمین
+          </Text>
+        </View>
+      )}
 
       <Modal visible={modalVisible} transparent animationType="fade">
         <View className={'flex-1 justify-center items-center bg-black/40 px-6'}>
