@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   I18nManager,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import { cn } from '@/utils/cn.ts';
 
@@ -74,7 +75,7 @@ const Button: React.FC<ButtonProps> = ({
   const shouldFlip = flipIconOnRTL && isRTL;
 
   return (
-    <Pressable
+    <TouchableOpacity
       disabled={disabled || loading}
       onPress={onPress}
       className={cn(
@@ -112,7 +113,7 @@ const Button: React.FC<ButtonProps> = ({
           )}
         </View>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
