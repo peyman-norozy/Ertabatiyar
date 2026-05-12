@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -8,14 +7,11 @@ import {
 } from 'react-native';
 import { logo } from '@/shared/assets/images';
 import { Input, Button } from '@/shared/ui';
-import { changeLanguage } from '@/localization/changeLanguage.ts';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '@/context/AuthContext.tsx';
 
 const DeviceInformationPage = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation<any>();
   const { login } = useAuth();
 
   return (

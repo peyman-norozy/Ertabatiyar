@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Modal, View } from 'react-native';
 import { Button, Input, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
-import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage, setStorage } from '@/utils/storage';
 import { BlueAdd, BlueEdit } from '@/shared/assets/icons';
 
@@ -27,15 +26,14 @@ const AddZoneModal: React.FC<Props> = ({
   selectedZone,
 }) => {
   const { t } = useTranslation();
-  const { updateZone } = useZonesContext();
 
   const [zoneNumber, setZoneNumber] = useState('');
   const [zoneName, setZoneName] = useState('');
 
   useEffect(() => {
     if (mode === 'edit' && selectedZone) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setZoneNumber(selectedZone.key.replace('Z', ''));
-
       setZoneName(selectedZone.title);
     }
   }, [mode, selectedZone]);
@@ -47,7 +45,6 @@ const AddZoneModal: React.FC<Props> = ({
 
     const parsedZones = savedZones ? JSON.parse(savedZones) : [];
 
-    // EDIT MODE
     if (mode === 'edit' && selectedZone) {
       const updatedZones = parsedZones.map((zone: any) => {
         if (zone.key === selectedZone.key) {
@@ -69,14 +66,11 @@ const AddZoneModal: React.FC<Props> = ({
       return;
     }
 
-    // ADD MODE
     const zoneKey = `Z${zoneNumber}`;
 
     const exists = parsedZones.some((zone: any) => zone.key === zoneKey);
 
     if (exists) return;
-
-    console.log(zoneKey, zoneName, 'ajjajashhshdgdgffff');
 
     const updatedZones = [
       ...parsedZones,
@@ -86,7 +80,6 @@ const AddZoneModal: React.FC<Props> = ({
       },
     ];
 
-    console.log(updatedZones, 'jdjdjdjdjytytururu');
 
     await setStorage('addedZones', JSON.stringify(updatedZones));
 
@@ -99,7 +92,7 @@ const AddZoneModal: React.FC<Props> = ({
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 bg-black/50 justify-center items-center px-5">
         <View className="bg-white w-full rounded-3xl p-5">
-          {mode == 'edit' ? (
+          {mode === 'edit' ? (
             <View className="flex items-center justify-center">
               <View className="bg-[#8CC8FF33] p-4 rounded-full">
                 <BlueEdit width={36} height={36} stroke="#1890FF" />
@@ -113,28 +106,28 @@ const AddZoneModal: React.FC<Props> = ({
             </View>
           )}
 
-          <Text className="mb-2">شماره Zone</Text>
+          <Text className="mb-2">{t('sensors.number')}</Text>
 
           <Input
             value={zoneNumber}
             onChangeText={setZoneNumber}
             keyboardType="numeric"
-            placeholder="مثلا 5"
-            disabled={mode == 'edit'}
+            placeholder={t('sensors.numberHelper')}
+            disabled={mode === 'edit'}
           />
 
-          <Text className="mb-2">اسم Zone</Text>
+          <Text className="mb-2">{t('sensors.sensorTitle')}</Text>
 
           <Input
             value={zoneName}
             onChangeText={setZoneName}
-            placeholder="مثلا سنسور موتور"
+            placeholder={t('sensors.sensorTitleHelper')}
           />
 
           <View className="flex-row gap-3 mt-6">
             <View className="w-1/2">
               <Button
-                title="انصراف"
+                title={t('general.cancel')}
                 variant="outline"
                 size="md"
                 fullWidth
@@ -143,7 +136,9 @@ const AddZoneModal: React.FC<Props> = ({
             </View>
             <View className="w-1/2">
               <Button
-                title={mode == 'edit' ? 'تایید' : 'افزودن'}
+                title={
+                  mode === 'edit' ? t('general.confirm') : t('general.add')
+                }
                 variant="primary"
                 size="md"
                 fullWidth

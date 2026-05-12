@@ -19,10 +19,8 @@ interface SenesorsCardtypeProps {
 
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
   item,
-  value,
   active,
   title,
-  onZoneAdded,
 }) => {
   const { sendSms, loading } = useSms();
   const { system, updateZone } = useZonesContext();

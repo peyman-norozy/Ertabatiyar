@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
@@ -48,7 +48,7 @@ export const AuthNavigator = () => {
         options={{
           header: () => (
             <CustomHeader
-              title={'برگشت'}
+              title={t('general.back')}
               showLogo={false}
               showThemeSwitcher
               showBackButton
@@ -63,7 +63,7 @@ export const AuthNavigator = () => {
         options={{
           header: () => (
             <CustomHeader
-              title={'برگشت'}
+              title={t('general.back')}
               showThemeSwitcher
               showBackButton
               showLogo={false}

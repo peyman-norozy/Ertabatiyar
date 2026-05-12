@@ -25,7 +25,7 @@ const Admin = () => {
 
   const addAdminHandler = async () => {
     if (admin.length >= 10) {
-      showToast('بیشتر از ۱۰ ادمین نمی‌توانید اضافه کنید', 'warning');
+      showToast(t('general.messages.adminLimit'), 'warning');
       setModalVisible(false);
       setAdminPhone('');
       return;
@@ -47,13 +47,11 @@ const Admin = () => {
         ],
       );
 
-      console.log(sms, 'sdfjytytiuiuoppopo');
-
       if (sms.body === 'admin_number_updated.') {
         updateZone('ADMIN', adminPhone);
         setModalVisible(false);
         setAdminPhone('');
-        showToast('ادمین اضافه شد', 'success');
+        showToast(t('general.adminAdded'), 'success');
       }
     } catch (e: any) {
       setModalVisible(false);
@@ -95,7 +93,7 @@ const Admin = () => {
 
     setDeleteModalVisible(false);
     setSelectedAdmin(null);
-    showToast('ادمین حذف شد', 'success');
+    showToast(t('general.messages.adminDeleted'), 'success');
   };
 
   return (
@@ -108,14 +106,13 @@ const Admin = () => {
         className={'text-[#020202] text-base text-start'}
         font={'font-yekan-medium'}
       >
-        ادمین
+        {t('general.admin')}
       </Text>
       <Text
         className={'text-[#616161] text-sm mt-3 text-justify'}
         font={'font-yekan-medium'}
       >
-        در این قسمت امکان افزودن حداکثر ۱۰ شماره تلفن به‌ عنوان ادمین فراهم شده
-        است تا شماره های منتخب بتوانند برنامه را مدیریت کنند.
+        {t('general.messages.massageAdmin')}
       </Text>
       <View className={'flex justify-center items-center gap-2 my-5'}>
         {admin?.map((item, index) => {
@@ -162,7 +159,7 @@ const Admin = () => {
             <Add width={58} height={58} stroke={'#979797'} />
           </TouchableOpacity>
           <Text className="text-[#616161] text-sm" font="font-yekan-medium">
-            افزودن ادمین
+            {t('general.addAdmin')}
           </Text>
         </View>
       )}
@@ -192,7 +189,7 @@ const Admin = () => {
             <View className="flex-row gap-3 mt-6">
               <View className="flex-1">
                 <Button
-                  title="انصراف"
+                  title={t('general.cancel')}
                   variant="outline"
                   size="md"
                   fullWidth
@@ -201,7 +198,7 @@ const Admin = () => {
               </View>
               <View className="flex-1">
                 <Button
-                  title={loading ? 'در حال ارسال...' : 'افزودن'}
+                  title={loading ? t('general.sending') : t('general.add')}
                   size="md"
                   disabled={loading || adminPhone.length !== 11}
                   fullWidth
@@ -223,21 +220,21 @@ const Admin = () => {
               <Trash width={39} height={37} />
             </View>
             <Text className={'text-center text-[#616161]'}>
-              {`ادمین شماره ${selectedAdmin?.phone?.replace(
+              {`${t('general.adminNumber')} ${selectedAdmin?.phone?.replace(
                 '+',
                 '',
-              )} حذف خواهد شد`}
+              )} ${t('general.willBeDeleted')}`}
             </Text>
             <Text
               className={'text-lg text-center mb-3'}
               font={'font-yekan-medium'}
             >
-              آیا مطمئن هستید؟
+              {t('general.areYouSure')}
             </Text>
             <View className="flex-row gap-3 mt-6">
               <View className="flex-1">
                 <Button
-                  title="انصراف"
+                  title={t('general.cancel')}
                   variant="outline"
                   size="md"
                   fullWidth
@@ -249,7 +246,7 @@ const Admin = () => {
               </View>
               <View className="flex-1">
                 <Button
-                  title={loading ? 'در حال ارسال...' : 'حذف'}
+                  title={loading ? t('general.sending') : t('general.delete')}
                   size="md"
                   variant="danger"
                   disabled={loading}

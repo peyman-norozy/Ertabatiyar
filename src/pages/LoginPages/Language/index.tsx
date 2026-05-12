@@ -1,6 +1,5 @@
-import React from 'react';
 import { changeLanguage } from '@/localization/changeLanguage.ts';
-import { ScrollView, View, Image, I18nManager } from 'react-native';
+import { ScrollView, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { logo } from '@/shared/assets/images';
@@ -13,9 +12,7 @@ const languageData = [
 ] satisfies { title: string; id: 'fa' | 'en'; image: any }[];
 
 const Language = () => {
-  const { t, i18n } = useTranslation();
-  const currentLang = i18n.language;
-  const isRTL = I18nManager.isRTL;
+  const { i18n } = useTranslation();
 
   const navigation = useNavigation<any>();
   // const displayedLanguages = isRTL ? [...languageData].reverse() : languageData;
