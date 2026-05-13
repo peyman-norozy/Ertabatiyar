@@ -1,16 +1,16 @@
 import { useColorScheme } from 'nativewind';
 import { View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CustomSwitch, Text } from '@/shared/ui';
+import { CustomSwitch } from '@/shared/ui';
 
-const THEME_KEY = '@app_theme'; // یا هر نامی که دوست داری
+const THEME_KEY = '@app_theme'; 
 
 const ThemeSwitcher = () => {
-  const { colorScheme, setColorScheme } = useColorScheme();
-  const [isDark, setIsDark] = useState<boolean | null>(false); // null = هنوز لود نشده
+  const { setColorScheme } = useColorScheme();
+  const [isDark, setIsDark] = useState<boolean | null>(false); 
 
-  // لود تم ذخیره‌شده موقع mount
+
   useEffect(() => {
     (async () => {
       try {
@@ -19,23 +19,19 @@ const ThemeSwitcher = () => {
         setIsDark(isDarkStored);
         setColorScheme(isDarkStored ? 'dark' : 'light');
       } catch (e) {
-        // اگر خطا داد، پیش‌فرض مثلاً dark
         setIsDark(true);
         setColorScheme('dark');
       }
     })();
   }, []);
 
-  // وقتی کاربر سوییچ کرد → ذخیره کن + اعمال کن
   const handleToggle = (value: boolean) => {
-    console.log('تغییر تم:', value);
     setIsDark(!value);
     const newScheme = value ? 'dark' : 'light';
     setColorScheme(newScheme);
     AsyncStorage.setItem(THEME_KEY, newScheme).catch(() => {});
   };
 
-  // تا وقتی لود نشده، چیزی نشون نده یا لودینگ بگذار
   if (isDark === null) {
     return null; // یا <ActivityIndicator />
   }

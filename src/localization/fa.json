@@ -1,4 +1,57 @@
 {
+  "general": {
+    "ok": "تایید",
+    "cancel": "انصراف",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "save": "ذخیره",
+    "back": "بازگشت",
+    "next": "بعدی",
+    "yes": "بله",
+    "no": "خیر",
+    "confirm": "تایید",
+    "warning": "هشدار",
+    "error": "خطا",
+    "success": "موفقیت",
+    "add": "افزودن",
+    "callMode": "حالت تماس",
+    "darkMode": "حالت تاریک",
+    "changeLanguage": "تغییر زبان",
+    "notSet": "تنظیم نشده",
+    "saveNumber": "ذخیره شماره",
+    "saveNumberPlaceholder": "مثال: +989123456789",
+    "changeTheme": "تغییر تم",
+    "notifications": "اعلان‌ها",
+    "disabledOption": "گزینه غیرفعال",
+    "sending": "در حال ارسال...",
+    "areYouSure": "آیا مطمئن هستید؟",
+    "willBeDeleted": "حذف خواهد شد",
+    "loading": "در حال بارگذاری...",
+    "sensor": "حسگر",
+    "sensorAdd": " افزودن حسگر",
+    "admin": "ادمین",
+    "adminNumber": "ادمین شماره",
+    "addAdmin": "افزودن ادمین",
+    "currentNumber": "شماره فعلی مجاز",
+    "messages": {
+      "adminAdded": "ادمین اضافه شد",
+      "adminDeleted": "ادمین حذف شد",
+      "adminLimit": "بیشتر از ۱۰ ادمین نمی‌توانید اضافه کنید",
+      "massageAdmin": "در این قسمت امکان افزودن حداکثر ۱۰ شماره تلفن به‌ عنوان ادمین فراهم شده است تا شماره های منتخب بتوانند برنامه را مدیریت کنند.",
+      "sensorsMode": "با تغییر حالت حسگرها همه وضعیت حسگرها تغییر میکند",
+      "repeatPasswordNotMatch": "رمز عبور و تکرار آن یکسان نیستند."
+    }
+  },
+  "banner": {
+    "advancedControl": "کنترل پیشرفته حسگرها",
+    "advancedControlDescription": " جایی که دقت با امنیت یکی می‌شه"
+  },
+  "menu": {
+    "home": "خانه",
+    "profile": "پروفایل",
+    "notifications": "اعلان‌ها",
+    "synchronization": "هم"
+  },
   "personalInformation": {
     "input": {
       "userName": {
@@ -55,7 +108,11 @@
     "inactive": "خاموش"
   },
   "sensors": {
-    "title": "حسگر ها"
+    "title": "حسگر ها",
+    "number": "شماره حسگر",
+    "numberHelper": "مثلا 5",
+    "sensorTitle": "عنوان حسگر",
+    "sensorTitleHelper": "مثلا سنسور موتور"
   },
   "customBottom": {
     "tabs": {

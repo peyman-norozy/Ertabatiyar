@@ -1,7 +1,7 @@
-import React from 'react';
-import { Modal, Pressable, View } from 'react-native';
+import { Modal, View } from 'react-native';
 import { Button, Text } from '@/shared/ui';
 import { Trash } from '@/shared/assets/icons';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   visible: boolean;
@@ -11,6 +11,8 @@ type Props = {
 };
 
 const DeleteZoneModal = ({ visible, onClose, onConfirm, title }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 justify-center items-center bg-black/40 px-6">
@@ -25,18 +27,19 @@ const DeleteZoneModal = ({ visible, onClose, onConfirm, title }: Props) => {
             font="font-yekan-medium"
             className="text-sm text-center text-[#616161]"
           >
-            حسگر <Text font="font-yekan-bold">"{title}"</Text> حذف خواهد شد
+            {t('general.sensor')} <Text font="font-yekan-bold">"{title}"</Text>{' '}
+            {t('general.willBeDeleted')}.
           </Text>
           <Text
             font="font-yekan-semibold"
             className="text-center text-[#020202] mt-3"
           >
-            آیا مطمئن هستید؟
+            {t('general.areYouSure')}
           </Text>
           <View className="flex-row gap-3 mt-6">
             <View className="flex-1">
               <Button
-                title="انصراف"
+                title={t('general.cancel')}
                 variant="outline"
                 size="md"
                 fullWidth
@@ -45,7 +48,7 @@ const DeleteZoneModal = ({ visible, onClose, onConfirm, title }: Props) => {
             </View>
             <View className="flex-1">
               <Button
-                title="حذف"
+                title={t('general.delete')}
                 variant="danger"
                 size="md"
                 fullWidth

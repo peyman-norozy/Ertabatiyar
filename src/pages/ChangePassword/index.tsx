@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ScrollView,
   View,
@@ -111,7 +111,7 @@ const Index = () => {
                     setUserErrorRepeatPassword('');
                     if (e !== userNewPassword) {
                       setUserErrorRepeatPassword(
-                        'رمز عبور و تکرار آن یکسان نیستند.',
+                        t('general.messages.repeatPasswordNotMatch' as any),
                       );
                     }
                     setUserRepeatPassword(e);

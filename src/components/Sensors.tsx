@@ -16,12 +16,10 @@ export type AddedZone = {
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const { zones, reload, addedZones, loadAddedZones } =
-    useZonesContext();
+  const { zones, reload, addedZones, loadAddedZones } = useZonesContext();
 
   const { modalVisible, selectedZone, mode, openAddModal, closeModal } =
     useZoneModalContext();
-  console.log(modalVisible, 'skjdfdueuegfgfytyt');
   const zoneEntries = addedZones
     .map(zone => {
       const zoneValue = zones[zone.key];
@@ -44,8 +42,6 @@ const Sensors = () => {
 
     loadData();
   }, []);
-
-  console.log(zoneEntries, addedZones, 'sdfjueuegfgftrrtrytyuiu');
 
   const sort = () => {
     const c = zoneEntries.sort(
@@ -98,7 +94,7 @@ const Sensors = () => {
                 </TouchableOpacity>
 
                 <Text className="text-[#616161] font-yekan-medium text-sm">
-                  افزودن حسگر
+                  {t('general.sensorAdd')}
                 </Text>
               </View>
             </View>

@@ -11,7 +11,7 @@ import { useState } from 'react';
 import SensorsModeModal from './SensorsModeModal';
 
 const SensorsMode = () => {
-  const { system, updateZone, reload } = useZonesContext();
+  const { system, reload } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
   const [sensorModalVisible, setSensorModalVisible] = useState(false);

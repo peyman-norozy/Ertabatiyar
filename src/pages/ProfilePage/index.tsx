@@ -1,27 +1,13 @@
-// import React from 'react';
-// import { Text, View } from 'react-native';
-// import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
-//
-// const ProfilePage = () => {
-//   return (
-//     <View className="flex-1 justify-between">
-//       <View className="flex-1 items-center justify-center">
-//         <Text className="text-lg">صفحه پروفایل</Text>
-//       </View>
-//     </View>
-//   );
-// };
-//
-// export default ProfilePage;
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, TextInput, Button, Alert, NativeModules } from 'react-native';
 import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { Text } from '@/shared/ui';
+import { useTranslation } from 'react-i18next';
 
 const { SmsModule } = NativeModules;
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const [number, setNumber] = useState('');
   const [savedNumber, setSavedNumber] = useState('');
 
@@ -38,7 +24,7 @@ export default function ProfilePage() {
         setSavedNumber(number);
         setNumber('');
       })
-      .catch(err => {
+      .catch((err: { message: string | undefined; }) => {
         Alert.alert('❌ خطا', err.message);
       });
   };
@@ -46,11 +32,13 @@ export default function ProfilePage() {
   return (
     <View className={'flex-1'}>
       <View className={'p-5 flex-1 bg-red-500'}>
-        <Text>شماره فعلی مجاز: {savedNumber || 'تنظیم نشده'}</Text>
+        <Text>
+          {t('general.currentNumber')} {savedNumber || t('general.notSet')}
+        </Text>
         <TextInput
           value={number}
           onChangeText={setNumber}
-          placeholder="مثال: +989123456789"
+          placeholder={t('general.saveNumberPlaceholder')}
           style={{
             borderWidth: 1,
             borderColor: '#ccc',
@@ -60,7 +48,7 @@ export default function ProfilePage() {
           }}
           keyboardType="phone-pad"
         />
-        <Button title="ذخیره شماره" onPress={saveNumber} />
+        <Button title={t('general.saveNumber')} onPress={saveNumber} />
       </View>
       <CustomBottomTab />
     </View>

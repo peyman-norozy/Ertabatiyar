@@ -1,4 +1,3 @@
-import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
   HomePage,
@@ -7,15 +6,17 @@ import {
   ZoneSettingsPage,
   ChangePasswordPage,
   ChangeLanguagePage,
-  TermsAndConditionsPage
+  TermsAndConditionsPage,
 } from '@/pages';
 import { CustomHeader } from '@/shared/ui/header/ui';
 import CustomDrawerContent from '@/components/CustomDrawerContent.tsx';
 import { I18nManager } from 'react-native';
 import { DrawerParamList } from '@/types/navigation.ts';
+import { useTranslation } from 'react-i18next';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 export const AppDrawer = () => {
+  const { t } = useTranslation();
   return (
     <Drawer.Navigator
       initialRouteName="HomePage"
@@ -36,49 +37,61 @@ export const AppDrawer = () => {
         name="HomePage"
         component={HomePage}
         options={{
-          header: () => <CustomHeader title="خانه" showMenuButton />,
+          header: () => <CustomHeader title={t('menu.home')} showMenuButton />,
         }}
       />
       <Drawer.Screen
         name="ProfilePage"
         component={ProfilePage}
         options={{
-          header: () => <CustomHeader title="پروفایل" showMenuButton />,
+          header: () => (
+            <CustomHeader title={t('menu.profile')} showMenuButton />
+          ),
         }}
       />
       <Drawer.Screen
         name="NotificationPage"
         component={NotificationPage}
         options={{
-          header: () => <CustomHeader title="اعلان ها" showMenuButton />,
+          header: () => (
+            <CustomHeader title={t('menu.notifications')} showMenuButton />
+          ),
         }}
       />
       <Drawer.Screen
         name="ZoneSettingsPage"
         component={ZoneSettingsPage}
         options={{
-          header: () => <CustomHeader title="بازگشت" showBackButton />,
+          header: () => (
+            <CustomHeader title={t('general.back')} showBackButton />
+          ),
         }}
       />
       <Drawer.Screen
         name="ChangePasswordPage"
         component={ChangePasswordPage}
         options={{
-          header: () => <CustomHeader title="بازگشت" showBackButton />,
+          header: () => (
+            <CustomHeader title={t('general.back')} showBackButton />
+          ),
         }}
       />
       <Drawer.Screen
         name="ChangeLanguagePage"
         component={ChangeLanguagePage}
         options={{
-          header: () => <CustomHeader title="بازگشت" showBackButton />,
+          header: () => (
+            <CustomHeader title={t('general.back')} showBackButton />
+          ),
         }}
       />
       <Drawer.Screen
         name="TermsAndConditionsPage"
         component={TermsAndConditionsPage}
         options={{
-          header: () => <CustomHeader title="بازگشت" showBackButton />,
+          header: () => (
+            <CustomHeader title={t('general.back')} showBackButton />
+          ),
         }}
       />
     </Drawer.Navigator>

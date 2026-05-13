@@ -1,4 +1,4 @@
-import { Arrow, ArrowLeft } from '@/shared/assets/icons';
+import { Arrow } from '@/shared/assets/icons';
 import { Text } from '@/shared/ui';
 import React from 'react';
 import { View, Pressable, GestureResponderEvent } from 'react-native';
@@ -14,7 +14,7 @@ const CustomItemDrawerContent: React.FC<Props> = ({ label, icon, onPress }) => {
     <Pressable onPress={onPress}>
       <View className="flex-row items-center justify-between py-4 px-5">
         <View>
-          <View className='ml-4'>{icon}</View>
+          <View className="ml-4">{icon}</View>
           <Text font="font-yekan-medium">{label}</Text>
         </View>
         <View className="scale-x-[-1]">

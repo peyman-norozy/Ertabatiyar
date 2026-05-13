@@ -4,12 +4,13 @@ import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const CallMode = () => {
   const { call, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
-
+  const { t } = useTranslation();
   const isOn = call['CALL'] !== 'OFF';
 
   const callSwitchHandler = async (currentValue: boolean) => {
@@ -48,7 +49,7 @@ const CallMode = () => {
         />
 
         <Text className={'text-[#020202] text-base'} font={'font-yekan-medium'}>
-          حالت تماس
+          {t('general.callMode')}
         </Text>
       </View>
       <CustomSwitch

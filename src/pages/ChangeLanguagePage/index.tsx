@@ -19,7 +19,7 @@ const languageData = [
 ] satisfies { title: string; id: 'fa' | 'en'; image: any }[];
 
 const Index = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const displayedLanguages = languageData;
   const navigation = useNavigation<any>();
 
@@ -37,7 +37,7 @@ const Index = () => {
       >
         <View className="flex-1 mx-4 mt-6 mb-20">
           <View className="flex-1 mt-[48px] px-1 gap-3">
-            <Text font={'font-yekan-bold'}>تغییر زبان</Text>
+            <Text font={'font-yekan-bold'}>{t('general.changeLanguage')}</Text>
             {displayedLanguages.map(item => (
               <AnimatedButton
                 key={item.id}
@@ -56,7 +56,7 @@ const Index = () => {
                 }}
               />
             ))}
-             <Text font={'font-yekan-bold'}>تغییر تم</Text>
+            <Text font={'font-yekan-bold'}>{t('general.changeTheme')}</Text>
             <ThemeSwitcher />
           </View>
         </View>

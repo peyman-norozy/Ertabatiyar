@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -16,7 +16,6 @@ import { useNavigation } from '@react-navigation/native';
 import { getStorage, setStorage } from '@/utils/storage';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 import { useSms } from '@/hook/useSms';
-import { useAuth } from '@/context/AuthContext';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -24,7 +23,6 @@ const Index = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const { sendSms, setAllowedNumber, loading } = useSms();
-  const { login } = useAuth();
 
   useEffect(() => {
     (async () => {
