@@ -1,5 +1,5 @@
 import { View, Pressable } from 'react-native';
-import { Text } from '@/shared/ui';
+import { SelectPicker, Text } from '@/shared/ui';
 import { useZonesContext } from '@/context/ZonesContext';
 
 export type CardOption = {
@@ -14,6 +14,10 @@ type Props = {
   value: string;
   onChange: (_val: string) => void;
   loading?: boolean;
+  enterDelay: string;
+  exitDelay: string;
+  setEnterDelay: any;
+  setExitDelay: any;
 };
 
 export function SelectCardList({
@@ -21,9 +25,21 @@ export function SelectCardList({
   value,
   onChange,
   loading = false,
+  enterDelay,
+  exitDelay,
+  setEnterDelay,
+  setExitDelay,
 }: Props) {
   const { system } = useZonesContext();
   const isSystemOn = system['SYS'];
+
+  const delayOptions = [
+    { label: '۰ ثاینه', value: '0' },
+    { label: '۳۰ ثانیه', value: '30' },
+    { label: '۶۰ ثاینه', value: '60' },
+    { label: '۹۰ ثاینه', value: '90' },
+    { label: '۱۲۰ ثانیه', value: '120' },
+  ];
 
   if (loading) {
     return (
@@ -195,6 +211,41 @@ export function SelectCardList({
                   >
                     {item.description}
                   </Text>
+                )}
+                {item.value === 'D' && isSelected && (
+                  <View
+                    className="flex-1"
+                    style={{
+                      zIndex: isSelected ? 9999 : 1,
+                      overflow: 'visible',
+                    }}
+                  >
+                    <View className="mt-4">
+                      <Text className="text-[#020202] text-sm">
+                        تاخیر در وصل
+                      </Text>
+                      <SelectPicker
+                        options={delayOptions}
+                        selectedValue={enterDelay}
+                        onValueChange={newValue => {
+                          console.log(newValue);
+                          setEnterDelay(newValue);
+                        }}
+                        zIndex={5000}
+                      />
+                    </View>
+                    <View className="mt-4">
+                      <Text className="text-[#020202] text-sm">
+                        تاخیر در قطع
+                      </Text>
+                      <SelectPicker
+                        options={delayOptions}
+                        selectedValue={exitDelay}
+                        onValueChange={newValue => setExitDelay(newValue)}
+                        zIndex={4000}
+                      />
+                    </View>
+                  </View>
                 )}
               </View>
             </Pressable>

@@ -3,14 +3,14 @@ type DeviceZonesStorage = {
   call: Record<string, string>;
   system: Record<string, string>;
   admin: string[];
+  output: Record<string, string>;
 };
 
 export const parseDeviceSms = (body: string): DeviceZonesStorage => {
-  console.log(body, 'asdfjueuegfgftasasasrtr');
-
   const zones: Record<string, string> = {};
   const call: Record<string, string> = {};
   const system: Record<string, string> = {};
+  const output: Record<string, string> = {};
   let admin: string[] = [];
 
   const admMatch = body.match(/ADM:\s*(.+)/);
@@ -21,26 +21,35 @@ export const parseDeviceSms = (body: string): DeviceZonesStorage => {
   const mainPart = body.split('ADM:')[0].trim();
   const tokens = mainPart.split(/\s+/).filter(Boolean);
 
-  console.log(tokens, 'asdfjueuegvvvvbbnnhfgftasasasrtr');
-
-  console.log(mainPart, 'asdfjueuegfgftasasasrtr');
-
   tokens.forEach(token => {
     const [key, value] = token.split(':');
     if (!key || !value) return;
 
-    const cleanValue = value.split('/')[0].trim();
-    console.log(cleanValue, 'asdfjueuegfgftrtr');
+    // مثال: OFF/BTH/IDLE
+    const [zoneStatus, outputValue] = value.trim().split('/');
+
     if (key === 'CALL') {
-      call[key] = cleanValue;
+      call[key] = zoneStatus;
     } else if (key === 'SYS') {
-      system[key] = cleanValue;
+      system[key] = zoneStatus;
     } else if (key.startsWith('Z')) {
-      zones[key] = cleanValue;
+      // OFF
+      zones[key] = zoneStatus;
+
+      // BTH
+      if (outputValue) {
+        output[key] = outputValue;
+      }
     } else if (['E', 'X'].includes(key)) {
-      system[key] = cleanValue;
+      system[key] = zoneStatus;
     }
   });
 
-  return { zones, call, system, admin };
+  return {
+    zones,
+    call,
+    system,
+    admin,
+    output,
+  };
 };

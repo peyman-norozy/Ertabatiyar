@@ -5,3 +5,4 @@ export { default as CustomSwitch } from './CustomSwitch/CustomSwitch.tsx';
 export { default as Button } from './Button/Button.tsx';
 export { default as SelectCardList } from './SelectCardList/SelectCardList.tsx';
 export { default as AppLoadingScreen } from './AppLoadingScreen/index.tsx';
+export {default as SelectPicker} from './SelectPicker/index.tsx'

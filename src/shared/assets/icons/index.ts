@@ -18,6 +18,8 @@ import BlueAdd from './BlueAdd.tsx';
 import Eye from './eye.svg';
 import EyeSlash from './eye-slash.svg';
 import UserAdmin from './UserAdmin.tsx';
+import Alarm from './Alarm.tsx';
+import Buzzer from './Buzzer.tsx';
 export {
   MenuIcon,
   LightMode,
@@ -38,4 +40,6 @@ export {
   EyeSlash,
   Trash,
   UserAdmin,
+  Alarm,
+  Buzzer,
 };

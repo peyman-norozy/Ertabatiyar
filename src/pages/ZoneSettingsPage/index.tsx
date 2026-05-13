@@ -21,6 +21,7 @@ import DeleteZoneModal from '@/components/DeleteZoneModal';
 import { AppNavigation } from '@/helpers/appNavigation';
 import AddZoneModal from '@/components/AddZoneModal';
 import { useZoneModalContext } from '@/context/ZoneModalContext';
+import AlarmSetting from '@/components/AlarmSetting';
 
 type RouteType = RouteProp<RootDrawerParamList, 'ZoneSettingsPage'>;
 
@@ -29,10 +30,31 @@ const ZoneSettingsPage = () => {
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const { system, zones, updateZone, addedZones, loadAddedZones } =
-    useZonesContext();
+  const route = useRoute<RouteType>();
+  const { zoneId } = route.params;
+  const [selected, setSelected] = useState('');
 
+  const { sendSms, loading } = useSms();
 
+  const {
+    system,
+    zones,
+    output,
+    updateZone,
+    updateOutput,
+    addedZones,
+    loadAddedZones,
+  } = useZonesContext();
+
+  const [selectedOutput, setSelectedOutput] = useState(
+    output?.[zoneId] ?? 'NON',
+  );
+
+  useEffect(() => {
+    setSelectedOutput(output?.[zoneId] ?? 'NON');
+  }, [output, zoneId]);
+
+  console.log(system, zones, 'jadsfjueueyytytyttyty');
   const {
     modalVisible,
     selectedZone,
@@ -44,11 +66,11 @@ const ZoneSettingsPage = () => {
 
   const navigation = useNavigation<AppNavigation>();
 
-  const route = useRoute<RouteType>();
-  const { zoneId } = route.params;
-  const [selected, setSelected] = useState('');
+  const initialEnterDelay = system['E']?.split('s')[0] || '0';
+  const initialExitDelay = system['X']?.split('s')[0] || '0';
 
-  const { sendSms, loading } = useSms();
+  const [enterDelay, setEnterDelay] = useState(initialEnterDelay);
+  const [exitDelay, setExitDelay] = useState(initialExitDelay);
 
   useEffect(() => {
     (async () => {
@@ -59,7 +81,12 @@ const ZoneSettingsPage = () => {
     })();
   }, []);
 
-  console.log(zones, addedZones, 'sdjfueueugfgfgfgfgf');
+  console.log(
+    enterDelay,
+    exitDelay,
+    selectedOutput,
+    'sdjfueueugfgfgeeeeeefgfgf',
+  );
 
   const options: CardOption[] = [
     {
@@ -128,12 +155,19 @@ const ZoneSettingsPage = () => {
       D: 'DELAY',
       F: 'FIRE',
     };
+    const alarmValue: Record<string, string> = {
+      NON: 'NONE',
+      SPK: 'SPEAKER',
+      SRN: 'SIREN',
+      BTH: 'BOTH',
+    };
+
     try {
       const sms = await sendSms(
         devicePhoneNumber,
         `${password} ${zoneKey[zoneId]}=${
           selected === 'OFF' ? 'OFF' : zoneValue[selected]
-        }`,
+        },${alarmValue[selectedOutput]}`,
         `Zone_${zoneId.split('')[1]}_set`,
         ['access_denied'],
       );
@@ -143,6 +177,7 @@ const ZoneSettingsPage = () => {
           zoneId as ZoneKeyType,
           selected === 'OFF' ? 'OFF' : selected,
         );
+        await updateOutput(zoneId, selectedOutput);
       }
     } catch (e) {
       console.log('SMS failed:', e);
@@ -194,16 +229,28 @@ const ZoneSettingsPage = () => {
           </View>
         </TouchableOpacity>
       </View>
+
       <ScrollView
         className="bg-[#F9F9F9]"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       >
+        <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4">
+          <AlarmSetting
+            zoneId={zoneId}
+            value={selectedOutput}
+            onChange={setSelectedOutput}
+          />
+        </View>
         <View className="flex-1 mx-4 mb-20">
           <SelectCardList
             options={options}
             value={selected}
             onChange={value => selectChangeHandler(value)}
+            enterDelay={enterDelay}
+            exitDelay={exitDelay}
+            setEnterDelay={setEnterDelay}
+            setExitDelay={setExitDelay}
           />
         </View>
       </ScrollView>

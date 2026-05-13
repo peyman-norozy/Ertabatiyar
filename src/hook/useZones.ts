@@ -9,10 +9,17 @@ export type AddedZone = {
 
 export const useZones = () => {
   const [zones, setZones] = useState<Record<string, string>>({});
+
   const [call, setCall] = useState<Record<string, string>>({});
+
   const [system, setSystem] = useState<Record<string, string>>({});
+
   const [admin, setAdmin] = useState<string[]>([]);
+
   const [addedZones, setAddedZones] = useState<AddedZone[]>([]);
+
+  const [output, setOutput] = useState<Record<string, string>>({});
+
   const [loading, setLoading] = useState(true);
 
   const loadAddedZones = async () => {
@@ -32,12 +39,11 @@ export const useZones = () => {
       if (value) {
         const parsed = JSON.parse(value);
 
-        console.log(parsed, 'ajajjajajajueueueu');
-
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
         setSystem(parsed.system || {});
         setAdmin(parsed.admin || []);
+        setOutput(parsed.output || {});
       }
 
       await loadAddedZones();
@@ -55,6 +61,7 @@ export const useZones = () => {
   const saveZones = async (newZones: Record<string, string>) => {
     try {
       const value = await getStorage('deviceZones');
+
       const parsed = value ? JSON.parse(value) : {};
 
       const updated = {
@@ -73,30 +80,35 @@ export const useZones = () => {
   const updateZone = async (key: string, value: string) => {
     try {
       const valueStorage = await getStorage('deviceZones');
+
       const parsed = valueStorage ? JSON.parse(valueStorage) : {};
 
       let updated;
 
       if (key === 'CALL') {
-        updated = {
-          ...parsed,
-          call: {
-            ...parsed.call,
-            [key]: value,
-          },
+        const newCall = {
+          ...(parsed.call || {}),
+          [key]: value,
         };
 
-        setCall(updated.call);
+        updated = {
+          ...parsed,
+          call: newCall,
+        };
+
+        setCall(newCall);
       } else if (key === 'SYS') {
-        updated = {
-          ...parsed,
-          system: {
-            ...parsed.system,
-            [key]: value,
-          },
+        const newSystem = {
+          ...(parsed.system || {}),
+          [key]: value,
         };
 
-        setSystem(updated.system);
+        updated = {
+          ...parsed,
+          system: newSystem,
+        };
+
+        setSystem(newSystem);
       } else if (key === 'ADMIN') {
         const currentAdmins = parsed.admin || [];
 
@@ -123,7 +135,7 @@ export const useZones = () => {
         setAdmin(newAdmin);
       } else {
         const newZones = {
-          ...zones,
+          ...(parsed.zones || {}),
           [key]: value,
         };
 
@@ -141,16 +153,42 @@ export const useZones = () => {
     }
   };
 
+  const updateOutput = async (zoneKey: string, value: string) => {
+    try {
+      const valueStorage = await getStorage('deviceZones');
+
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
+
+      const newOutput = {
+        ...(parsed.output || {}),
+        [zoneKey]: value,
+      };
+
+      const updated = {
+        ...parsed,
+        output: newOutput,
+      };
+
+      setOutput(newOutput);
+
+      await setStorage('deviceZones', JSON.stringify(updated));
+    } catch (e) {
+      console.log('updateOutput error:', e);
+    }
+  };
+
   return {
     zones,
     call,
     system,
     admin,
+    output,
     addedZones,
     setAddedZones,
     loadAddedZones,
     loading,
     updateZone,
+    updateOutput,
     saveZones,
     reload: loadZones,
   };
