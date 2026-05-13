@@ -20,9 +20,9 @@ const HomePage = () => {
             resizeMode="cover"
             className="w-full h-full justify-end"
           >
-            <View className="absolute inset-0 bg-black/30" />
+            {/* <View className="absolute inset-0 bg-black/30" /> */}
 
-            <View className="px-5 pb-6 absolute top-14 flex-col gap-5">
+            {/* <View className="px-5 pb-6 absolute top-14 flex-col gap-5">
               <Text className="text-white text-xl font-yekan-medium">
                 {t('banner.advancedControl')}
               </Text>
@@ -30,7 +30,7 @@ const HomePage = () => {
               <Text className="text-white text-sm font-yekan-medium mt-2 opacity-90">
                 {t('banner.advancedControlDescription')}
               </Text>
-            </View>
+            </View> */}
           </ImageBackground>
         </View>
         <SensorsMode />

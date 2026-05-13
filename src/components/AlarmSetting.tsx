@@ -73,7 +73,7 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
 
             <CustomSwitch
               value={isAlarmOn}
-              activeColor="#3E9911"
+              activeColor="#3260C3"
               inactiveColor="#E2E2E2"
               inactiveThumbColor="#414141"
               activeThumbColor="#FFFFFF"
@@ -110,7 +110,7 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
 
             <CustomSwitch
               value={isBuzzerOn}
-              activeColor="#3E9911"
+              activeColor="#3260C3"
               inactiveColor="#E2E2E2"
               inactiveThumbColor="#414141"
               activeThumbColor="#FFFFFF"

@@ -54,7 +54,7 @@ const CallMode = () => {
       </View>
       <CustomSwitch
         value={isOn}
-        activeColor="#3E9911"
+        activeColor="#3260C3"
         inactiveColor={'#E2E2E2'}
         inactiveThumbColor={'#414141'}
         activeThumbColor={'#FFFFFF'}

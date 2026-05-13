@@ -19,7 +19,7 @@ export default function SettingsScreen() {
           value={darkMode}
           switchHandler={setDarkMode}
           size="lg"
-          activeColor="#6366f1"
+          activeColor="#3260C3"
         />
       </View>
 
@@ -31,7 +31,7 @@ export default function SettingsScreen() {
           value={notifications}
           switchHandler={setNotifications}
           size="lg"
-          activeColor="#10b981"
+          activeColor="#3260C3"
         />
       </View>
 
