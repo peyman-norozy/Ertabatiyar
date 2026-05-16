@@ -12,8 +12,10 @@ export const useZones = () => {
 
   const [call, setCall] = useState<Record<string, string>>({});
 
-  const [system, setSystem] = useState<Record<string, string>>({});
-
+  const [system, setSystem] = useState<Record<string, Record<string, string>>>(
+    {},
+  );
+  const [systemStatus, setSystemStatus] = useState('');
   const [admin, setAdmin] = useState<string[]>([]);
 
   const [addedZones, setAddedZones] = useState<AddedZone[]>([]);
@@ -42,6 +44,7 @@ export const useZones = () => {
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
         setSystem(parsed.system || {});
+        setSystemStatus(parsed.systemStatus || '');
         setAdmin(parsed.admin || []);
         setOutput(parsed.output || {});
       }
@@ -177,6 +180,33 @@ export const useZones = () => {
     }
   };
 
+  const updateSystem = async (zoneId: string, key: string, value: string) => {
+    try {
+      const valueStorage = await getStorage('deviceZones');
+
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
+
+      const newSystem = {
+        ...(parsed.system || {}),
+        [zoneId]: {
+          ...(parsed.system?.[zoneId] || {}),
+          [key]: value,
+        },
+      };
+
+      const updated = {
+        ...parsed,
+        system: newSystem,
+      };
+
+      setSystem(newSystem);
+
+      await setStorage('deviceZones', JSON.stringify(updated));
+    } catch (e) {
+      console.log('updateSystem error:', e);
+    }
+  };
+
   return {
     zones,
     call,
@@ -189,6 +219,8 @@ export const useZones = () => {
     loading,
     updateZone,
     updateOutput,
+    updateSystem,
+    systemStatus,
     saveZones,
     reload: loadZones,
   };

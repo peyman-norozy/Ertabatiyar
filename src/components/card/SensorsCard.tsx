@@ -23,11 +23,11 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
   title,
 }) => {
   const { sendSms, loading } = useSms();
-  const { system, updateZone } = useZonesContext();
+  const { systemStatus, updateZone } = useZonesContext();
   const { logout } = useAuth();
 
   const isOn = active;
-  const isSystemOn = system['SYS'];
+  const isSystemOn = systemStatus;
 
   const navigation = useNavigation<AppNavigation>();
 

@@ -11,14 +11,13 @@ import { useState } from 'react';
 import SensorsModeModal from './SensorsModeModal';
 
 const SensorsMode = () => {
-  const { system, reload } = useZonesContext();
+  const { systemStatus, reload } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
   const [sensorModalVisible, setSensorModalVisible] = useState(false);
   const [systemSwitchCurrentValue, setsystemSwitchCurrentValue] = useState('');
 
-  const isOn = system['SYS'];
-
+  const isOn = systemStatus;
   const { t } = useTranslation();
 
   const items = [

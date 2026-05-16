@@ -1,5 +1,5 @@
 import i18n from '@/localization/i18n';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -7,11 +7,11 @@ type SetStateCallback<S> = (prevState: S) => S;
 
 interface SelectPickerTypeProps {
   options: { label: string; value: string }[];
-  setOption?: Dispatch<SetStateCallback<any[]>>; // اختیاری کردم
+  setOption?: Dispatch<SetStateCallback<any[]>>;
   zIndex?: number;
   onValueChange: (value: string) => void;
   selectedValue: string;
-  value?: any; // این رو میشه حذف کرد یا اختیاری گذاشت
+  value?: any;
 }
 
 const SelectPicker: React.FC<SelectPickerTypeProps> = ({
@@ -22,20 +22,7 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
   selectedValue,
 }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | null>(selectedValue || null);
   const isRtl = i18n.dir() === 'rtl';
-
-  // وقتی selectedValue از بیرون تغییر می‌کنه، value داخلی رو به‌روز کن
-  useEffect(() => {
-    setValue(selectedValue);
-  }, [selectedValue]);
-
-  // وقتی value داخلی تغییر می‌کنه، به بیرون اطلاع بده
-  useEffect(() => {
-    if (value !== null && value !== selectedValue) {
-      onValueChange(value);
-    }
-  }, [value]);
 
   return (
     <View
@@ -47,15 +34,20 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
     >
       <DropDownPicker
         open={open}
-        value={value}
+        value={selectedValue}
         items={options}
         setOpen={setOpen}
-        setValue={setValue}
-        setItems={setOption || (() => {})} // اگر setOption وجود نداشت، تابع خالی
+        setValue={callback => {
+          const nextValue = callback(selectedValue);
+
+          if (typeof nextValue === 'string') {
+            onValueChange(nextValue);
+          }
+        }}
+        setItems={setOption || (() => {})}
         listMode="MODAL"
         rtl={isRtl}
         placeholder="انتخاب کنید..."
-        // ===== مودال =====
         modalTitle="انتخاب زمان"
         modalAnimationType="slide"
         modalContentContainerStyle={{
@@ -71,7 +63,6 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
           textAlign: 'center',
           marginBottom: 16,
         }}
-        // ===== استایل آیتم‌ها =====
         listItemContainerStyle={{
           borderRadius: 16,
           marginHorizontal: 12,
@@ -96,7 +87,6 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
           fontFamily: 'IRANYekanXFaNum-Bold',
         }}
         itemSeparator={false}
-        // ===== سرچ =====
         searchable
         searchPlaceholder="جستجو..."
         searchContainerStyle={{
@@ -112,7 +102,6 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
           textAlign: 'left',
           fontFamily: 'IRANYekanXFaNum-Regular',
         }}
-        // ===== input اصلی =====
         style={{
           minHeight: 56,
           borderRadius: 14,

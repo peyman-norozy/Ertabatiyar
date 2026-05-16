@@ -39,7 +39,7 @@ const CustomBottomTab: React.FC = () => {
 
   const handleTabPress = (routeName: keyof RootDrawerParamList) => {
     if (route.name !== routeName) {
-      navigation.navigate(routeName as any);  
+      navigation.navigate(routeName as any);
     }
   };
 
@@ -66,6 +66,8 @@ const CustomBottomTab: React.FC = () => {
         'CALL:',
         ['access_denied', 'SETADMIN'],
       );
+
+      console.log(sms.body, 'sdfjieieiehghgytyty');
 
       if (sms.body.includes('CALL:')) {
         const parsedData = parseDeviceSms(sms.body);

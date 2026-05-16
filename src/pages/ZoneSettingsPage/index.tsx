@@ -42,6 +42,7 @@ const ZoneSettingsPage = () => {
     output,
     updateZone,
     updateOutput,
+    updateSystem,
     addedZones,
     loadAddedZones,
   } = useZonesContext();
@@ -66,11 +67,15 @@ const ZoneSettingsPage = () => {
 
   const navigation = useNavigation<AppNavigation>();
 
-  const initialEnterDelay = system['E']?.split('s')[0] || '0';
-  const initialExitDelay = system['X']?.split('s')[0] || '0';
+  const [enterDelay, setEnterDelay] = useState('0');
 
-  const [enterDelay, setEnterDelay] = useState(initialEnterDelay);
-  const [exitDelay, setExitDelay] = useState(initialExitDelay);
+  const [exitDelay, setExitDelay] = useState('0');
+
+  useEffect(() => {
+    setEnterDelay(system?.[zoneId]?.E?.replace('s', '') || '0');
+
+    setExitDelay(system?.[zoneId]?.X?.replace('s', '') || '0');
+  }, [system, zoneId]);
 
   useEffect(() => {
     (async () => {
@@ -148,6 +153,7 @@ const ZoneSettingsPage = () => {
       Z4: 'ZONE4',
       Z5: 'ZONE5',
     };
+
     const zoneValue: Record<string, string> = {
       N: 'NORMAL',
       I: 'INSTANT',
@@ -155,6 +161,7 @@ const ZoneSettingsPage = () => {
       D: 'DELAY',
       F: 'FIRE',
     };
+
     const alarmValue: Record<string, string> = {
       NON: 'NONE',
       SPK: 'SPEAKER',
@@ -163,21 +170,33 @@ const ZoneSettingsPage = () => {
     };
 
     try {
+      const zoneCommand =
+        selected === 'OFF'
+          ? 'OFF'
+          : `${zoneValue[selected]},${alarmValue[selectedOutput]}${
+              selected === 'D' ? `,E:${enterDelay},X:${exitDelay}` : ''
+            }`;
+
       const sms = await sendSms(
         devicePhoneNumber,
-        `${password} ${zoneKey[zoneId]}=${
-          selected === 'OFF' ? 'OFF' : zoneValue[selected]
-        },${alarmValue[selectedOutput]}`,
+        `${password} ${zoneKey[zoneId]}=${zoneCommand}`,
         `Zone_${zoneId.split('')[1]}_set`,
         ['access_denied'],
       );
 
       if (sms.body === `Zone_${zoneId.split('')[1]}_set`) {
-        updateZone(
+        await updateZone(
           zoneId as ZoneKeyType,
           selected === 'OFF' ? 'OFF' : selected,
         );
+
         await updateOutput(zoneId, selectedOutput);
+
+        if (selected === 'D') {
+          await updateSystem(zoneId, 'E', `${enterDelay}`);
+
+          await updateSystem(zoneId, 'X', `${exitDelay}`);
+        }
       }
     } catch (e) {
       console.log('SMS failed:', e);
