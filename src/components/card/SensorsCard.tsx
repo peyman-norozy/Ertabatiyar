@@ -18,11 +18,12 @@ interface SenesorsCardtypeProps {
 }
 
 const zoneValue: Record<string, string> = {
-  N: 'NORMAL',
-  I: 'INSTANT',
-  '24H': '24HOUR',
-  D: 'DELAY',
-  F: 'FIRE',
+  N: 'وضعیت عادی',
+  I: 'وضعیت بی صدا',
+  '24H': 'وضعیت ۲۴ ساعته',
+  D: 'وضعیت با تاخیر',
+  F: 'وضعیت هشدار',
+  OFF: 'وضعیت خاموش',
 };
 
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
