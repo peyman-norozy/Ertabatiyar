@@ -42,7 +42,6 @@ export function SelectCardList({
     { label: '۱۲۰ ثانیه', value: '120' },
   ];
 
-  console.log(isSystemOn, 'SDFJUEUEUHFGHGGH');
 
   if (loading) {
     return (
@@ -65,7 +64,6 @@ export function SelectCardList({
     );
   }
 
-  console.log(options, 'sdfjueuegffgtrt');
 
   return (
     <View className="p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200">
@@ -73,11 +71,7 @@ export function SelectCardList({
         const isSelected = value === item.value;
         const isDisabled = item.disabled;
         const isLast = index === options.length - 1;
-        console.log(
-          isSystemOn === 'DISARM' &&
-            (item.value === 'OFF' || item.value === '24H'),
-          'sfjueeugfgtrrt',
-        );
+      
         if (
           isSystemOn === 'DISARM' &&
           (item.value === 'OFF' || item.value === '24H')

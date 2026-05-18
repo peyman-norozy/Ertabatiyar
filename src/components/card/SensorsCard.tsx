@@ -17,10 +17,19 @@ interface SenesorsCardtypeProps {
   onZoneAdded: () => void;
 }
 
+const zoneValue: Record<string, string> = {
+  N: 'NORMAL',
+  I: 'INSTANT',
+  '24H': '24HOUR',
+  D: 'DELAY',
+  F: 'FIRE',
+};
+
 const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
   item,
   active,
   title,
+  value,
 }) => {
   const { sendSms, loading } = useSms();
   const { systemStatus, updateZone } = useZonesContext();
@@ -106,7 +115,7 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
         <View className={'mt-4 flex-row items-center gap-1'}>
           <Setting width={15} height={15} />
           <Text className={'text-[#616161] text-sm'} font={'font-yekan-medium'}>
-            واکنش اضطراری
+            {zoneValue[value]}
           </Text>
           <ArrowLeft width={14} height={14} />
         </View>

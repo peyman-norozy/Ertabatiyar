@@ -22,6 +22,7 @@ import { AppNavigation } from '@/helpers/appNavigation';
 import AddZoneModal from '@/components/AddZoneModal';
 import { useZoneModalContext } from '@/context/ZoneModalContext';
 import AlarmSetting from '@/components/AlarmSetting';
+import { useAuth } from '@/context/AuthContext';
 
 type RouteType = RouteProp<RootDrawerParamList, 'ZoneSettingsPage'>;
 
@@ -66,6 +67,7 @@ const ZoneSettingsPage = () => {
   } = useZoneModalContext();
 
   const navigation = useNavigation<AppNavigation>();
+  const { logout } = useAuth();
 
   const [enterDelay, setEnterDelay] = useState('0');
 
@@ -139,7 +141,6 @@ const ZoneSettingsPage = () => {
       setSelected(zones[zoneId]);
     }
   }, [zones, zoneId]);
-  console.log(zones[zoneId], 'sdjfueueuu');
 
   const selectChangeHandler = async (val: string) => {
     setSelected(val);
@@ -181,7 +182,7 @@ const ZoneSettingsPage = () => {
         devicePhoneNumber,
         `${password} ${zoneKey[zoneId]}=${zoneCommand}`,
         `Zone_${zoneId.split('')[1]}_set`,
-        ['access_denied'],
+        ['access_denied', 'SETADMIN'],
       );
 
       if (sms.body === `Zone_${zoneId.split('')[1]}_set`) {
@@ -199,7 +200,9 @@ const ZoneSettingsPage = () => {
         }
       }
     } catch (e) {
-      console.log('SMS failed:', e);
+      if (e === 'SETADMIN') {
+        logout();
+      }
     }
   };
 

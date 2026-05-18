@@ -16,8 +16,9 @@ export type AddedZone = {
 
 const Sensors = () => {
   const { t } = useTranslation();
-  const { zones, reload, addedZones, loadAddedZones } = useZonesContext();
-
+  const { zones, reload, addedZones, loadAddedZones, systemStatus } =
+    useZonesContext();
+  console.log(zones, 'sdfjueuegfgtrtryy');
   const { modalVisible, selectedZone, mode, openAddModal, closeModal } =
     useZoneModalContext();
   const zoneEntries = addedZones
@@ -50,6 +51,8 @@ const Sensors = () => {
     );
     return c;
   };
+
+  console.log(sort(), 'sjfdueugfgftrt');
 
   return (
     <View

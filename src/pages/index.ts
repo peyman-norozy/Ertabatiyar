@@ -9,3 +9,4 @@ export { default as PhoneRegister } from '@/pages/PhoneRegister';
 export { default as ChangePasswordPage } from '@/pages/ChangePassword';
 export { default as ChangeLanguagePage } from '@/pages/ChangeLanguagePage';
 export { default as TermsAndConditionsPage } from '@/pages/TermsAndConditions';
+export { default as OtpRegister } from '@/pages/OtpRegister';

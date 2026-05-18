@@ -20,6 +20,8 @@ import EyeSlash from './eye-slash.svg';
 import UserAdmin from './UserAdmin.tsx';
 import Alarm from './Alarm.tsx';
 import Buzzer from './Buzzer.tsx';
+import RotateRight from './RotateRight.tsx';
+
 export {
   MenuIcon,
   LightMode,
@@ -42,4 +44,5 @@ export {
   UserAdmin,
   Alarm,
   Buzzer,
+  RotateRight,
 };

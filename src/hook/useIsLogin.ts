@@ -14,7 +14,8 @@ export const useIsLogin = () => {
       const device = await getStorage('devicePhoneNumber');
       const userPhone = await getStorage('userPhoneNumber');
       const userPassword = await getStorage('password');
-      if (device && userPhone && userPassword) {
+
+      if (device && userPhone && userPassword ) {
         login();
       } else {
         setDevicePhoneNumber(device as string);

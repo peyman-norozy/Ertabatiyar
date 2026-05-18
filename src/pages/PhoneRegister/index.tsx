@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ScrollView,
   View,
@@ -23,13 +23,6 @@ const Index = () => {
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const { sendSms, setAllowedNumber, loading } = useSms();
-
-  useEffect(() => {
-    (async () => {
-      const a = await getStorage('devicePhoneNumber');
-      console.log(a, 'ajsdfjueueueuu');
-    })();
-  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -131,20 +124,24 @@ const Index = () => {
             await setStorage('userPhoneNumber', userPhoneNumber);
 
             setAllowedNumber(devicePhoneNumber)
-              .then(() => {
-                sendSms(
+              .then(async () => {
+                const sms = await sendSms(
                   devicePhoneNumber,
                   `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
-                  'Admin_number_updated.',
+                  // 'Admin_number_updated.',
+                  'code:',
                   ['wrong_password!'],
                   () => {
-                    navigation.navigate('LoginStep1');
+                    // navigation.navigate('LoginStep1');
                   },
                   async () => {
                     await setStorage('userPhoneNumber', userPhoneNumber);
                     await setStorage('devicePhoneNumber', devicePhoneNumber);
                   },
                 );
+                if (sms.body.includes('code:')) {
+                  navigation.navigate('OtpRegister');
+                }
               })
               .catch(err => {
                 Alert.alert('❌ خطا', err.message);
