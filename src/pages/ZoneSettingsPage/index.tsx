@@ -175,7 +175,7 @@ const ZoneSettingsPage = () => {
         selected === 'OFF'
           ? 'OFF'
           : `${zoneValue[selected]},${alarmValue[selectedOutput]}${
-              selected === 'D' ? `,E:${enterDelay},X:${exitDelay}` : ''
+              selected === 'D' ? `,E=${enterDelay},X=${exitDelay}` : ''
             }`;
 
       const sms = await sendSms(
