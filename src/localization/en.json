@@ -1,34 +1,97 @@
 {
+  "general": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "warning": "Warning",
+    "error": "Error",
+    "success": "Success",
+    "add": "Add",
+    "callMode": "Call Mode",
+    "darkMode": "Dark Mode",
+    "siren": "Siren",
+    "speaker": "Speaker",
+    "alarmType": "Alarm Type",
+    "changeLanguage": "Change Language",
+    "notSet": "Not Set",
+    "saveNumber": "Save Number",
+    "saveNumberPlaceholder": "Example: +989123456789",
+    "changeTheme": "Change Theme",
+    "notifications": "Notifications",
+    "disabledOption": "Disabled Option",
+    "sending": "Sending...",
+    "areYouSure": "Are you sure?",
+    "willBeDeleted": "Will be deleted",
+    "loading": "Loading...",
+    "sensor": "Sensor",
+    "sensorAdd": "Add Sensor",
+    "admin": "Admin",
+    "adminNumber": "Admin Number",
+    "addAdmin": "Add Admin",
+    "currentNumber": "Current Allowed Number",
+    "sirenDescription": "You can enable or disable the device siren",
+    "speakerDescription": "You can enable or disable the device speaker",
+    "areYouSureWantExitApp": "Are you sure you want to exit the app?",
+    "messages": {
+      "adminAdded": "Admin added",
+      "adminDeleted": "Admin deleted",
+      "adminLimit": "You cannot add more than 10 admins",
+      "massageAdmin": "In this section, you can add up to 10 phone numbers as admins so selected numbers can manage the app.",
+      "sensorsMode": "Changing the sensor mode will change the status of all sensors",
+      "repeatPasswordNotMatch": "Password and repeat password do not match."
+    }
+  },
+  "banner": {
+    "advancedControl": "Advanced Sensor Control",
+    "advancedControlDescription": "Where precision meets security"
+  },
+  "menu": {
+    "home": "Home",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "synchronization": "Synchronization"
+  },
   "personalInformation": {
     "input": {
       "userName": {
-        "title": "User name",
+        "title": "Username",
         "placeHolder": "Enter ..."
       },
       "password": {
-        "title": "Enter password",
+        "title": "Enter Password",
+        "current": "Current Password",
+        "new": "New Password",
+        "repeatNew": "Repeat New Password",
         "placeHolder": "*********"
       },
       "userPhoneNumber": {
-        "title": "User phone",
-        "placeHolder": "Enter ..."
+        "title": "Enter Your Phone Number",
+        "placeHolder": "09362718984"
       },
       "devicePhoneNumber": {
-        "title": "Enter the device's SIM card number.",
+        "title": "Enter Device SIM Card Number",
         "placeHolder": "09362718984"
       },
       "button": {
         "title": "Confirm"
       }
     },
-    "forgotPassword": "Forgotten password",
-    "newNumber": "Register a new number?",
+    "forgotPassword": "Forgot Password",
+    "newNumber": "Register New Number?",
     "submit": "Register",
     "warning": {
       "text1": "This device is not registered in the system.",
       "text2": "Please register.",
-      "text3": "If you have already registered, you may need to register again due to the app data being cleared.",
-      "text4": "See the help section for more information."
+      "text3": "If you have already registered, you may need to register again due to app data deletion.",
+      "text4": "For more information, check the help section.",
+      "text5": "Please register first"
     }
   },
   "language": {
@@ -42,41 +105,76 @@
     }
   },
   "mainPage": {
-    "sensorsMode": "Sensors mode",
+    "sensorsMode": "Sensors Mode",
     "sensorsText": "No SMS will be sent to the device."
   },
   "sensorsItem": {
     "active": "Active",
-    "semiActive": "Semi-active",
+    "semiActive": "Semi Active",
     "inactive": "Inactive"
   },
   "sensors": {
-    "title": "Sensors"
+    "title": "Sensors",
+    "number": "Sensor Number",
+    "numberHelper": "For example 5",
+    "sensorTitle": "Sensor Title",
+    "sensorTitleHelper": "For example Engine Sensor"
   },
   "customBottom": {
     "tabs": {
-      "simCart": "Credit",
+      "simCart": "SIM Card Recharge",
       "homeTitle": "Home",
-      "anten": "Antenna"
+      "anten": "SIM Card Antenna",
+      "synchronization": "Synchronization"
+    }
+  },
+  "settingsPage": {
+    "title": {
+      "accountInformation": "Account Information",
+      "rulesOfUse": "Terms of Use",
+      "changePassword": "Change Password",
+      "changeLanguage": "Change Language",
+      "supportFAQs": "Support & FAQs",
+      "adminSettings": "Admin Settings",
+      "deviceAntenna": "Device Antenna",
+      "logout": "Log Out"
     }
   },
   "zoneSettingsPage": {
     "title": {
-      "placeholder": "Enter new title",
-      "description": "Give the zone a personal name.",
-      "edit": "Edit title"
+      "placeholder": "Enter New Title",
+      "description": "Set a custom name for the zone",
+      "edit": "Edit Title"
     },
     "button": {
       "confirm": "Confirm",
       "cancel": "Cancel"
     },
     "status": {
-      "off": "Off status",
-      "offDescription": "The system is inactive and performs no actions",
-      "normal": "Normal status",
-      "normalDescription": "The system is in standard and balanced mode",
-      "withDelay": "Delayed status",
-      "withDelayDescription": "The system operates with a specified time delay"
+      "off": "Off Status",
+      "offDescription": "The system is disabled and performs no action",
+      "normal": "Normal Status",
+      "normalDescription": "The system is operating in a standard and balanced mode",
+      "withDelay": "Delayed Status",
+      "withDelayDescription": "The system operates with a specified delay",
+      "twentyFourHours": "24-Hour Status",
+      "twentyFourHoursDescription": "The zone remains continuously active all day and night.",
+      "silent": "Silent Status",
+      "silentDescription": "The zone operates without making any sound or notification.",
+      "warning": "Warning Status",
+      "warningDescription": "The zone is activated in emergency mode with high priority and special operation."
     }
+  },
+  "errorSMS": {
+    "wrong_password": "Incorrect password!",
+    "access_denied": "Unauthorized access",
+    "SETADMIN": "Please register",
+    "already_assigned": "This number has already been registered as an admin.",
+    "pleaseRegister": "Please register!!"
+  },
+  "successSMS": {
+    "password_change": "Password changed successfully.",
+    "admin_number_updated": "Admin number updated successfully.",
+    "admin_number_deleted": "Admin number deleted successfully."
   }
 }
