@@ -1,7 +1,6 @@
-import { useZonesContext } from '@/context/ZonesContext';
 import { Alarm, Buzzer } from '@/shared/assets/icons';
 import { CustomSwitch, Text } from '@/shared/ui';
-import { getStorage } from '@/utils/storage';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 interface Props {
@@ -11,14 +10,13 @@ interface Props {
 }
 
 const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
+  const { t } = useTranslation();
   const zoneOutput = value;
-  // وضعیت سوییچ آژیر
+
   const isAlarmOn = zoneOutput === 'BTH' || zoneOutput === 'SRN';
 
-  // وضعیت سوییچ بلندگو
   const isBuzzerOn = zoneOutput === 'BTH' || zoneOutput === 'SPK';
 
-  // ساخت state نهایی
   const buildOutputValue = (alarm: boolean, buzzer: boolean) => {
     if (alarm && buzzer) return 'BTH';
 
@@ -39,7 +37,6 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
 
   const buzzerSwitchHandler = (currentValue: boolean) => {
     const newBuzzerState = !currentValue;
-
     const newOutputValue = buildOutputValue(isAlarmOn, newBuzzerState);
 
     onChange(newOutputValue);
@@ -47,30 +44,27 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
 
   return (
     <>
-      <Text className="text-sm font-yekan-bold text-[#020202]">نوع آلارم</Text>
-
+      <Text className="text-sm font-yekan-bold text-[#020202]">
+        {t('general.alarmType')}
+      </Text>
       <View className="flex gap-4 mt-3">
-        {/* آژیر */}
         <View className="border-b border-b-[#EFEFEF] w-full flex flex-row pb-3">
           <View className="flex flex-row gap-1 flex-1">
             <Alarm width={24} height={24} stroke="#FAAD14" />
 
             <View className="flex flex-col gap-6">
               <Text className="text-sm font-yekan-bold text-[#020202]">
-                آژیر
+                {t('general.siren')}
               </Text>
-
               <Text className="text-[#616161] font-yekan-medium text-sm">
-                فعال‌سازی آژیر زون
+                {t('general.sirenDescription')}
               </Text>
             </View>
           </View>
-
           <View className="relative justify-center items-center w-24 h-24 overflow-hidden">
             <View className="absolute opacity-10 rotate-[42deg]">
               <Alarm width={100} height={100} stroke="#FAAD14" />
             </View>
-
             <CustomSwitch
               value={isAlarmOn}
               activeColor="#3260C3"
@@ -86,28 +80,22 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
             />
           </View>
         </View>
-
-        {/* بلندگو */}
         <View className="w-full flex flex-row">
           <View className="flex flex-row gap-1 flex-1">
             <Buzzer width={24} height={24} stroke="#3E9911" />
-
             <View className="flex flex-col gap-6">
               <Text className="text-sm font-yekan-bold text-[#020202]">
-                بلندگو
+                {t('general.speaker')}
               </Text>
-
               <Text className="text-[#616161] font-yekan-medium text-sm">
-                فعال‌سازی بلندگو زون
+                {t('general.speakerDescription')}
               </Text>
             </View>
           </View>
-
           <View className="relative justify-center items-center w-24 h-24 overflow-hidden">
             <View className="absolute opacity-10 -rotate-[42deg]">
               <Buzzer width={100} height={200} stroke="#3E9911" />
             </View>
-
             <CustomSwitch
               value={isBuzzerOn}
               activeColor="#3260C3"

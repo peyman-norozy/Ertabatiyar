@@ -96,7 +96,7 @@ export const useSms = () => {
             timeoutRef.current = null;
           }
           // Alert.alert('✅', errorFun(sms.body));
-          console.log('❌ SMS Error received:', sms.body);
+          // console.log('❌ SMS Error received:', sms.body);
           reject(sms.body);
           return;
         }
@@ -173,6 +173,6 @@ export const useSms = () => {
     sendSms,
     setAllowedNumber,
     loading,
-    lastSms, // ✅ آخرین SMS را برمی‌گردانیم
+    lastSms,
   };
 };

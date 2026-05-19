@@ -6,18 +6,19 @@ import {
   Platform,
   StatusBar,
   Image,
-  Alert,
 } from 'react-native';
 
-import { logoBlue } from '@/shared/assets/images';
+import { changePassword } from '@/shared/assets/images';
 import { Button, Input } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
 import { getStorage, setStorage } from '@/utils/storage';
+import { useToast } from '@/context/ToastContext';
 
 const Index = () => {
   const { t } = useTranslation();
+  const { showToast } = useToast();
   const { sendSms, setAllowedNumber, loading } = useSms();
   const { login } = useAuth();
   const [userCurrentPassword, setUserCurrentPassword] = useState('');
@@ -37,19 +38,18 @@ const Index = () => {
           login,
           async () => {
             await setStorage('password', userNewPassword);
-            Alert.alert('✅ موفقیت', t('successSMS.password_change'));
+            showToast(t('successSMS.password_change'), 'success');
           },
         );
       })
       .catch((err: any) => {
-        Alert.alert('❌ خطا', err.message);
+        showToast(err.message, 'error');
       });
   };
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       enabled
     >
@@ -59,10 +59,10 @@ const Index = () => {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       >
-        <View className="flex-1 mx-4 mt-6 mb-20">
+        <View className="flex-1 mx-4 mt-24 mb-20">
           <View className="flex-1 items-center mt-[48px] px-6">
             <View>
-              <Image source={logoBlue} className="w-[124px] h-[117px]" />
+              <Image source={changePassword} className="w-[124px] h-[111px]" />
             </View>
             <View className="mt-[56px] w-full">
               <View className="w-full mt-6">

@@ -65,7 +65,7 @@ const AnimatedButton: React.FC<AnimatedButtonTypeProps> = ({
       onPressOut={pressOut}
       onPress={onPress}
       disabled={disabled || loading}
-      className={`px-5 py-3 rounded-xl ${width} ${height}
+      className={`px-5 py-3 rounded-3xl ${width} ${height}
         ${
           active
             ? `${activeBackgroundColor} border border-[#508FE1]`
@@ -76,20 +76,18 @@ const AnimatedButton: React.FC<AnimatedButtonTypeProps> = ({
     >
       <Animated.View style={animatedStyle}>
         <View
-          className="flex-row items-center justify-center gap-x-2"
+          className="flex-col items-center justify-center gap-6 relative"
           style={{ direction: 'ltr' }}
         >
-          <Text
-            className={`font-yekan-semibold ${fontSize} ${
+          {showIcon && !loading && <Image source={image} className="h-[91px]" />}
+          {/* <Text
+            className={`font-yekan-semibold absolute ${fontSize} ${
               active ? 'text-white' : inActiveTitleColor
             }`}
             style={{ opacity: loading ? 0.5 : 1 }}
           >
             {title}
-          </Text>
-
-          {showIcon && !loading && <Image source={image} className="w-8 h-8" />}
-
+          </Text> */}
           {loading && (
             <ActivityIndicator size="small" color={active ? '#fff' : '#999'} />
           )}

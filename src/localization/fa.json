@@ -16,6 +16,9 @@
     "add": "افزودن",
     "callMode": "حالت تماس",
     "darkMode": "حالت تاریک",
+    "siren": "آژیر",
+    "speaker": "بلندگو",
+    "alarmType": "نوع آلارم",
     "changeLanguage": "تغییر زبان",
     "notSet": "تنظیم نشده",
     "saveNumber": "ذخیره شماره",
@@ -33,6 +36,9 @@
     "adminNumber": "ادمین شماره",
     "addAdmin": "افزودن ادمین",
     "currentNumber": "شماره فعلی مجاز",
+    "sirenDescription": " شما میتوانید آژیر دستگاه را فعال و غیرفعال کنید",
+    "speakerDescription": " شما میتوانید بلندگو دستگاه را فعال و غیرفعال کنید",
+    "areYouSureWantExitApp": "آیا مطمئن هستید که می‌خواهید از برنامه خارج شوید؟",
     "messages": {
       "adminAdded": "ادمین اضافه شد",
       "adminDeleted": "ادمین حذف شد",
@@ -127,7 +133,7 @@
       "accountInformation": "اطلاعات حساب کاربری",
       "rulesOfUse": "قوانین استفاده",
       "changePassword": "تغییر رمز",
-      "changeLanguage": "تغییر زبان و تم",
+      "changeLanguage": "تغییر زبان",
       "supportFAQs": "پشتیبانی و سوالات متداول",
       "adminSettings": "تنظیمات ادمین",
       "deviceAntenna": "آنتن دستگاه",
@@ -163,7 +169,8 @@
     "wrong_password": "رمز عبور اشتباه است!",
     "access_denied": "دسترسی غیرمجاز",
     "SETADMIN": "لطفا ثبت نام کنید",
-    "already_assigned": "این شماره قبلا به عنوان ادمین ثبت شده است."
+    "already_assigned": "این شماره قبلا به عنوان ادمین ثبت شده است.",
+    "pleaseRegister": "لطفا ثبت نام کنید!!"
   },
   "successSMS": {
     "password_change": "رمز عبور با موفقیت تغییر یافت.",

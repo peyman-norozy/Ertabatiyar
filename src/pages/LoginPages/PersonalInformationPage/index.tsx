@@ -6,7 +6,6 @@ import {
   View,
   StatusBar,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { logoBlue } from '@/shared/assets/images';
 import { Input, Button, Text } from '@/shared/ui';
@@ -64,11 +63,10 @@ const PersonalInformationPage = () => {
       })
       .catch((err: any) => {
         if (err === 'SETADMIN') {
-          showToast('لطفا ثبت نام کنید!!', 'error');
+          showToast(t('errorSMS.pleaseRegister'), 'error');
         }
       });
   };
-
 
   return (
     <KeyboardAvoidingView

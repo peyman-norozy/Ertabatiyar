@@ -1,0 +1,180 @@
+{
+  "general": {
+    "ok": "确认",
+    "cancel": "取消",
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "back": "返回",
+    "next": "下一步",
+    "yes": "是",
+    "no": "否",
+    "confirm": "确认",
+    "warning": "警告",
+    "error": "错误",
+    "success": "成功",
+    "add": "添加",
+    "siren": "警报器",
+    "speaker": "扬声器",
+    "alarmType": "警报类型",
+    "callMode": "呼叫模式",
+    "darkMode": "深色模式",
+    "changeLanguage": "更改语言",
+    "notSet": "未设置",
+    "saveNumber": "保存号码",
+    "saveNumberPlaceholder": "例如: +989123456789",
+    "changeTheme": "更改主题",
+    "notifications": "通知",
+    "disabledOption": "已禁用选项",
+    "sending": "发送中...",
+    "areYouSure": "您确定吗？",
+    "willBeDeleted": "将被删除",
+    "loading": "加载中...",
+    "sensor": "传感器",
+    "sensorAdd": "添加传感器",
+    "admin": "管理员",
+    "adminNumber": "管理员号码",
+    "addAdmin": "添加管理员",
+    "currentNumber": "当前授权号码",
+    "sirenDescription": "您可以启用或禁用设备警报器",
+    "speakerDescription": "您可以启用或禁用设备扬声器",
+    "areYouSureWantExitApp": "您确定要退出应用程序吗？",
+    "messages": {
+      "adminAdded": "管理员已添加",
+      "adminDeleted": "管理员已删除",
+      "adminLimit": "您最多只能添加10位管理员",
+      "massageAdmin": "在此部分，您最多可以添加10个电话号码作为管理员，以便选定号码能够管理应用程序。",
+      "sensorsMode": "更改传感器模式将会更改所有传感器的状态",
+      "repeatPasswordNotMatch": "密码和重复密码不一致。"
+    }
+  },
+  "banner": {
+    "advancedControl": "高级传感器控制",
+    "advancedControlDescription": "精准与安全结合之地"
+  },
+  "menu": {
+    "home": "首页",
+    "profile": "个人资料",
+    "notifications": "通知",
+    "synchronization": "同步"
+  },
+  "personalInformation": {
+    "input": {
+      "userName": {
+        "title": "用户名",
+        "placeHolder": "请输入..."
+      },
+      "password": {
+        "title": "输入密码",
+        "current": "当前密码",
+        "new": "新密码",
+        "repeatNew": "重复新密码",
+        "placeHolder": "*********"
+      },
+      "userPhoneNumber": {
+        "title": "输入您的电话号码",
+        "placeHolder": "09362718984"
+      },
+      "devicePhoneNumber": {
+        "title": "输入设备SIM卡号码",
+        "placeHolder": "09362718984"
+      },
+      "button": {
+        "title": "确认"
+      }
+    },
+    "forgotPassword": "忘记密码",
+    "newNumber": "注册新号码？",
+    "submit": "注册",
+    "warning": {
+      "text1": "此设备尚未在系统中注册。",
+      "text2": "请先注册。",
+      "text3": "如果您之前已注册，可能由于应用数据被删除而需要重新注册。",
+      "text4": "更多信息请查看帮助部分。",
+      "text5": "请先注册"
+    }
+  },
+  "language": {
+    "button": {
+      "title": "继续"
+    }
+  },
+  "deviceInformation": {
+    "header": {
+      "title": "返回"
+    }
+  },
+  "mainPage": {
+    "sensorsMode": "传感器模式",
+    "sensorsText": "不会向设备发送短信。"
+  },
+  "sensorsItem": {
+    "active": "启用",
+    "semiActive": "半启用",
+    "inactive": "关闭"
+  },
+  "sensors": {
+    "title": "传感器",
+    "number": "传感器编号",
+    "numberHelper": "例如: 5",
+    "sensorTitle": "传感器名称",
+    "sensorTitleHelper": "例如: 发动机传感器"
+  },
+  "customBottom": {
+    "tabs": {
+      "notificationTitle": "通知",
+      "homeTitle": "首页",
+      "profileTitle": "管理员",
+      "synchronization": "同步"
+    }
+  },
+  "settingsPage": {
+    "title": {
+      "accountInformation": "账户信息",
+      "rulesOfUse": "使用条款",
+      "changePassword": "更改密码",
+      "changeLanguage": "更改语言",
+      "supportFAQs": "支持与常见问题",
+      "adminSettings": "管理员设置",
+      "deviceAntenna": "设备天线",
+      "logout": "退出登录"
+    }
+  },
+  "zoneSettingsPage": {
+    "title": {
+      "placeholder": "输入新标题",
+      "description": "为区域设置一个自定义名称",
+      "edit": "编辑标题"
+    },
+    "button": {
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "status": {
+      "off": "关闭状态",
+      "offDescription": "系统已禁用且不执行任何操作",
+      "normal": "正常状态",
+      "normalDescription": "系统处于标准和平衡运行模式",
+      "withDelay": "延迟状态",
+      "withDelayDescription": "系统将在指定时间延迟后运行",
+      "twentyFourHours": "24小时状态",
+      "twentyFourHoursDescription": "该区域全天24小时持续运行，不间断。",
+      "silent": "静音状态",
+      "silentDescription": "区域运行时不会发出任何声音或通知。",
+      "warning": "警告状态",
+      "warningDescription": "区域以高优先级和特殊模式在紧急状态下运行。"
+    }
+  },
+  "errorSMS": {
+    "wrong_password": "密码错误！",
+    "access_denied": "拒绝访问",
+    "SETADMIN": "请先注册",
+    "already_assigned": "该号码已被注册为管理员。",
+    "pleaseRegister": "请注册！！"
+  },
+  "successSMS": {
+    "password_change": "密码修改成功。",
+    "admin_number_updated": "管理员号码更新成功。",
+    "admin_number_deleted": "管理员号码删除成功。"
+  }
+}

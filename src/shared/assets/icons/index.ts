@@ -16,6 +16,7 @@ import ArrowLeft from './arrow-left.svg';
 import Add from './Add.tsx';
 import BlueAdd from './BlueAdd.tsx';
 import Eye from './eye.svg';
+import Warning from './warning.svg';
 import EyeSlash from './eye-slash.svg';
 import UserAdmin from './UserAdmin.tsx';
 import Alarm from './Alarm.tsx';
@@ -27,6 +28,7 @@ export {
   LightMode,
   DarkMode,
   Arrow,
+  Warning,
   Home,
   Profile,
   Notification,

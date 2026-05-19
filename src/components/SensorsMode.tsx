@@ -75,7 +75,7 @@ const SensorsMode = () => {
   return (
     <View
       className={
-        'mx-4 mt-6 border border-[#EFEFEF] rounded-lg overflow-hidden p-2 h-36 bg-[#FFFFFF]'
+        'mx-4 mt-6 border border-[#EFEFEF] rounded-lg overflow-hidden p-4 h-38 bg-[#FFFFFF] gap-2'
       }
     >
       <View>
@@ -88,7 +88,7 @@ const SensorsMode = () => {
           {t('mainPage.sensorsText' as any)}
         </Text>
       </View>
-      <View className="flex-row justify-between px-5 mt-3">
+      <View className="flex-row justify-between mt-3">
         {items.map(item => (
           <AnimatedButton
             key={item.value}

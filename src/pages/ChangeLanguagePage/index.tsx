@@ -9,14 +9,15 @@ import { Text } from '@/shared/ui';
 import { changeLanguage } from '@/localization/changeLanguage.ts';
 import { useTranslation } from 'react-i18next';
 import AnimatedButton from '@/components/AnimatedButton';
-import { britain, iran } from '@/shared/assets/images';
+import { britain, iran, russia, china } from '@/shared/assets/images';
 import { useNavigation } from '@react-navigation/native';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
 
 const languageData = [
   { title: 'فارسی', id: 'fa' as const, image: iran },
   { title: 'English', id: 'en' as const, image: britain },
-] satisfies { title: string; id: 'fa' | 'en'; image: any }[];
+  { title: '中国人', id: 'zh' as const, image: china },
+  { title: 'РУССИ', id: 'ru' as const, image: russia },
+] satisfies { title: string; id: 'fa' | 'en' | 'zh' | 'ru'; image: any }[];
 
 const Index = () => {
   const { i18n, t } = useTranslation();
@@ -38,26 +39,25 @@ const Index = () => {
         <View className="flex-1 mx-4 mt-6 mb-20">
           <View className="flex-1 mt-[48px] px-1 gap-3">
             <Text font={'font-yekan-bold'}>{t('general.changeLanguage')}</Text>
-            {displayedLanguages.map(item => (
-              <AnimatedButton
-                key={item.id}
-                title={item.title}
-                image={item.image}
-                fontSize={'text-sm'}
-                inActiveTitleColor={'text-[#000000]'}
-                activeBackgroundColor={'bg-[#6B95E0]'}
-                showIcon
-                width={'w-60'}
-                height={'h-16'}
-                active={i18n.language === item.id}
-                onPress={async () => {
-                  await changeLanguage(item.id);
-                  navigation.replace('LoginStep1');
-                }}
-              />
-            ))}
-            <Text font={'font-yekan-bold'}>{t('general.changeTheme')}</Text>
-            <ThemeSwitcher />
+            <View className="flex-row flex-wrap justify-center mt-8 gap-4">
+              {displayedLanguages.map(item => (
+                <AnimatedButton
+                  key={item.id}
+                  title={item.title}
+                  image={item.image}
+                  fontSize={'text-sm'}
+                  inActiveTitleColor={'text-[#000000]'}
+                  activeBackgroundColor={'bg-[#6B95E0]'}
+                  showIcon
+                  width={'w-[170px]'}
+                  height={'h-[110px]'}
+                  active={i18n.language === item.id}
+                  onPress={async () => {
+                    await changeLanguage(item.id);
+                  }}
+                />
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>

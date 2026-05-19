@@ -31,7 +31,6 @@ const DeviceInformationPage = () => {
             <View>
               <Image source={logo} className="w-[124px] h-[117px]" />
             </View>
-
             <View className="mt-[56px] w-full">
               <View className="w-full mt-4">
                 <Input

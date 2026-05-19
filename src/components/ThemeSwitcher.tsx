@@ -33,7 +33,7 @@ const ThemeSwitcher = () => {
   };
 
   if (isDark === null) {
-    return null; // یا <ActivityIndicator />
+    return null; 
   }
 
   return (
@@ -45,7 +45,6 @@ const ThemeSwitcher = () => {
           size="sm"
           activeColor="#6366f1"
         />
-        {/* می‌تونی <Text>Dark Mode</Text> هم بذاری */}
       </View>
     </View>
   );

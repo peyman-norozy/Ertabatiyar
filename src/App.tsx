@@ -19,14 +19,9 @@ const { SmsModule } = NativeModules;
 function App(): React.JSX.Element {
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    initLanguage();
-  }, []);
-
   const initLanguage = async () => {
     const savedLanguage = await AsyncStorage.getItem('appLanguage');
-
-    const lang = (savedLanguage || 'fa') as 'fa' | 'en';
+    const lang = (savedLanguage || 'fa') as 'fa' | 'en' | 'zh' | 'ru';
 
     const isRTL = lang === 'fa';
 
@@ -45,6 +40,11 @@ function App(): React.JSX.Element {
     // اپ آماده رندر
     setReady(true);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    initLanguage();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(async () => {
