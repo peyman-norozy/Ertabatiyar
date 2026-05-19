@@ -6,7 +6,6 @@ import {
   View,
   StatusBar,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { logoBlue } from '@/shared/assets/images';
 import { Input, Button, Text } from '@/shared/ui';
@@ -68,7 +67,6 @@ const PersonalInformationPage = () => {
         }
       });
   };
-
 
   return (
     <KeyboardAvoidingView
