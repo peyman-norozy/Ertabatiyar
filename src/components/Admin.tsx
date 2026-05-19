@@ -106,7 +106,7 @@ const Admin = () => {
         className={'text-[#020202] text-base text-start'}
         font={'font-yekan-medium'}
       >
-        {t('general.admin')}
+        {t('general.anten')}
       </Text>
       <Text
         className={'text-[#616161] text-sm mt-3 text-justify'}

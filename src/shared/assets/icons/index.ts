@@ -22,6 +22,8 @@ import UserAdmin from './UserAdmin.tsx';
 import Alarm from './Alarm.tsx';
 import Buzzer from './Buzzer.tsx';
 import RotateRight from './RotateRight.tsx';
+import Chart from './Chart.tsx';
+import SimCard from './SimCard.tsx';
 
 export {
   MenuIcon,
@@ -47,4 +49,6 @@ export {
   Alarm,
   Buzzer,
   RotateRight,
+  Chart,
+  SimCard,
 };

@@ -23,7 +23,7 @@
     },
     "forgotPassword": "Forgotten password",
     "newNumber": "Register a new number?",
-    "submit": "Register" ,
+    "submit": "Register",
     "warning": {
       "text1": "This device is not registered in the system.",
       "text2": "Please register.",
@@ -55,9 +55,9 @@
   },
   "customBottom": {
     "tabs": {
-      "notificationTitle": "Notifications",
+      "simCart": "Credit",
       "homeTitle": "Home",
-      "profileTitle": "Admin"
+      "anten": "Antenna"
     }
   },
   "zoneSettingsPage": {

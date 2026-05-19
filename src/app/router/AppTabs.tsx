@@ -11,7 +11,7 @@ export const AppTabs = () => {
       tabBar={props => <CustomBottomTab {...props} />}
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen name="HomePage" component={HomePage} />
+      {/* <Tab.Screen name="HomePage" component={HomePage} /> */}
       <Tab.Screen name="ProfilePage" component={ProfilePage} />
       <Tab.Screen name="NotificationPage" component={NotificationPage} />
     </Tab.Navigator>

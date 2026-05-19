@@ -122,9 +122,9 @@
   },
   "customBottom": {
     "tabs": {
-      "notificationTitle": "اعلان ها",
+      "simCart": "شارژ سیم کارت",
       "homeTitle": "خانه",
-      "profileTitle": "ادمین",
+      "anten": "آنتن سیم کارت",
       "synchronization": "همگام سازی"
     }
   },
