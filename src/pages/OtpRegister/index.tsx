@@ -21,13 +21,16 @@ import { logoBlue } from '@/shared/assets/images';
 import { RotateRight } from '@/shared/assets/icons';
 import { getStorage, setStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
+import { RootDrawerParamList } from '@/shared/ui/header/model';
 
 const CELL_COUNT = 4;
 const RESEND_TIME = 120;
+
+type RouteType = RouteProp<RootDrawerParamList, 'OtpRegister'>;
 
 const OtpRegister = () => {
   const { t } = useTranslation();
@@ -35,6 +38,9 @@ const OtpRegister = () => {
   const navigation = useNavigation<any>();
   const { logout } = useAuth();
   const { showToast } = useToast();
+  const route = useRoute<RouteType>();
+
+  const { userPhone, devicePhone } = route.params;
 
   const [value, setValue] = useState('');
   const [timer, setTimer] = useState(RESEND_TIME);
@@ -74,8 +80,8 @@ const OtpRegister = () => {
 
   const handleResendCode = async () => {
     if (!canResend) return;
-    const devicePhoneNumber = (await getStorage('devicePhoneNumber')) || '';
-    const userPhoneNumber = (await getStorage('userPhoneNumber')) || '';
+    const devicePhoneNumber = devicePhone || '';
+    const userPhoneNumber = userPhone || '';
     // TODO: resend OTP API call
     console.log('Resend OTP');
     setAllowedNumber(devicePhoneNumber)
@@ -89,6 +95,8 @@ const OtpRegister = () => {
           async () => {},
         );
         if (sms.body.includes('code:')) {
+          await setStorage('userPhoneNumber', userPhoneNumber);
+          await setStorage('devicePhoneNumber', devicePhoneNumber);
           setTimer(RESEND_TIME);
           setCanResend(false);
           setValue('');

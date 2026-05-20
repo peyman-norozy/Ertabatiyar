@@ -15,6 +15,7 @@ export type RootDrawerParamList = {
   NotificationPage: undefined;
   ProfilePage: undefined;
   ZoneSettingsPage: { zoneId: ZoneKeyType };
+  OtpRegister: { userPhone: any; devicePhone: any };
   language: undefined;
 };
 

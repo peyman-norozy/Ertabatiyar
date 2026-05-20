@@ -19,6 +19,9 @@ const { SmsModule } = NativeModules;
 function App(): React.JSX.Element {
   const [ready, setReady] = useState(false);
 
+  const langg = i18n.language;
+  console.log(langg, 'sdfsdjfuruggttt');
+
   const initLanguage = async () => {
     const savedLanguage = await AsyncStorage.getItem('appLanguage');
     const lang = (savedLanguage || 'fa') as 'fa' | 'en' | 'zh' | 'ru';
@@ -38,13 +41,13 @@ function App(): React.JSX.Element {
     await i18n.changeLanguage(lang);
 
     // اپ آماده رندر
-    setReady(true);
+
   };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     initLanguage();
-  }, []);
+  }, [langg]);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -64,7 +67,7 @@ function App(): React.JSX.Element {
     return () => clearInterval(interval);
   }, []);
 
-  if (!ready) return <SplashScreen />;
+
   return (
     <SafeAreaView className={'flex-1'}>
       <ZonesProvider>

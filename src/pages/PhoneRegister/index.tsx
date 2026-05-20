@@ -131,16 +131,12 @@ const Index = () => {
                   // 'Admin_number_updated.',
                   'code:',
                   ['wrong_password!'],
-                  () => {
-                    // navigation.navigate('LoginStep1');
-                  },
-                  async () => {
-                    await setStorage('userPhoneNumber', userPhoneNumber);
-                    await setStorage('devicePhoneNumber', devicePhoneNumber);
-                  },
                 );
                 if (sms.body.includes('code:')) {
-                  navigation.navigate('OtpRegister');
+                  navigation.navigate('OtpRegister', {
+                    userPhone: userPhoneNumber,
+                    devicePhone: devicePhoneNumber,
+                  });
                 }
               })
               .catch(err => {

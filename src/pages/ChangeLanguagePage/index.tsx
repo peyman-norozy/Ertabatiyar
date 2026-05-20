@@ -8,9 +8,10 @@ import {
 import { Text } from '@/shared/ui';
 import { changeLanguage } from '@/localization/changeLanguage.ts';
 import { useTranslation } from 'react-i18next';
-import AnimatedButton from '@/components/AnimatedButton';
+
 import { britain, iran, russia, china } from '@/shared/assets/images';
 import { useNavigation } from '@react-navigation/native';
+import AnimatedButtonLanguage from '@/components/AnimatedButtonLanguage';
 
 const languageData = [
   { title: 'فارسی', id: 'fa' as const, image: iran },
@@ -41,7 +42,7 @@ const Index = () => {
             <Text font={'font-yekan-bold'}>{t('general.changeLanguage')}</Text>
             <View className="flex-row flex-wrap justify-center mt-8 gap-4">
               {displayedLanguages.map(item => (
-                <AnimatedButton
+                <AnimatedButtonLanguage
                   key={item.id}
                   title={item.title}
                   image={item.image}

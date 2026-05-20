@@ -28,7 +28,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const otp = await getStorage('otp');
       const password = await getStorage('password');
 
-      setIsLoggedIn(!!devicePhone && !!otp && !!password);
+      console.log(devicePhone, otp, password, 'sdfjururgfgftrtr');
+
+      setIsLoggedIn(!!devicePhone && !!password);
     } catch (e) {
       setIsLoggedIn(false);
     }

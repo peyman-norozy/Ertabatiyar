@@ -7,6 +7,7 @@ export const changeLanguage = async (lng: 'fa' | 'en' | 'zh' | 'ru') => {
   const isRTL = lng === 'fa';
   await AsyncStorage.setItem('appLanguage', lng);
 
+  console.log(lng, isRTL, 'lng');
   if (I18nManager.isRTL !== isRTL) {
     I18nManager.allowRTL(isRTL);
     I18nManager.forceRTL(isRTL);

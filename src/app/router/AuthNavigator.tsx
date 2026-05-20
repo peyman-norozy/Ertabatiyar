@@ -12,11 +12,14 @@ import { CustomHeader } from '@/shared/ui/header/ui';
 import { useTranslation } from 'react-i18next';
 import { checkLanguage } from '@/utils/checkLanguage.ts';
 import SplashScreen from '@/components/SplashScreen.tsx';
+import { useAuth } from '@/context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
 export const AuthNavigator = () => {
   const { t } = useTranslation();
+  const { isLoggedIn } = useAuth();
+
   const [hasLang, setHasLang] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +30,9 @@ export const AuthNavigator = () => {
     });
   }, []);
 
-  if (loading) {
+  console.log(loading, isLoggedIn, 'ssssssyyyyyyyy');
+
+  if (loading || isLoggedIn) {
     return <SplashScreen />;
   }
 

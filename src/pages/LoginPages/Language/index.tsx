@@ -3,8 +3,8 @@ import { ScrollView, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { logo } from '@/shared/assets/images';
-import AnimatedButton from '@/components/AnimatedButton.tsx';
 import { iran, britain, china, russia } from '@/shared/assets/images';
+import AnimatedButtonLanguage from '@/components/AnimatedButtonLanguage';
 
 const languageData = [
   { title: 'فارسی', id: 'fa' as const, image: iran },
@@ -31,7 +31,7 @@ const Language = () => {
         </View>
         <View className="flex-row flex-wrap justify-center mt-24 gap-4">
           {displayedLanguages.map(item => (
-            <AnimatedButton
+            <AnimatedButtonLanguage
               key={item.id}
               title={item.title}
               image={item.image}

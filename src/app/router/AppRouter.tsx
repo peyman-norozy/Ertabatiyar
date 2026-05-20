@@ -22,9 +22,11 @@ export const AppRouter = () => {
 const InnerAppRouter = () => {
   const { isLoggedIn } = useAuth();
 
-  if (isLoggedIn === null) {
-    return <AppLoadingScreen />;
-  }
+  // if (isLoggedIn === null) {
+  //   return <AppLoadingScreen />;
+  // }
+
+  console.log(isLoggedIn, 'sdfjueueuhfhfgfffff');
 
   return (
     <GestureHandlerRootView className={'flex-1'}>
