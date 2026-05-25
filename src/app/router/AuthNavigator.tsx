@@ -16,25 +16,13 @@ import { useAuth } from '@/context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
-export const AuthNavigator = () => {
+type AuthNavigatorProps = {
+  hasLang: boolean;
+};
+
+export const AuthNavigator: React.FC<AuthNavigatorProps> = ({ hasLang }) => {
   const { t } = useTranslation();
   const { isLoggedIn } = useAuth();
-
-  const [hasLang, setHasLang] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    checkLanguage().then(Lang => {
-      setHasLang(Lang);
-      setLoading(false);
-    });
-  }, []);
-
-  console.log(loading, isLoggedIn, 'ssssssyyyyyyyy');
-
-  if (loading || isLoggedIn) {
-    return <SplashScreen />;
-  }
 
   return (
     <Stack.Navigator

@@ -6,3 +6,4 @@ export const britain = require('./en.png');
 export const russia = require('./ru.png');
 export const china = require('./zh.png');
 export const logoHeader = require('./ertebatyar_logo_header.png');
+export const simCard = require('./sim_card.png');

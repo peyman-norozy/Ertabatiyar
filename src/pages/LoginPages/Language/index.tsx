@@ -1,10 +1,11 @@
 import { changeLanguage } from '@/localization/changeLanguage.ts';
-import { ScrollView, View, Image } from 'react-native';
+import { ScrollView, View, Image, I18nManager, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { logo } from '@/shared/assets/images';
 import { iran, britain, china, russia } from '@/shared/assets/images';
 import AnimatedButtonLanguage from '@/components/AnimatedButtonLanguage';
+import Restart from 'react-native-restart';
 
 const languageData = [
   { title: 'فارسی', id: 'fa' as const, image: iran },
@@ -29,25 +30,48 @@ const Language = () => {
         <View className={''}>
           <Image source={logo} className="w-[184px] h-[192px] bg-[#3260C3]" />
         </View>
-        <View className="flex-row flex-wrap justify-center mt-24 gap-4">
-          {displayedLanguages.map(item => (
-            <AnimatedButtonLanguage
-              key={item.id}
-              title={item.title}
-              image={item.image}
-              fontSize={'text-sm'}
-              inActiveTitleColor={'text-[#000000]'}
-              activeBackgroundColor={'bg-[#6B95E0]'}
-              showIcon
-              width={'w-[170px]'}
-              height={'h-[110px]'}
-              active={i18n.language === item.id}
-              onPress={async () => {
-                await changeLanguage(item.id);
-                navigation.replace('LoginStep1');
-              }}
-            />
-          ))}
+        <View className="flex-row w-full">
+          <FlatList
+            data={displayedLanguages}
+            numColumns={2}
+            scrollEnabled={false}
+            keyExtractor={item => item.id}
+            contentContainerStyle={{
+              marginTop: 96,
+            }}
+            renderItem={({ item }) => (
+              <View
+                style={{ width: '50%', alignItems: 'center', marginBottom: 16 }}
+              >
+                <AnimatedButtonLanguage
+                  title={item.title}
+                  image={item.image}
+                  fontSize={'text-sm'}
+                  inActiveTitleColor={'text-[#000000]'}
+                  activeBackgroundColor={'bg-[#6B95E0]'}
+                  showIcon
+                  width={'w-[170px]'}
+                  height={'h-[110px]'}
+                  active={i18n.language === item.id}
+                  onPress={async () => {
+                    const shouldRTL = item.id === 'fa';
+
+                    await changeLanguage(item.id);
+
+                    if (I18nManager.isRTL !== shouldRTL) {
+                      I18nManager.allowRTL(shouldRTL);
+                      I18nManager.forceRTL(shouldRTL);
+
+                      Restart.Restart();
+                      return;
+                    }
+
+                    navigation.replace('LoginStep1');
+                  }}
+                />
+              </View>
+            )}
+          />
         </View>
       </View>
     </ScrollView>

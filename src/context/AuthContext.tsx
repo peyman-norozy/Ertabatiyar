@@ -1,3 +1,4 @@
+import { AppLoadingScreen } from '@/shared/ui';
 import { clearStorage, getStorage } from '@/utils/storage';
 import {
   createContext,
@@ -38,10 +39,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = () => setIsLoggedIn(true);
 
-  const logout = async () => {
+  const logout = async () => { 
     setIsLoggedIn(false);
     await clearStorage();
   };
+
+  if (isLoggedIn === null) {
+    return <AppLoadingScreen />;
+  }
 
   return (
     <AuthContext.Provider

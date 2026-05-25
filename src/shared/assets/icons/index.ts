@@ -24,6 +24,10 @@ import Buzzer from './Buzzer.tsx';
 import RotateRight from './RotateRight.tsx';
 import Chart from './Chart.tsx';
 import SimCard from './SimCard.tsx';
+import Lock from './Lock.tsx';
+import InfoCircle from './InfoCircle.tsx';
+import Translate from './Translate.tsx';
+import Logout from './Logout.tsx';
 
 export {
   MenuIcon,
@@ -51,4 +55,7 @@ export {
   RotateRight,
   Chart,
   SimCard,
+  Lock,
+  InfoCircle,
+  Translate,
 };

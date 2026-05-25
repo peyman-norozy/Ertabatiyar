@@ -8,6 +8,8 @@ import { AuthNavigator } from '@/app/router/AuthNavigator.tsx';
 import { AppDrawer } from '@/app/router/AppDrawer.tsx';
 import { AuthProvider, useAuth } from '@/context/AuthContext.tsx';
 import { AppLoadingScreen } from '@/shared/ui';
+import { useEffect, useState } from 'react';
+import { checkLanguage } from '@/utils/checkLanguage';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,11 +24,30 @@ export const AppRouter = () => {
 const InnerAppRouter = () => {
   const { isLoggedIn } = useAuth();
 
-  // if (isLoggedIn === null) {
-  //   return <AppLoadingScreen />;
+  const [loading, setLoading] = useState(true);
+  const [hasLang, setHasLang] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      checkLanguage().then(Lang => {
+        setHasLang(Lang);
+        setLoading(false);
+      });
+    }
+  }, [isLoggedIn]);
+
+  console.log(loading, isLoggedIn, 'ssssssyyyyyyyy');
+
+  // if (loading) {
+  //   return <SplashScreen />;
   // }
 
-  console.log(isLoggedIn, 'sdfjueueuhfhfgfffff');
+  if ( !isLoggedIn && loading) {
+    console.log('before');
+    return <AppLoadingScreen />;
+  }
+
+  console.log('after');
 
   return (
     <GestureHandlerRootView className={'flex-1'}>
@@ -39,7 +60,9 @@ const InnerAppRouter = () => {
           {isLoggedIn ? (
             <Stack.Screen name="App" component={AppDrawer} />
           ) : (
-            <Stack.Screen name="Auth" component={AuthNavigator} />
+            <Stack.Screen name="Auth">
+              {props => <AuthNavigator {...props} hasLang={hasLang} />}
+            </Stack.Screen>
           )}
         </Stack.Navigator>
       </NavigationContainer>

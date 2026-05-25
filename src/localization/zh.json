@@ -40,6 +40,10 @@
     "sirenDescription": "您可以启用或禁用设备警报器",
     "speakerDescription": "您可以启用或禁用设备扬声器",
     "areYouSureWantExitApp": "您确定要退出应用程序吗？",
+    "simTitle": "设备SIM卡余额",
+    "simPrice": "余额：",
+    "simUpdate": "更新",
+    "ussdTimeout": "未收到响应！！!",
     "messages": {
       "adminAdded": "管理员已添加",
       "adminDeleted": "管理员已删除",

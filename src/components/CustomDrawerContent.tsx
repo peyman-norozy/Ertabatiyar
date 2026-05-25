@@ -6,6 +6,8 @@ import { useAuth } from '@/context/AuthContext';
 import LogoutModal from './LogoutModal';
 import ThemeSwitcher from './ThemeSwitcher';
 import { View } from 'react-native';
+import { Chart, InfoCircle, Lock, Translate } from '@/shared/assets/icons';
+import Logout from '@/shared/assets/icons/Logout';
 
 const CustomDrawerContent = (props: any) => {
   const { t } = useTranslation();
@@ -26,22 +28,25 @@ const CustomDrawerContent = (props: any) => {
     <CustomItemDrawerContent
       label={t('settingsPage.title.changePassword')}
       onPress={() => props.navigation.navigate('ChangePasswordPage')}
+      icon={<Lock width={24} height={24} />}
     />,
 
     <CustomItemDrawerContent
       label={t('settingsPage.title.changeLanguage')}
       onPress={() => props.navigation.navigate('ChangeLanguagePage')}
+      icon={<Translate width={24} height={24} />}
     />,
 
     <CustomItemDrawerContent
       label={t('settingsPage.title.rulesOfUse')}
       onPress={() => props.navigation.navigate('TermsAndConditionsPage')}
+      icon={<InfoCircle width={24} height={24} />}
     />,
 
-    <CustomItemDrawerContent
-      label={t('settingsPage.title.supportFAQs')}
-      onPress={() => props.navigation.navigate('SettingsPage')}
-    />,
+    // <CustomItemDrawerContent
+    //   label={t('settingsPage.title.supportFAQs')}
+    //   onPress={() => props.navigation.navigate('SettingsPage')}
+    // />,
 
     // <CustomItemDrawerContent
     //   label={t('settingsPage.title.adminSettings')}
@@ -53,6 +58,7 @@ const CustomDrawerContent = (props: any) => {
         onPress={() => {
           setModalVisible(true);
         }}
+        icon={<Logout width={24} height={24} />}
       />
       <LogoutModal
         visible={modalVisible}

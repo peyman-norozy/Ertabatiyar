@@ -40,6 +40,10 @@
     "sirenDescription": "You can enable or disable the device siren",
     "speakerDescription": "You can enable or disable the device speaker",
     "areYouSureWantExitApp": "Are you sure you want to exit the app?",
+    "simTitle": "Device SIM Card Balance",
+    "simPrice": "Credit balance:",
+    "simUpdate": "Update",
+    "ussdTimeout": "No response received!!!",
     "messages": {
       "adminAdded": "Admin added",
       "adminDeleted": "Admin deleted",

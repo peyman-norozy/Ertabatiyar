@@ -12,8 +12,8 @@ type Props = {
 const CustomItemDrawerContent: React.FC<Props> = ({ label, icon, onPress }) => {
   return (
     <Pressable onPress={onPress}>
-      <View className="flex-row items-center justify-between py-4 px-5">
-        <View>
+      <View className="flex-row items-center justify-between py-4">
+        <View className="flex-row items-center gap-2">
           <View className="ml-4">{icon}</View>
           <Text font="font-yekan-medium">{label}</Text>
         </View>

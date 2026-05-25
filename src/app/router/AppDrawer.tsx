@@ -17,6 +17,7 @@ import { useAuth } from '@/context/AuthContext';
 import { AppLoadingScreen } from '@/shared/ui';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
+
 export const AppDrawer = () => {
   const { t } = useTranslation();
   const { isLoggedIn } = useAuth();
@@ -60,7 +61,7 @@ export const AppDrawer = () => {
         component={NotificationPage}
         options={{
           header: () => (
-            <CustomHeader title={t('menu.notifications')} showMenuButton />
+            <CustomHeader title={t('menu.notifications')} showBackButton />
           ),
         }}
       />
