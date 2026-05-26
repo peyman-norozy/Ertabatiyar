@@ -127,92 +127,96 @@ const CustomBottomTab: React.FC<Props> = ({
   }, []);
 
   return (
-    <View className="h-[80px] bg-white border rounded-t-[40px] border-gray-200 justify-center">
-      {/* Sync Button */}
-      <View className="absolute self-center -top-8 z-10 items-center">
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={handleSync}
-          disabled={loading || cooldown}
-          className="bg-[#F9F9F9] rounded-full p-2"
-        >
-          <Animated.View
-            style={{
-              transform: [{ scale: scaleAnim }],
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.2,
-              shadowRadius: 6,
-              elevation: 6,
-              opacity: loading || cooldown ? 0.5 : 1,
-            }}
-            className={`w-[50px] h-[50px] rounded-full ${
-              cooldown ? 'bg-[#A2A2A2]' : 'bg-[#3260C3]'
-            } items-center justify-center`}
+    <View className='absolute bottom-0 w-full z-40'>
+      <View className="h-[80px] bg-white dark:bg-neutral-800 border rounded-t-[40px] border-gray-200 dark:border-neutral-800 justify-center">
+        {/* Sync Button */}
+        <View className="absolute self-center -top-8 z-10 items-center">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={handleSync}
+            disabled={loading || cooldown}
+            className="bg-[#F9F9F9] dark:bg-neutral-900 rounded-full p-2"
           >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Synchronization width={26} height={26} stroke="#FFFFFF" />
-            )}
-          </Animated.View>
-        </TouchableOpacity>
-
-        <Text
-          className={`mt-2 text-sm ${
-            loading ? 'text-[#3260C3] font-yekan-bold' : 'text-[#616161]'
-          }`}
-        >
-          {t('customBottom.tabs.synchronization')}
-        </Text>
-      </View>
-
-      {/* Tabs */}
-      <View className="flex-row justify-between px-10">
-        <TouchableOpacity
-          onPress={() => handleTabPress('NotificationPage')}
-          className="items-center"
-        >
-          <SimCard
-            width={24}
-            height={24}
-            stroke={currentRoute === 'NotificationPage' ? '#3260C3' : '#616161'}
-          />
+            <Animated.View
+              style={{
+                transform: [{ scale: scaleAnim }],
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.2,
+                shadowRadius: 6,
+                elevation: 6,
+                opacity: loading || cooldown ? 0.5 : 1,
+              }}
+              className={`w-[50px] h-[50px] rounded-full ${
+                cooldown ? 'bg-[#A2A2A2]' : 'bg-[#3260C3]'
+              } items-center justify-center`}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Synchronization width={26} height={26} stroke="#FFFFFF" />
+              )}
+            </Animated.View>
+          </TouchableOpacity>
 
           <Text
-            className={`mt-1 text-sm ${
-              currentRoute === 'NotificationPage'
-                ? 'text-[#3260C3] font-yekan-bold'
-                : 'text-[#616161]'
+            className={`mt-2 text-sm ${
+              loading ? 'text-[#3260C3] font-yekan-bold' : 'text-[#616161]'
             }`}
           >
-            {t('customBottom.tabs.simCart')}
+            {t('customBottom.tabs.synchronization')}
           </Text>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          onPress={() => handleTabPress('ProfilePage')}
-          className="items-center"
-        >
-          <Chart
-            width={24}
-            height={24}
-            stroke={currentRoute === 'ProfilePage' ? '#3260C3' : '#616161'}
-          />
-
-          <Text
-            className={`mt-1 text-sm ${
-              currentRoute === 'ProfilePage'
-                ? 'text-[#3260C3] font-yekan-bold'
-                : 'text-[#616161]'
-            }`}
+        {/* Tabs */}
+        <View className="flex-row justify-between px-10">
+          <TouchableOpacity
+            onPress={() => handleTabPress('NotificationPage')}
+            className="items-center"
           >
-            {t('customBottom.tabs.anten')}
-          </Text>
-        </TouchableOpacity>
+            <SimCard
+              width={24}
+              height={24}
+              stroke={
+                currentRoute === 'NotificationPage' ? '#3260C3' : '#616161'
+              }
+            />
+
+            <Text
+              className={`mt-1 text-sm ${
+                currentRoute === 'NotificationPage'
+                  ? 'text-[#3260C3] font-yekan-bold'
+                  : 'text-[#616161]'
+              }`}
+            >
+              {t('customBottom.tabs.simCart')}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => handleTabPress('ProfilePage')}
+            className="items-center"
+          >
+            <Chart
+              width={24}
+              height={24}
+              stroke={currentRoute === 'ProfilePage' ? '#3260C3' : '#616161'}
+            />
+
+            <Text
+              className={`mt-1 text-sm ${
+                currentRoute === 'ProfilePage'
+                  ? 'text-[#3260C3] font-yekan-bold'
+                  : 'text-[#616161]'
+              }`}
+            >
+              {t('customBottom.tabs.anten')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

@@ -1,118 +1,134 @@
-import { TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import SensorsCard from '@/components/card/SensorsCard.tsx';
 import type { ZoneKeyType } from '@/types/zone';
 import { useZonesContext } from '@/context/ZonesContext';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Add } from '@/shared/assets/icons';
 import AddZoneModal from '@/components/AddZoneModal.tsx';
 import { useZoneModalContext } from '@/context/ZoneModalContext';
 
-export type AddedZone = {
-  key: string;
-  title: string;
-};
-
 const Sensors = () => {
   const { t } = useTranslation();
-  const { zones, reload, addedZones, loadAddedZones, systemStatus } =
-    useZonesContext();
-  console.log(zones, 'sdfjueuegfgtrtryy');
+  const { zones, reload, addedZones, loadAddedZones } = useZonesContext();
+
   const { modalVisible, selectedZone, mode, openAddModal, closeModal } =
     useZoneModalContext();
-  const zoneEntries = addedZones
-    .map(zone => {
-      const zoneValue = zones[zone.key];
-
-      return {
-        key: zone.key,
-        title: zone.title,
-        value: zoneValue,
-        switchValue: zoneValue !== 'OFF',
-      };
-    })
-    .filter(item => item.value);
 
   useEffect(() => {
     const loadData = async () => {
       await reload();
-
       await loadAddedZones();
     };
 
     loadData();
   }, []);
 
-  const sort = () => {
-    const c = zoneEntries.sort(
-      (a: any, b: any) =>
-        Number(a.key.split('')[1]) - Number(b.key.split('')[1]),
-    );
-    return c;
-  };
+  const zoneEntries = useMemo(() => {
+    return addedZones
+      .map(zone => {
+        const zoneValue = zones[zone.key];
 
-  console.log(sort(), 'sjfdueugfgftrt');
+        return {
+          key: zone.key,
+          title: zone.title,
+          value: zoneValue,
+          switchValue: zoneValue !== 'OFF',
+        };
+      })
+      .filter(item => item.value)
+      .sort((a, b) => Number(a.key[1]) - Number(b.key[1]));
+  }, [addedZones, zones]);
 
   return (
     <View
-      className={
-        'mx-4 mt-6 border border-[#EFEFEF] rounded-lg overflow-hidden p-4 bg-[#EFEFEF]'
-      }
+      className="
+        mx-4 mt-6 p-4 rounded-xl
+        bg-white dark:bg-neutral-900
+        border border-neutral-200 dark:border-neutral-700
+      "
     >
-      <Text className="text-base font-medium mb-3">
+      <Text className="text-base font-medium mb-3 text-black dark:text-white">
         {t('sensors.title' as any)}
       </Text>
 
-      <View className="flex-row flex-wrap -mb-4">
-        <View className="flex-row flex-wrap -mx-4">
-          {sort().map((item, index) => (
-            <View key={index} className="w-1/2 px-3 pb-3">
-              <View className="bg-white border border-[#EFEFEF] rounded-2xl py-3 px-2">
-                <SensorsCard
-                  item={item.key as ZoneKeyType}
-                  value={item.value}
-                  active={item.switchValue}
-                  title={item.title}
-                  onZoneAdded={async () => {
-                    await loadAddedZones();
-                  }}
-                />
+      <FlatList
+        data={
+          addedZones.length < 5
+            ? [...zoneEntries, { key: 'add-card', isAddCard: true }]
+            : zoneEntries
+        }
+        numColumns={2}
+        scrollEnabled={false}
+        keyExtractor={item => item.key}
+        contentContainerStyle={{
+          marginTop: 20,
+        }}
+        renderItem={({ item, index }) => {
+          const isLastSingleAdd =
+            'isAddCard' in item && zoneEntries.length % 2 === 0;
+
+          if ('isAddCard' in item) {
+            return (
+              <View
+                style={{
+                  width: isLastSingleAdd ? '100%' : '50%',
+                  alignItems: 'center',
+                }}
+              >
+                <View className="p-2 w-full mt-1">
+                  <View
+                    className="
+                flex items-center justify-center gap-3
+                border-2 border-dashed
+                border-neutral-300 dark:border-neutral-600
+                rounded-2xl p-6
+                bg-white dark:bg-neutral-900
+              "
+                  >
+                    <TouchableOpacity
+                      onPress={openAddModal}
+                      className="
+                  bg-neutral-200 dark:bg-neutral-700
+                  rounded-full p-2"
+                    >
+                      <Add width={30} height={30} stroke={'#9CA3AF'} />
+                    </TouchableOpacity>
+
+                    <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+                      {t('general.sensorAdd')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            );
+          }
+
+          return (
+            <View style={{ width: '50%', alignItems: 'center' }}>
+              <View className="p-2 w-full">
+                <View className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-3">
+                  <SensorsCard
+                    item={item.key as ZoneKeyType}
+                    value={item.value}
+                    active={item.switchValue}
+                    title={item.title}
+                    onZoneAdded={loadAddedZones}
+                  />
+                </View>
               </View>
             </View>
-          ))}
-
-          {addedZones.length < 5 && (
-            <View
-              className={`px-3 pb-3 ${
-                sort().length % 2 === 1 ? 'w-1/2' : 'w-full'
-              }`}
-            >
-              <View className="flex items-center justify-center border-dashed border-2 border-[#bababa] py-3 rounded-[16px] gap-3 mt-2">
-                <TouchableOpacity
-                  onPress={openAddModal}
-                  className="flex justify-center items-center bg-[#E8E8E8] rounded-full"
-                >
-                  <Add width={58} height={58} stroke={'#979797'} />
-                </TouchableOpacity>
-
-                <Text className="text-[#616161] font-yekan-medium text-sm">
-                  {t('general.sensorAdd')}
-                </Text>
-              </View>
-            </View>
-          )}
-        </View>
-        <AddZoneModal
-          visible={modalVisible}
-          onClose={closeModal}
-          mode={mode}
-          selectedZone={selectedZone}
-          onZoneAdded={async () => {
-            await loadAddedZones();
-          }}
-        />
-      </View>
+          );
+        }}
+      />
+      <AddZoneModal
+        visible={modalVisible}
+        onClose={closeModal}
+        mode={mode}
+        selectedZone={selectedZone}
+        onZoneAdded={loadAddedZones}
+      />
     </View>
   );
 };

@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, Image, StatusBar, View } from 'react-native';
-import { logoBlue } from '@/shared/assets/images';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Image, StatusBar, View } from 'react-native';
+import { logo } from '@/shared/assets/images';
 import { Text } from '@/shared/ui';
+import { useTranslation } from 'react-i18next';
 
 const AppLoadingScreen = () => {
+  const { t } = useTranslation();
   const scale = useRef(new Animated.Value(0.9)).current;
 
   const opacity = useRef(new Animated.Value(0)).current;
@@ -58,7 +60,7 @@ const AppLoadingScreen = () => {
   }, []);
 
   return (
-    <View className="flex-1 bg-white justify-center items-center px-6">
+    <View className="flex-1 bg-blue-800 justify-center items-center px-6">
       <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <Animated.View
@@ -69,17 +71,12 @@ const AppLoadingScreen = () => {
         className="items-center"
       >
         <Image
-          source={logoBlue}
-          className="w-[120px] h-[120px]"
+          source={logo}
+          className="w-[150px] h-[150px]"
           resizeMode="contain"
         />
-
-        <Text className="text-[#020202] text-lg mt-5" font="font-yekan-bold">
-          Smart Security
-        </Text>
-
-        <Text className="text-[#7A7A7A] text-sm mt-2" font="font-yekan-medium">
-          در حال آماده‌سازی سیستم
+        <Text className="text-white text-base mt-6" font="font-yekan-medium">
+          {t('general.loading')}
           {dots}
         </Text>
       </Animated.View>

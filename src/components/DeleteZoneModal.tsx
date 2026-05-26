@@ -14,9 +14,9 @@ const DeleteZoneModal = ({ visible, onClose, onConfirm, title }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 justify-center items-center bg-black/40 px-6">
-        <View className="bg-white rounded-3xl w-full p-5">
+    <Modal visible={visible} backdropColor="#000000a3"  animationType="fade">
+      <View className="flex-1 justify-center items-center px-6">
+        <View className="bg-white dark:bg-neutral-900 rounded-3xl w-full p-5">
           <View className="flex items-center justify-center mb-5">
             <View className="bg-[#ffeded] rounded-full p-3">
               <Trash width={38} height={40} />
@@ -25,14 +25,14 @@ const DeleteZoneModal = ({ visible, onClose, onConfirm, title }: Props) => {
 
           <Text
             font="font-yekan-medium"
-            className="text-sm text-center text-[#616161]"
+            className="text-sm text-center text-[#616161] dark:text-white"
           >
             {t('general.sensor')} <Text font="font-yekan-bold">"{title}"</Text>{' '}
             {t('general.willBeDeleted')}.
           </Text>
           <Text
             font="font-yekan-semibold"
-            className="text-center text-[#020202] mt-3"
+            className="text-center text-[#020202]  dark:text-white mt-3"
           >
             {t('general.areYouSure')}
           </Text>

@@ -26,10 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const checkLogin = async () => {
     try {
       const devicePhone = await getStorage('devicePhoneNumber');
-      const otp = await getStorage('otp');
       const password = await getStorage('password');
-
-      console.log(devicePhone, otp, password, 'sdfjururgfgftrtr');
 
       setIsLoggedIn(!!devicePhone && !!password);
     } catch (e) {
@@ -39,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = () => setIsLoggedIn(true);
 
-  const logout = async () => { 
+  const logout = async () => {
     setIsLoggedIn(false);
     await clearStorage();
   };

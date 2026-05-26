@@ -14,6 +14,7 @@ const SensorsMode = () => {
   const { systemStatus, reload } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
+
   const [sensorModalVisible, setSensorModalVisible] = useState(false);
   const [systemSwitchCurrentValue, setsystemSwitchCurrentValue] = useState('');
 
@@ -22,16 +23,8 @@ const SensorsMode = () => {
 
   const items = [
     { title: t('sensorsItem.active' as any), value: 'ARM', disabled: loading },
-    {
-      title: t('sensorsItem.semiActive' as any),
-      value: 'SEMIARM',
-      disabled: loading,
-    },
-    {
-      title: t('sensorsItem.inactive' as any),
-      value: 'DISARM',
-      disabled: loading,
-    },
+    { title: t('sensorsItem.semiActive' as any), value: 'SEMIARM', disabled: loading },
+    { title: t('sensorsItem.inactive' as any), value: 'DISARM', disabled: loading },
   ];
 
   const systemSwitchHandler = async (currentValue: string) => {
@@ -43,15 +36,10 @@ const SensorsMode = () => {
   const submitSensorsModeHandler = async () => {
     const devicePhoneNumber = await getStorage('devicePhoneNumber');
     const password = await getStorage('password');
-    // const systemMap: Record<string, string> = {
-    //   ARM: 'system_armed.',
-    //   DISARM: 'system_disarmed.',
-    //   SEMIARM: 'system_semiarmed.',
-    // };
 
     try {
       const sms = await sendSms(
-        devicePhoneNumber ? devicePhoneNumber : '',
+        devicePhoneNumber ?? '',
         `${password} ${systemSwitchCurrentValue}`,
         'CALL:',
         ['access_denied', 'SETADMIN'],
@@ -61,7 +49,6 @@ const SensorsMode = () => {
         const parsedData = parseDeviceSms(sms.body);
         await setStorage('deviceZones', JSON.stringify(parsedData));
         reload();
-        // updateZone('SYS', systemSwitchCurrentValue);
       }
     } catch (e) {
       if (e === 'SETADMIN') {
@@ -74,32 +61,36 @@ const SensorsMode = () => {
 
   return (
     <View
-      className={
-        'mx-4 mt-6 border border-[#EFEFEF] rounded-lg overflow-hidden p-4 h-38 bg-[#FFFFFF] gap-2'
-      }
+      className="
+        mx-4 mt-6 p-4 gap-2 rounded-xl overflow-hidden
+        border border-neutral-200 dark:border-neutral-700
+        bg-white dark:bg-neutral-900
+      "
     >
-      <View>
-        <Text className={'text-base text-[#020202]'}>
-          {t('mainPage.sensorsMode' as any)}
-        </Text>
-      </View>
-      <View className={'mt-1'}>
-        <Text className={'text-[#616161] text-xs'}>
-          {t('mainPage.sensorsText' as any)}
-        </Text>
-      </View>
+      {/* Title */}
+      <Text className="text-base text-black dark:text-white font-yekan-bold">
+        {t('mainPage.sensorsMode' as any)}
+      </Text>
+
+      {/* Description */}
+      <Text className="text-xs text-neutral-500 dark:text-neutral-400 font-yekan-semibold">
+        {t('mainPage.sensorsText' as any)}
+      </Text>
+
+      {/* Buttons */}
       <View className="flex-row justify-between mt-3">
         {items.map(item => (
           <AnimatedButton
             key={item.value}
-            title={item?.title}
+            title={item.title}
             width={'w-28'}
             height={'h-11'}
-            active={isOn == item.value}
+            active={isOn === item.value}
             onPress={() => systemSwitchHandler(item.value)}
           />
         ))}
       </View>
+
       <SensorsModeModal
         visible={sensorModalVisible}
         onClose={() => setSensorModalVisible(false)}

@@ -103,47 +103,43 @@ const Index = () => {
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          padding: 16,
-          backgroundColor: 'white',
-        }}
-        className="dark:bg-neutral-800 border-t border-neutral-200"
-      >
-        <Button
-          title={t('personalInformation.input.button.title' as any)}
-          variant="primary"
-          size="lg"
-          fullWidth
-          loading={loading}
-          disabled={
-            !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
-          }
-          onPress={async () => {
-            await setStorage('devicePhoneNumber', devicePhoneNumber);
-            await setStorage('userPhoneNumber', userPhoneNumber);
+      <View className="bg-white dark:bg-neutral-800">
+        <View className="px-6 py-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800  rounded-t-2xl">
+          <Button
+            title={t('personalInformation.input.button.title' as any)}
+            variant="primary"
+            size="lg"
+            fullWidth
+            loading={loading}
+            disabled={
+              !(userPhoneNumber.length >= 11 && devicePhoneNumber.length >= 11)
+            }
+            onPress={async () => {
+              await setStorage('devicePhoneNumber', devicePhoneNumber);
+              await setStorage('userPhoneNumber', userPhoneNumber);
 
-            setAllowedNumber(devicePhoneNumber)
-              .then(async () => {
-                const sms = await sendSms(
-                  devicePhoneNumber,
-                  `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
-                  // 'Admin_number_updated.',
-                  'code:',
-                  ['wrong_password!'],
-                );
-                if (sms.body.includes('code:')) {
-                  navigation.navigate('OtpRegister', {
-                    userPhone: userPhoneNumber,
-                    devicePhone: devicePhoneNumber,
-                  });
-                }
-              })
-              .catch(err => {
-                Alert.alert('❌ خطا', err.message);
-              });
-          }}
-        />
+              setAllowedNumber(devicePhoneNumber)
+                .then(async () => {
+                  const sms = await sendSms(
+                    devicePhoneNumber,
+                    `SETADMIN=0,${formatIranPhoneNumber(userPhoneNumber)}`,
+                    // 'Admin_number_updated.',
+                    'code:',
+                    ['wrong_password!'],
+                  );
+                  if (sms.body.includes('code:')) {
+                    navigation.navigate('OtpRegister', {
+                      userPhone: userPhoneNumber,
+                      devicePhone: devicePhoneNumber,
+                    });
+                  }
+                })
+                .catch(err => {
+                  Alert.alert('❌ خطا', err.message);
+                });
+            }}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

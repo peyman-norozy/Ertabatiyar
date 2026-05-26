@@ -9,6 +9,10 @@
     "next": "Next",
     "yes": "Yes",
     "no": "No",
+    "seconds": "{{count}} second",
+    "seconds_plural": "{{count}} seconds",
+    "connection_delay": "Connection delay",
+    "disconnection_delay": "Disconnection delay",
     "confirm": "Confirm",
     "warning": "Warning",
     "error": "Error",
@@ -122,6 +126,7 @@
     "title": "Sensors",
     "number": "Sensor Number",
     "numberHelper": "For example 5",
+    "chooseSensor": "Select an option",
     "sensorTitle": "Sensor Title",
     "sensorTitleHelper": "For example Engine Sensor"
   },

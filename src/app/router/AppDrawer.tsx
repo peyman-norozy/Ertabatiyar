@@ -13,17 +13,11 @@ import CustomDrawerContent from '@/components/CustomDrawerContent.tsx';
 import { I18nManager } from 'react-native';
 import { DrawerParamList } from '@/types/navigation.ts';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/context/AuthContext';
-import { AppLoadingScreen } from '@/shared/ui';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export const AppDrawer = () => {
   const { t } = useTranslation();
-  const { isLoggedIn } = useAuth();
-  if (!isLoggedIn) {
-    return <AppLoadingScreen />;
-  }
   return (
     <Drawer.Navigator
       initialRouteName="HomePage"

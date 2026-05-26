@@ -20,21 +20,23 @@ const SensorsModeModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 justify-center items-center bg-black/40 px-6">
-        <View className="bg-white rounded-3xl w-full p-5">
-          <Text
-            font="font-yekan-medium"
-            className="text-md text-center text-[#616161]"
-          >
+    <Modal visible={visible} backdropColor="#000000a3"  animationType="fade">
+      {/* Overlay */}
+      <View className="flex-1 justify-center items-center px-6">
+        {/* Card */}
+        <View className="w-full rounded-3xl p-5 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
+
+          {/* Message */}
+          <Text className="text-sm text-center text-neutral-500 dark:text-neutral-400 font-medium">
             {t('general.messages.sensorsMode')}
           </Text>
-          <Text
-            font="font-yekan-semibold"
-            className="text-center text-[#020202] mt-3"
-          >
+
+          {/* Title */}
+          <Text className="text-center text-black dark:text-white mt-3 font-semibold text-base">
             {t('general.areYouSure')}
           </Text>
+
+          {/* Actions */}
           <View className="flex-row gap-3 mt-6">
             <View className="flex-1">
               <Button
@@ -46,6 +48,7 @@ const SensorsModeModal = ({
                 onPress={onClose}
               />
             </View>
+
             <View className="flex-1">
               <Button
                 title={t('general.confirm')}
@@ -57,6 +60,7 @@ const SensorsModeModal = ({
               />
             </View>
           </View>
+
         </View>
       </View>
     </Modal>

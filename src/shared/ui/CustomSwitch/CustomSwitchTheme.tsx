@@ -17,6 +17,7 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import { DarkMode, LightMode } from '@/shared/assets/icons';
+
 interface CustomSwitchProps {
   value: boolean;
   size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -34,7 +35,7 @@ interface CustomSwitchProps {
   loading?: boolean;
 }
 
-export default function CustomSwitch({
+export default function CustomSwitchTheme({
   value,
   size = 'md',
   activeColor = '#3b82f6',
@@ -113,9 +114,13 @@ export default function CustomSwitch({
 
   const verticalAlign = (trackH - (showText ? 16 : iconSize)) / 2;
 
+  // 🔥 FIX اصلی اینجاست
   const handlePress = () => {
     if (disabled) return;
-    switchHandler(value);
+
+    const nextValue = !value;
+    switchHandler(nextValue);
+
     Vibration.vibrate(100);
   };
 
@@ -150,7 +155,6 @@ export default function CustomSwitch({
               width: trackW,
               height: trackH,
               borderRadius: trackH / 2,
-              overflow: 'hidden',
               opacity: disabled || loading ? 0.6 : 1,
             },
           ]}
@@ -178,69 +182,19 @@ export default function CustomSwitch({
               </Animated.View>
             </>
           )}
-          {showText && (
-            <>
-              <Animated.View
-                style={[
-                  opacityOn,
-                  positionOn,
-                  {
-                    position: 'absolute',
-                    height: trackH,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    ...(isRTL ? { right: -8 } : { left: 'auto', right: 2 }),
-                  },
-                ]}
-              >
-                <Text
-                  style={{
-                    color: textColorOn,
-                    fontSize: size === 'xs' ? 10 : 12,
-                    fontWeight: '600',
-                    includeFontPadding: false,
-                    textAlign: 'center',
-                    lineHeight: size === 'xs' ? 12 : 14,
-                    paddingHorizontal: 2,
-                  }}
-                >
-                  ON
-                </Text>
-              </Animated.View>
 
-              <Animated.View
-                style={[
-                  opacityOff,
-                  positionOff,
-                  {
-                    position: 'absolute',
-                    height: trackH,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    ...(isRTL ? { left: -3 } : { left: 2, right: 'auto' }),
-                  },
-                ]}
-              >
-                <Text
-                  style={{
-                    color: textColorOff,
-                    fontSize: size === 'xs' ? 10 : 12,
-                    fontWeight: '600',
-                    includeFontPadding: false,
-                    textAlign: 'center',
-                    lineHeight: size === 'xs' ? 12 : 14,
-                    paddingHorizontal: 2,
-                  }}
-                >
-                  OFF
-                </Text>
-              </Animated.View>
-            </>
-          )}
           <Animated.View style={[thumbAnimatedStyle, thumbStyleStatic]} />
-          <Text>
-            {loading && <ActivityIndicator size="small" color="#999" />}
-          </Text>
+
+          {loading && (
+            <View
+              style={{
+                position: 'absolute',
+                alignSelf: 'center',
+              }}
+            >
+              <ActivityIndicator size="small" color="#999" />
+            </View>
+          )}
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>

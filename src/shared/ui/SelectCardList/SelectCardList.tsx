@@ -1,6 +1,7 @@
 import { View, Pressable } from 'react-native';
 import { SelectPicker, Text } from '@/shared/ui';
 import { useZonesContext } from '@/context/ZonesContext';
+import { useTranslation } from 'react-i18next';
 
 export type CardOption = {
   label: string;
@@ -31,17 +32,16 @@ export function SelectCardList({
   setExitDelay,
 }: Props) {
   const { systemStatus } = useZonesContext();
-
+  const { t } = useTranslation();
   const isSystemOn = systemStatus;
 
   const delayOptions = [
-    { label: '۰ ثاینه', value: '0' },
-    { label: '۳۰ ثانیه', value: '30' },
-    { label: '۶۰ ثاینه', value: '60' },
-    { label: '۹۰ ثاینه', value: '90' },
-    { label: '۱۲۰ ثانیه', value: '120' },
+    { label: t('seconds', { count: 0 }), value: '0' },
+    { label: t('seconds', { count: 30 }), value: '30' },
+    { label: t('seconds', { count: 60 }), value: '60' },
+    { label: t('seconds', { count: 90 }), value: '90' },
+    { label: t('seconds', { count: 120 }), value: '120' },
   ];
-
 
   if (loading) {
     return (
@@ -49,7 +49,7 @@ export function SelectCardList({
         {[1, 2, 3, 4, 5, 6].map(item => (
           <View
             key={item}
-            className="flex-row items-start p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 animate-pulse"
+            className="flex-row items-start p-4 rounded-2xl mb-4 border-2 bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800 animate-pulse"
           >
             <View className="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 mt-1 items-center justify-center">
               <View className="w-2.5 h-2.5 rounded-full bg-gray-300" />
@@ -64,14 +64,13 @@ export function SelectCardList({
     );
   }
 
-
   return (
-    <View className="p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200">
+    <View className="p-4 rounded-2xl mb-4 border-2 bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800">
       {options.map((item, index) => {
         const isSelected = value === item.value;
         const isDisabled = item.disabled;
         const isLast = index === options.length - 1;
-      
+
         if (
           isSystemOn === 'DISARM' &&
           (item.value === 'OFF' || item.value === '24H')
@@ -82,7 +81,9 @@ export function SelectCardList({
               onPress={() => !isDisabled && onChange(item.value)}
               disabled={isDisabled}
               className={`flex-row items-start mt-4 pb-4 ${
-                !isLast ? 'border-b border-gray-200' : ''
+                !isLast
+                  ? 'border-b border-gray-200 dark:border-neutral-800'
+                  : ''
               }`}
             >
               <View
@@ -102,7 +103,9 @@ export function SelectCardList({
                 <Text
                   font={'font-yekan-semibold'}
                   className={`${
-                    isDisabled ? 'text-gray-400' : 'text-gray-800'
+                    isDisabled
+                      ? 'text-gray-400 dark:text-gray-500'
+                      : 'text-gray-800 dark:text-white'
                   }`}
                 >
                   {item.label}
@@ -112,7 +115,9 @@ export function SelectCardList({
                   <Text
                     font={'font-yekan-medium'}
                     className={`text-sm mt-1 ${
-                      isDisabled ? 'text-gray-400' : 'text-gray-500'
+                      isDisabled
+                        ? 'text-gray-400 dark:text-gray-500'
+                        : 'text-gray-500 dark:text-gray-400'
                     }`}
                   >
                     {item.description}
@@ -131,7 +136,9 @@ export function SelectCardList({
               onPress={() => !isDisabled && onChange(item.value)}
               disabled={isDisabled}
               className={`flex-row items-start mt-4 pb-4 ${
-                !isLast ? 'border-b border-gray-200' : ''
+                !isLast
+                  ? 'border-b border-gray-200 dark:border-neutral-800'
+                  : ''
               }`}
             >
               <View
@@ -151,7 +158,9 @@ export function SelectCardList({
                 <Text
                   font={'font-yekan-semibold'}
                   className={`${
-                    isDisabled ? 'text-gray-400' : 'text-gray-800'
+                    isDisabled
+                      ? 'text-gray-400 dark:text-gray-500'
+                      : 'text-gray-800 dark:text-white'
                   }`}
                 >
                   {item.label}
@@ -161,7 +170,9 @@ export function SelectCardList({
                   <Text
                     font={'font-yekan-medium'}
                     className={`text-sm mt-1 ${
-                      isDisabled ? 'text-gray-400' : 'text-gray-500'
+                      isDisabled
+                        ? 'text-gray-400 dark:text-gray-500'
+                        : 'text-gray-500 dark:text-gray-400'
                     }`}
                   >
                     {item.description}
@@ -177,7 +188,9 @@ export function SelectCardList({
               onPress={() => !isDisabled && onChange(item.value)}
               disabled={isDisabled}
               className={`flex-row items-start mt-4 pb-4 ${
-                !isLast ? 'border-b border-gray-200' : ''
+                !isLast
+                  ? 'border-b border-gray-200 dark:border-neutral-800'
+                  : ''
               }`}
             >
               <View
@@ -197,7 +210,9 @@ export function SelectCardList({
                 <Text
                   font={'font-yekan-semibold'}
                   className={`${
-                    isDisabled ? 'text-gray-400' : 'text-gray-800'
+                    isDisabled
+                      ? 'text-gray-400 dark:text-gray-500'
+                      : 'text-gray-800 dark:text-white'
                   }`}
                 >
                   {item.label}
@@ -207,7 +222,9 @@ export function SelectCardList({
                   <Text
                     font={'font-yekan-medium'}
                     className={`text-sm mt-1 ${
-                      isDisabled ? 'text-gray-400' : 'text-gray-500'
+                      isDisabled
+                        ? 'text-gray-400 dark:text-gray-500'
+                        : 'text-gray-500 dark:text-gray-400'
                     }`}
                   >
                     {item.description}
@@ -223,13 +240,12 @@ export function SelectCardList({
                   >
                     <View className="mt-4">
                       <Text className="text-[#020202] text-sm">
-                        تاخیر در وصل
+                        {t('general.connection_delay')}
                       </Text>
                       <SelectPicker
                         options={delayOptions}
                         selectedValue={enterDelay}
                         onValueChange={newValue => {
-                          console.log(newValue);
                           setEnterDelay(newValue);
                         }}
                         zIndex={5000}
@@ -237,7 +253,7 @@ export function SelectCardList({
                     </View>
                     <View className="mt-4">
                       <Text className="text-[#020202] text-sm">
-                        تاخیر در قطع
+                        {t('general.disconnection_delay')}
                       </Text>
                       <SelectPicker
                         options={delayOptions}

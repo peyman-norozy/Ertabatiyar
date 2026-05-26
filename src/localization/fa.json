@@ -9,6 +9,9 @@
     "next": "بعدی",
     "yes": "بله",
     "no": "خیر",
+    "seconds": "{{count}} ثانیه",
+    "connection_delay": "تاخیر در اتصال",
+    "disconnection_delay": "تاخیر در قطع",
     "confirm": "تایید",
     "warning": "هشدار",
     "error": "خطا",
@@ -121,6 +124,7 @@
   "sensors": {
     "title": "حسگر ها",
     "number": "شماره حسگر",
+    "chooseSensor": "یک حسگر انتخاب کنید",
     "numberHelper": "مثلا 5",
     "sensorTitle": "عنوان حسگر",
     "sensorTitleHelper": "مثلا سنسور موتور"

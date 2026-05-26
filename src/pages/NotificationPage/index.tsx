@@ -1,6 +1,5 @@
 import { Image, ScrollView, StatusBar, View } from 'react-native';
 import { Button, Text } from '@/shared/ui';
-import { CustomBottomTab } from '@/shared/ui/bottomTab/ui';
 import { useTranslation } from 'react-i18next';
 import { simCard } from '@/shared/assets/images';
 import { useSms } from '@/hook/useSms';
@@ -47,25 +46,31 @@ const NotificationPage = () => {
   };
 
   return (
-    <View className="flex-1 bg-[#F9F9F9]">
+    <View className="flex-1 bg-[#F9F9F9] dark:bg-neutral-800">
       <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <ScrollView>
         <View className={'flex items-center gap-2 mt-40'}>
           <Image source={simCard} className={'w-[144px] h-[119]'} />
 
-          <Text className={'text-[#616161] font-yekan-medium text-sm mt-7'}>
+          <Text
+            className={
+              'text-[#616161] dark:text-white font-yekan-medium text-sm mt-7'
+            }
+          >
             {t('general.simTitle')}
           </Text>
           <View className="flex-row items-center mt-3 gap-2">
-            <Text className="text-[#424242] font-yekan-bold text-sm ">
+            <Text className="text-[#424242] dark:text-white font-yekan-bold text-sm ">
               {t('general.simPrice')}
             </Text>
-            <Text>{Number(newSimPrice).toLocaleString()}</Text>
+            <Text className="text-[#424242] dark:text-white font-yekan-bold text-sm">
+              {Number(newSimPrice).toLocaleString()}
+            </Text>
           </View>
         </View>
       </ScrollView>
-      <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
+      <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] dark:border-neutral-800 rounded-t-2xl">
         <Button
           title={t('general.simUpdate' as any)}
           variant="primary"

@@ -9,6 +9,9 @@
     "next": "下一步",
     "yes": "是",
     "no": "否",
+    "seconds": "{{count}}秒",
+    "connection_delay": "连接延迟",
+    "disconnection_delay": "断开延迟",
     "confirm": "确认",
     "warning": "警告",
     "error": "错误",
@@ -121,6 +124,7 @@
   "sensors": {
     "title": "传感器",
     "number": "传感器编号",
+    "chooseSensor": "请选择一个选项",
     "numberHelper": "例如 5",
     "sensorTitle": "传感器标题",
     "sensorTitleHelper": "例如 发动机传感器"

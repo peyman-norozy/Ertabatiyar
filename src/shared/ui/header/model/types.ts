@@ -8,6 +8,7 @@ export interface CustomHeaderPropsType {
   showThemeSwitcher?: boolean;
   showLogo?: boolean;
   backUrl?: string;
+  isDark?: boolean;
 }
 
 export type RootDrawerParamList = {

@@ -6,7 +6,6 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { errorFun } from '@/utils/errorTranslating';
 
 export type Sms = {
   from: string;
@@ -66,17 +65,11 @@ export const useSms = () => {
         const last = await SmsModule.getLastSms();
 
         if (!last) return;
-        console.log(last, 'RAW SMS');
         const sms = JSON.parse(last);
         if (sentAt && sms.time < sentAt) {
           return;
         }
         setLastSms(sms);
-
-        console.log('📩 SMS:', sms?.body?.includes(expectedText));
-        console.log(sms, 'sdfjyytoiuoiopopo');
-        console.log('✅ Expected SMS received:', sms.body);
-        console.log(errorTexts, 'sdjfuasasaseueu');
         if (expectedText && sms?.body?.includes(expectedText)) {
           stopListening();
           onFinal?.();
@@ -95,8 +88,6 @@ export const useSms = () => {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
           }
-          // Alert.alert('✅', errorFun(sms.body));
-          // console.log('❌ SMS Error received:', sms.body);
           reject(sms.body);
           return;
         }

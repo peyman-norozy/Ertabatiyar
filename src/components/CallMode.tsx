@@ -5,12 +5,15 @@ import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { useThemeMode } from '@/hook/useThemeMode';
 
 const CallMode = () => {
   const { call, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { logout } = useAuth();
+  const { isDark } = useThemeMode();
   const { t } = useTranslation();
+
   const isOn = call['CALL'] !== 'OFF';
 
   const callSwitchHandler = async (currentValue: boolean) => {
@@ -18,50 +21,57 @@ const CallMode = () => {
     const password = await getStorage('password');
 
     const newValue = !currentValue;
+
     try {
       const sms = await sendSms(
-        devicePhoneNumber ? devicePhoneNumber : '',
-        `${password} CALL${newValue ? 'ON' : 'OFF'}`,
-        `call_function_${newValue ? 'enabled.' : 'disabled.'}`,
+        devicePhoneNumber ?? '',
+        `${password} CALL_${newValue ? 'ON' : 'OFF'}`,
+        `call_function_${newValue ? 'enabled' : 'disabled'}`,
         ['access_denied', 'SETADMIN'],
       );
 
-      if (sms.body === `call_function_${newValue ? 'enabled.' : 'disabled.'}`) {
+      if (sms.body === `call_function_${newValue ? 'enabled' : 'disabled'}`) {
         updateZone('CALL', newValue ? 'ON' : 'OFF');
       }
     } catch (e) {
-      if (e === 'SETADMIN') {
-        logout();
-      }
-      console.log('SMS failed:', e);
+      if (e === 'SETADMIN') logout();
     }
   };
+
   return (
     <View
-      className={
-        'bg-[#C6DFF7] mx-4 mt-6 rounded-lg p-3 flex-row items-center justify-between'
-      }
+      className="
+        mx-4 mt-6 p-3 rounded-xl
+        flex-row items-center justify-between
+        bg-blue-100 dark:bg-neutral-800
+        border border-blue-200 dark:border-neutral-700
+      "
     >
-      <View className={'flex-row items-center gap-2'}>
+      {/* Left side */}
+      <View className="flex-row items-center gap-2">
         <Image
           source={require('../shared/assets/icons/calling.gif')}
-          className={'w-10 h-10'}
+          className="w-10 h-10"
+          style={{
+            opacity: 0.9,
+          }}
         />
 
-        <Text className={'text-[#020202] text-base'} font={'font-yekan-medium'}>
+        <Text className="text-black dark:text-white text-base font-medium">
           {t('general.callMode')}
         </Text>
       </View>
+
+      {/* Switch */}
       <CustomSwitch
         value={isOn}
-        activeColor="#3260C3"
-        inactiveColor={'#E2E2E2'}
-        inactiveThumbColor={'#414141'}
-        activeThumbColor={'#FFFFFF'}
-        showText={true}
-        textColorOn={'#FFFFFF'}
-        textColorOff={'#616161'}
-        size={'xs'}
+        inactiveColor={isDark ? '#171717' : '#E5E7EB'}
+        inactiveThumbColor="#4B5563"
+        activeThumbColor={isDark ? '#000' : '#fff'}
+        showText
+        textColorOn="#FFFFFF"
+        textColorOff={isDark ? '#fff' : '#6B7280'}
+        size="xs"
         darkModeIcons={false}
         switchHandler={callSwitchHandler}
         disabled={loading}

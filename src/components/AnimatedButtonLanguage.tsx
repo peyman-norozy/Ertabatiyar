@@ -28,16 +28,13 @@ interface AnimatedButtonTypeProps {
 }
 
 const AnimatedButtonLanguage: React.FC<AnimatedButtonTypeProps> = ({
-  title,
   active,
   onPress,
   image,
   showIcon,
   width,
   height,
-  fontSize = 'text-xs',
-  inActiveTitleColor = 'text-[#A2A2A2]',
-  activeBackgroundColor = 'bg-[#3C73D4]',
+  activeBackgroundColor = 'bg-blue-600',
   disabled = false,
   loading = false,
 }) => {
@@ -46,7 +43,7 @@ const AnimatedButtonLanguage: React.FC<AnimatedButtonTypeProps> = ({
   const pressIn = () => {
     if (disabled || loading) return;
     scale.value = withTiming(0.95, { duration: 80 });
-    Vibration.vibrate(100);
+    Vibration.vibrate(80);
   };
 
   const pressOut = () => {
@@ -64,33 +61,35 @@ const AnimatedButtonLanguage: React.FC<AnimatedButtonTypeProps> = ({
       onPressOut={pressOut}
       onPress={onPress}
       disabled={disabled || loading}
-      className={`px-5 py-3 rounded-3xl ${width} ${height}
+      className={`
+        px-5 py-3 rounded-3xl
+        ${width} ${height}
+        border
         ${
           active
-            ? `${activeBackgroundColor} border border-[#508FE1]`
-            : 'bg-[#F1F7FD]'
+            ? `${activeBackgroundColor} border-blue-500`
+            : 'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700'
         }
         ${disabled || loading ? 'opacity-50' : 'opacity-100'}
       `}
     >
       <Animated.View style={animatedStyle}>
-        <View
-          className="flex-col items-center justify-center gap-6 relative"
-          style={{ direction: 'ltr' }}
-        >
+        <View className="flex-col items-center justify-center gap-4">
           {showIcon && !loading && (
-            <Image source={image} className="h-[91px]" />
+            <Image
+              source={image}
+              className="h-[91px] w-[91px]"
+              style={{
+                opacity: active ? 1 : 0.8,
+              }}
+            />
           )}
-          {/* <Text
-            className={`font-yekan-semibold absolute ${fontSize} ${
-              active ? 'text-white' : inActiveTitleColor
-            }`}
-            style={{ opacity: loading ? 0.5 : 1 }}
-          >
-            {title}
-          </Text> */}
+
           {loading && (
-            <ActivityIndicator size="small" color={active ? '#fff' : '#999'} />
+            <ActivityIndicator
+              size="small"
+              color={active ? '#fff' : '#6B7280'}
+            />
           )}
         </View>
       </Animated.View>

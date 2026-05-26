@@ -10,7 +10,6 @@ import { Edit, Trash } from '@/shared/assets/icons';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardOption } from '@/shared/ui/SelectCardList/SelectCardList';
-import EditTitleModal from './titleEditModal';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootDrawerParamList } from '@/shared/ui/header/model';
 import { useZonesContext } from '@/context/ZonesContext';
@@ -23,18 +22,19 @@ import AddZoneModal from '@/components/AddZoneModal';
 import { useZoneModalContext } from '@/context/ZoneModalContext';
 import AlarmSetting from '@/components/AlarmSetting';
 import { useAuth } from '@/context/AuthContext';
+import { useThemeMode } from '@/hook/useThemeMode';
 
 type RouteType = RouteProp<RootDrawerParamList, 'ZoneSettingsPage'>;
 
 const ZoneSettingsPage = () => {
   const { t } = useTranslation();
+  const { isDark } = useThemeMode();
   const [devicePhoneNumber, setDevicePhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const route = useRoute<RouteType>();
   const { zoneId } = route.params;
   const [selected, setSelected] = useState('');
-
   const { sendSms, loading } = useSms();
 
   const {
@@ -56,7 +56,6 @@ const ZoneSettingsPage = () => {
     setSelectedOutput(output?.[zoneId] ?? 'NON');
   }, [output, zoneId]);
 
-  console.log(system, zones, 'jadsfjueueyytytyttyty');
   const {
     modalVisible,
     selectedZone,
@@ -87,13 +86,6 @@ const ZoneSettingsPage = () => {
       password ? setPassword(password) : null;
     })();
   }, []);
-
-  console.log(
-    enterDelay,
-    exitDelay,
-    selectedOutput,
-    'sdjfueueugfgfgeeeeeefgfgf',
-  );
 
   const options: CardOption[] = [
     {
@@ -206,8 +198,6 @@ const ZoneSettingsPage = () => {
     }
   };
 
-  console.log(zoneId, 'sjfeueugfgftrt');
-
   const deleteZone = async () => {
     const saved = await getStorage('addedZones');
 
@@ -223,11 +213,13 @@ const ZoneSettingsPage = () => {
   const newTitle = addedZones.find(item => item.key === zoneId)?.title;
 
   return (
-    <View className="flex-1 bg-[#F9F9F9]">
+    <View className="flex-1 bg-[#F9F9F9] dark:bg-neutral-800">
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4 mt-20">
+      <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800 mx-4 mt-20">
         <View className="flex-row justify-between w-full">
-          <Text font={'font-yekan-bold'}>{newTitle}</Text>
+          <Text className="dark:text-white" font={'font-yekan-bold'}>
+            {newTitle}
+          </Text>
           <Pressable onPress={() => setDeleteModalVisible(true)}>
             <Trash />
           </Pressable>
@@ -240,8 +232,8 @@ const ZoneSettingsPage = () => {
             })
           }
         >
-          <View className="flex-row items-center gap-1">
-            <Edit width={16} height={16} />
+          <View className="flex-row items-center gap-2">
+            <Edit width={16} height={16} stroke={isDark ? '#fff' : '#000'} />
             <Text
               font={'font-yekan-medium'}
               className="text-gray-500 text-xs mt-1"
@@ -253,11 +245,11 @@ const ZoneSettingsPage = () => {
       </View>
 
       <ScrollView
-        className="bg-[#F9F9F9]"
+        className="bg-[#F9F9F9] dark:bg-neutral-800"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       >
-        <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white border-gray-200 mx-4">
+        <View className="flex-col justify-between items-start gap-3 p-4 rounded-2xl mb-4 border-2 bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800 mx-4">
           <AlarmSetting
             zoneId={zoneId}
             value={selectedOutput}
@@ -276,7 +268,7 @@ const ZoneSettingsPage = () => {
           />
         </View>
       </ScrollView>
-      <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
+      <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-neutral-900 border border-[#EFEFEF] dark:border-neutral-800 rounded-t-2xl">
         <Button
           title={t('zoneSettingsPage.button.confirm' as any)}
           variant="primary"

@@ -9,6 +9,10 @@
     "next": "Далее",
     "yes": "Да",
     "no": "Нет",
+    "seconds": "{{count}} секунда",
+    "seconds_plural": "{{count}} секунд",
+    "connection_delay": "Задержка соединения",
+    "disconnection_delay": "Задержка отключения",
     "confirm": "Подтвердить",
     "warning": "Предупреждение",
     "error": "Ошибка",
@@ -122,6 +126,7 @@
     "title": "Датчики",
     "number": "Номер датчика",
     "numberHelper": "Например, 5",
+    "chooseSensor": "Выберите вариант",
     "sensorTitle": "Название датчика",
     "sensorTitleHelper": "Например, датчик двигателя"
   },

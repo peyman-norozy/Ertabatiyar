@@ -1,92 +1,113 @@
 import React, { useEffect, useState } from 'react';
 import i18n from './localization/i18n.ts';
 import '../global.css';
+
+import {
+  StatusBar,
+  NativeModules,
+  I18nManager,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar, NativeModules, I18nManager } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Restart from 'react-native-restart';
 
 import { AppRouter } from '@/app/router/AppRouter.tsx';
 import { DeviceProvider } from '@/context/DeviceContext';
 import { AppBootstrap } from '@/AppBootstrap';
 import { ZonesProvider } from './context/ZonesContext.tsx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Restart from 'react-native-restart';
-import SplashScreen from './components/SplashScreen.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
 import { ZoneModalProvider } from './context/ZoneModalContext.tsx';
+import { AppLoadingScreen } from './shared/ui/index.ts';
 
 const { SmsModule } = NativeModules;
 
 function App(): React.JSX.Element {
-  const [ready, setReady] = useState(false);
-
-  const initLanguage = async () => {
-    try {
-      const savedLanguage = await AsyncStorage.getItem('appLanguage');
-
-      const lang = (savedLanguage || 'fa') as 'fa' | 'en' | 'zh' | 'ru';
-
-      const isRTL = lang === 'fa';
-
-      // RTL / LTR
-      if (I18nManager.isRTL !== isRTL) {
-        I18nManager.allowRTL(isRTL);
-        I18nManager.forceRTL(isRTL);
-
-        Restart.Restart();
-        return;
-      }
-
-      // language
-      await i18n.changeLanguage(lang);
-
-      // app ready
-      setReady(true);
-    } catch (e) {
-      console.log(e);
-      setReady(true);
-    }
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const initLanguage = async () => {
+      try {
+        const start = Date.now();
+
+        const savedLanguage = await AsyncStorage.getItem('appLanguage');
+
+        const lang = (savedLanguage || 'fa') as 'fa' | 'en' | 'zh' | 'ru';
+
+        const isRTL = lang === 'fa';
+
+        if (I18nManager.isRTL !== isRTL) {
+          I18nManager.allowRTL(isRTL);
+          I18nManager.forceRTL(isRTL);
+
+          Restart.Restart();
+          return;
+        }
+
+        await i18n.changeLanguage(lang);
+
+        const elapsed = Date.now() - start;
+
+        if (elapsed < 2200) {
+          await new Promise((resolve: any) =>
+            setTimeout(resolve, 2200 - elapsed),
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     initLanguage();
   }, []);
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const last = await SmsModule.getLastSms();
+      try {
+        const last = await SmsModule.getLastSms();
 
-      if (!last) return;
+        if (!last) return;
 
-      const sms = JSON.parse(last);
+        const sms = JSON.parse(last);
 
-      if (sms.body === 'LIGHT ON') {
-        // دستور
+        if (sms.body === 'LIGHT ON') {
+          // دستور
+        }
+      } catch (e) {
+        console.log(e);
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
 
-  if (!ready) {
-    return <SplashScreen />;
-  }
-
   return (
-    <SafeAreaView className={'flex-1'}>
-      <ZonesProvider>
-        <ZoneModalProvider>
-          <DeviceProvider>
-            <ToastProvider>
-              <SafeAreaProvider style={{ flex: 1 }}>
-                <StatusBar backgroundColor="white" />
+    <SafeAreaProvider>
+      <SafeAreaView className="flex-1 bg-white dark:bg-neutral-900">
+        <StatusBar backgroundColor="white" barStyle="dark-content" />
+        <ZonesProvider>
+          <ZoneModalProvider>
+            <DeviceProvider>
+              <ToastProvider>
                 <AppBootstrap />
                 <AppRouter />
-              </SafeAreaProvider>
-            </ToastProvider>
-          </DeviceProvider>
-        </ZoneModalProvider>
-      </ZonesProvider>
-    </SafeAreaView>
+              </ToastProvider>
+            </DeviceProvider>
+          </ZoneModalProvider>
+        </ZonesProvider>
+        {loading && (
+          <View className="absolute inset-0 z-[9999] items-center justify-center bg-blue-800">
+            <AppLoadingScreen />
+          </View>
+        )}
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
+
 export default App;

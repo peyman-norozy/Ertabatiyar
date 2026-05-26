@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Text,
   Pressable,
   Vibration,
   Image,
   View,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -37,8 +37,8 @@ const AnimatedButton: React.FC<AnimatedButtonTypeProps> = ({
   width,
   height,
   fontSize = 'text-xs',
-  inActiveTitleColor = 'text-[#A2A2A2]',
-  activeBackgroundColor = 'bg-[#3C73D4]',
+  inActiveTitleColor = 'text-neutral-500 dark:text-neutral-400',
+  activeBackgroundColor = 'bg-blue-600 dark:bg-blue-500',
   disabled = false,
   loading = false,
 }) => {
@@ -46,13 +46,15 @@ const AnimatedButton: React.FC<AnimatedButtonTypeProps> = ({
 
   const pressIn = () => {
     if (disabled || loading) return;
-    scale.value = withTiming(0.95, { duration: 80 });
-    Vibration.vibrate(100);
+    scale.value = withTiming(0.96, { duration: 90 });
+
+    // optional safer vibration
+    Vibration.vibrate?.(50);
   };
 
   const pressOut = () => {
     if (disabled || loading) return;
-    scale.value = withTiming(1, { duration: 80 });
+    scale.value = withTiming(1, { duration: 90 });
   };
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -65,33 +67,45 @@ const AnimatedButton: React.FC<AnimatedButtonTypeProps> = ({
       onPressOut={pressOut}
       onPress={onPress}
       disabled={disabled || loading}
-      className={`px-5 py-3 rounded-xl ${width} ${height}
+      className={`
+        ${width} ${height}
+        rounded-xl
+        flex-row items-center justify-center gap-2
+        border
         ${
           active
-            ? `${activeBackgroundColor} border border-[#508FE1]`
-            : 'bg-[#F1F7FD]'
+            ? `${activeBackgroundColor} border-blue-500`
+            : 'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700'
         }
         ${disabled || loading ? 'opacity-50' : 'opacity-100'}
       `}
     >
       <Animated.View style={animatedStyle}>
-        <View
-          className="flex-row items-center justify-center gap-x-2"
-          style={{ direction: 'ltr' }}
-        >
+        <View className="flex-row items-center justify-center gap-2">
+          {/* Text */}
           <Text
-            className={`font-yekan-semibold ${fontSize} ${
+            className={`${fontSize} font-yekan-semibold ${
               active ? 'text-white' : inActiveTitleColor
             }`}
-            style={{ opacity: loading ? 0.5 : 1 }}
           >
             {title}
           </Text>
 
-          {showIcon && !loading && <Image source={image} className="w-8 h-8" />}
+          {/* Icon */}
+          {showIcon && !loading && (
+            <Image
+              source={image}
+              className="w-6 h-6"
+              style={{ opacity: active ? 1 : 0.8 }}
+            />
+          )}
 
+          {/* Loading */}
           {loading && (
-            <ActivityIndicator size="small" color={active ? '#fff' : '#999'} />
+            <ActivityIndicator
+              size="small"
+              color={active ? '#fff' : '#6B7280'}
+            />
           )}
         </View>
       </Animated.View>

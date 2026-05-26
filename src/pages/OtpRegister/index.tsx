@@ -8,7 +8,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {
   CodeField,
@@ -51,7 +50,6 @@ const OtpRegister = () => {
     (async () => {
       const device = (await getStorage('devicePhoneNumber')) || '';
       setDevicePhoneNumber(device);
-      console.log(device, 'ajsdfjueueueuu');
     })();
   }, []);
 
@@ -83,7 +81,6 @@ const OtpRegister = () => {
     const devicePhoneNumber = devicePhone || '';
     const userPhoneNumber = userPhone || '';
     // TODO: resend OTP API call
-    console.log('Resend OTP');
     setAllowedNumber(devicePhoneNumber)
       .then(async () => {
         const sms = await sendSms(
@@ -103,7 +100,7 @@ const OtpRegister = () => {
         }
       })
       .catch(e => {
-        console.log(e, 'djfjsdfjueuehfhfgg');
+        console.log(e, 'setAllowedNumberCatch');
         if (e === 'SETADMIN') {
         }
       });
@@ -133,12 +130,12 @@ const OtpRegister = () => {
           paddingBottom: 120,
         }}
       >
-        <View className="flex-1 mx-4">
+        <View className="flex-1 mx-4 mt-24">
           <View className="flex-1 items-center mt-[48px] px-6">
             <Image source={logoBlue} className="w-[110px] h-[110px]" />
 
             <View className="mt-14 gap-4">
-              <Text className="text-[#020202] text-sm font-yekan-medium">
+              <Text className="text-[#020202] dark:text-white text-sm font-yekan-medium">
                 کد تایید را وارد کنید
               </Text>
 
@@ -163,7 +160,7 @@ const OtpRegister = () => {
                       isFocused ? 'border-blue-500' : 'border-[#A2A2A2]'
                     }`}
                   >
-                    <Text className="text-2xl font-bold">
+                    <Text className="text-2xl dark:text-white font-bold">
                       {symbol || (isFocused ? <Cursor /> : null)}
                     </Text>
                   </View>
@@ -200,62 +197,57 @@ const OtpRegister = () => {
           </View>
         </View>
       </ScrollView>
-
-      <View
-        style={{
-          padding: 16,
-          backgroundColor: 'white',
-        }}
-        className="dark:bg-neutral-800 border-t border-neutral-200"
-      >
-        <Button
-          title={t('personalInformation.input.button.title' as any)}
-          variant="primary"
-          size="lg"
-          fullWidth
-          disabled={value.length !== CELL_COUNT}
-          loading={loading}
-          onPress={() => {
-            setAllowedNumber(devicePhoneNumber)
-              .then(async () => {
-                const sms = await sendSms(
-                  devicePhoneNumber,
-                  `VERIFYADMIN=${value}`,
-                  'admin_registration_completed.',
-                  [
-                    'invalid_verification_code.',
-                    'SETADMIN',
-                    'verification_timeout.',
-                  ],
-                  () => {
-                    // navigation.navigate('LoginStep1');
-                  },
-                  async () => {
-                    // await setStorage('userPhoneNumber', userPhoneNumber);
-                    // await setStorage('devicePhoneNumber', devicePhoneNumber);
-                  },
-                );
-
-                console.log(sms, 'jfjfjfjytytytyaaa');
-                if (sms.body === 'admin_registration_completed.') {
-                  console.log('sdjfsjdfpeymannorozy');
-                  await setStorage('otp', 'true');
-                  navigation.navigate('LoginStep1');
-                }
-                console.log(sms, 'skjfurruhfhghth');
-              })
-              .catch(e => {
-                if (e === 'invalid_verification_code.') {
-                  showToast('کد اشتباه وارد شده است', 'error');
-                } else if (e === 'verification_timeout.' || e === 'SETADMIN') {
-                  showToast(
-                    'زمان ارسال کد به پایان رسید لطفا مجدد کد دریافت کنید',
-                    'error',
+      <View className="bg-white dark:bg-neutral-800">
+        <View className="px-6 py-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800  rounded-t-2xl">
+          <Button
+            title={t('personalInformation.input.button.title' as any)}
+            variant="primary"
+            size="lg"
+            fullWidth
+            disabled={value.length !== CELL_COUNT}
+            loading={loading}
+            onPress={() => {
+              setAllowedNumber(devicePhoneNumber)
+                .then(async () => {
+                  const sms = await sendSms(
+                    devicePhoneNumber,
+                    `VERIFYADMIN=${value}`,
+                    'admin_registration_completed.',
+                    [
+                      'invalid_verification_code.',
+                      'SETADMIN',
+                      'verification_timeout.',
+                    ],
+                    () => {
+                      // navigation.navigate('LoginStep1');
+                    },
+                    async () => {
+                      // await setStorage('userPhoneNumber', userPhoneNumber);
+                      // await setStorage('devicePhoneNumber', devicePhoneNumber);
+                    },
                   );
-                }
-              });
-          }}
-        />
+
+                  if (sms.body === 'admin_registration_completed.') {
+                    await setStorage('otp', 'true');
+                    navigation.navigate('LoginStep1');
+                  }
+                })
+                .catch(e => {
+                  if (e === 'invalid_verification_code.') {
+                    showToast('کد اشتباه وارد شده است', 'error');
+                  } else if (
+                    e === 'verification_timeout.' ||
+                    e === 'SETADMIN'
+                  ) {
+                    showToast(
+                      'زمان ارسال کد به پایان رسید لطفا مجدد کد دریافت کنید',
+                      'error',
+                    );
+                  }
+                });
+            }}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

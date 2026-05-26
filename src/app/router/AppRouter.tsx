@@ -36,18 +36,9 @@ const InnerAppRouter = () => {
     }
   }, [isLoggedIn]);
 
-  console.log(loading, isLoggedIn, 'ssssssyyyyyyyy');
-
-  // if (loading) {
-  //   return <SplashScreen />;
-  // }
-
-  if ( !isLoggedIn && loading) {
-    console.log('before');
+  if (!isLoggedIn && loading) {
     return <AppLoadingScreen />;
   }
-
-  console.log('after');
 
   return (
     <GestureHandlerRootView className={'flex-1'}>

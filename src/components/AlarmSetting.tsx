@@ -1,3 +1,4 @@
+import { useThemeMode } from '@/hook/useThemeMode';
 import { Alarm, Buzzer } from '@/shared/assets/icons';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,7 @@ interface Props {
 
 const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
   const { t } = useTranslation();
+  const { isDark } = useThemeMode();
   const zoneOutput = value;
 
   const isAlarmOn = zoneOutput === 'BTH' || zoneOutput === 'SRN';
@@ -44,72 +46,111 @@ const AlarmSetting: React.FC<Props> = ({ zoneId, value, onChange }) => {
 
   return (
     <>
-      <Text className="text-sm font-yekan-bold text-[#020202]">
+      <Text className="text-sm font-yekan-bold text-[#020202] dark:text-white">
         {t('general.alarmType')}
       </Text>
-      <View className="flex gap-4 mt-3">
-        <View className="border-b border-b-[#EFEFEF] w-full flex flex-row pb-3">
-          <View className="flex flex-row gap-1 flex-1">
-            <Alarm width={24} height={24} stroke="#FAAD14" />
-
-            <View className="flex flex-col gap-6">
-              <Text className="text-sm font-yekan-bold text-[#020202]">
-                {t('general.siren')}
-              </Text>
-              <Text className="text-[#616161] font-yekan-medium text-sm">
-                {t('general.sirenDescription')}
-              </Text>
-            </View>
-          </View>
-          <View className="relative justify-center items-center w-24 h-24 overflow-hidden">
-            <View className="absolute opacity-10 rotate-[42deg]">
-              <Alarm width={100} height={100} stroke="#FAAD14" />
-            </View>
-            <CustomSwitch
-              value={isAlarmOn}
-              activeColor="#3260C3"
-              inactiveColor="#E2E2E2"
-              inactiveThumbColor="#414141"
-              activeThumbColor="#FFFFFF"
-              showText
-              textColorOn="#FFFFFF"
-              textColorOff="#616161"
-              size="xs"
-              darkModeIcons={false}
-              switchHandler={alarmSwitchHandler}
+      <View className="flex gap-4 mt-3 relative">
+        <View className="relative">
+          <View
+            className="absolute right-0 opacity-10 rotate-[42deg]"
+            style={{
+              top: -24,
+            }}
+          >
+            <Alarm
+              width={100}
+              height={100}
+              stroke="#FAAD14"
+              fill={isDark ? '#000' : '#FFF1CA'}
             />
           </View>
         </View>
-        <View className="w-full flex flex-row">
-          <View className="flex flex-row gap-1 flex-1">
-            <Buzzer width={24} height={24} stroke="#3E9911" />
-            <View className="flex flex-col gap-6">
-              <Text className="text-sm font-yekan-bold text-[#020202]">
-                {t('general.speaker')}
-              </Text>
-              <Text className="text-[#616161] font-yekan-medium text-sm">
-                {t('general.speakerDescription')}
-              </Text>
+        <View className="border-b border-[#EFEFEF] dark:border-neutral-800 w-full flex flex-col gap-4 pb-4">
+          <View className="flex flex-row justify-between w-full">
+            <View className="flex flex-row items-center gap-2">
+              <View>
+                <Alarm
+                  width={24}
+                  height={24}
+                  stroke="#FAAD14"
+                  fill={isDark ? '#000' : '#FFF1CA'}
+                />
+              </View>
+              <View className="flex flex-col gap-6">
+                <Text className="text-sm font-yekan-bold text-[#020202] dark:text-white">
+                  {t('general.siren')}
+                </Text>
+              </View>
+            </View>
+            <View>
+              <CustomSwitch
+                value={isAlarmOn}
+                inactiveColor={isDark ? '#404040' : '#E5E7EB'}
+                inactiveThumbColor="#4B5563"
+                activeThumbColor={isDark ? '#000' : '#fff'}
+                showText
+                textColorOn="#FFFFFF"
+                textColorOff={isDark ? '#fff' : '#6B7280'}
+                size="xs"
+                darkModeIcons={false}
+                switchHandler={alarmSwitchHandler}
+              />
             </View>
           </View>
-          <View className="relative justify-center items-center w-24 h-24 overflow-hidden">
-            <View className="absolute opacity-10 -rotate-[42deg]">
-              <Buzzer width={100} height={200} stroke="#3E9911" />
-            </View>
-            <CustomSwitch
-              value={isBuzzerOn}
-              activeColor="#3260C3"
-              inactiveColor="#E2E2E2"
-              inactiveThumbColor="#414141"
-              activeThumbColor="#FFFFFF"
-              showText
-              textColorOn="#FFFFFF"
-              textColorOff="#616161"
-              size="xs"
-              darkModeIcons={false}
-              switchHandler={buzzerSwitchHandler}
+          <Text className="text-[#616161] font-yekan-medium text-sm dark:text-gray-400">
+            {t('general.sirenDescription')}
+          </Text>
+        </View>
+        <View className="relative justify-center items-center">
+          <View
+            className="absolute right-0 opacity-10 -rotate-[42deg]"
+            style={{
+              top: -64,
+            }}
+          >
+            <Buzzer
+              width={100}
+              height={200}
+              stroke="#3E9911"
+              fill={isDark ? '#000' : '#FFF1CA'}
             />
           </View>
+        </View>
+        <View className="w-full flex flex-col gap-4 pb-4">
+          <View className="flex flex-row justify-between w-full">
+            <View className="flex flex-row items-center gap-2">
+              <View>
+                <Buzzer
+                  width={24}
+                  height={24}
+                  stroke="#3E9911"
+                  fill={isDark ? '#000' : '#FFF1CA'}
+                />
+              </View>
+              <View className="flex flex-col gap-6">
+                <Text className="text-sm font-yekan-bold text-[#020202] dark:text-white">
+                  {t('general.speaker')}
+                </Text>
+              </View>
+            </View>
+            <View>
+              <CustomSwitch
+                value={isBuzzerOn}
+                inactiveColor={isDark ? '#404040' : '#E5E7EB'}
+                inactiveThumbColor="#4B5563"
+                activeThumbColor={isDark ? '#000' : '#fff'}
+                showText
+                textColorOn="#FFFFFF"
+                textColorOff={isDark ? '#fff' : '#6B7280'}
+                size="xs"
+                darkModeIcons={false}
+                switchHandler={buzzerSwitchHandler}
+              />
+            </View>
+          </View>
+          <Text className="text-[#616161] font-yekan-medium text-sm dark:text-gray-400">
+            {t('general.speakerDescription')}
+          </Text>
         </View>
       </View>
     </>

@@ -122,7 +122,9 @@ const Index = () => {
             </View>
           </View>
         </View>
-        <View className="absolute bottom-0 left-0 right-0 px-6 py-6 bg-white dark:bg-black border border-[#EFEFEF] rounded-t-2xl">
+      </ScrollView>
+      <View className="bg-white dark:bg-neutral-800">
+        <View className="px-6 py-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 rounded-t-2xl">
           <Button
             title={t('personalInformation.input.button.title' as any)}
             variant="primary"
@@ -139,7 +141,7 @@ const Index = () => {
             onPress={onClick}
           />
         </View>
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };

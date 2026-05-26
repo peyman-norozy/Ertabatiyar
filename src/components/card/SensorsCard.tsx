@@ -8,8 +8,10 @@ import type { ZoneKeyType } from '@/types/zone';
 import { AppNavigation } from '@/helpers/appNavigation';
 import { useZonesContext } from '@/context/ZonesContext';
 import { useAuth } from '@/context/AuthContext';
+import { useThemeMode } from '@/hook/useThemeMode';
+import { useTranslation } from 'react-i18next';
 
-interface SenesorsCardtypeProps {
+interface SensorsCardProps {
   item: ZoneKeyType;
   value: string;
   active: boolean;
@@ -17,33 +19,34 @@ interface SenesorsCardtypeProps {
   onZoneAdded: () => void;
 }
 
-const zoneValue: Record<string, string> = {
-  N: 'وضعیت عادی',
-  I: 'وضعیت بی صدا',
-  '24H': 'وضعیت ۲۴ ساعته',
-  D: 'وضعیت با تاخیر',
-  F: 'وضعیت هشدار',
-  OFF: 'وضعیت خاموش',
-};
-
-const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
+const SensorsCard: React.FC<SensorsCardProps> = ({
   item,
   active,
   title,
   value,
 }) => {
+  const { t } = useTranslation();
   const { sendSms, loading } = useSms();
   const { systemStatus, updateZone } = useZonesContext();
   const { logout } = useAuth();
-
-  const isOn = active;
-  const isSystemOn = systemStatus;
-
   const navigation = useNavigation<AppNavigation>();
+  const { isDark } = useThemeMode();
+  const isOn = active;
+  const isSystemDisarmed = systemStatus === 'DISARM';
+
+  const zoneValue: Record<string, string> = {
+    N: t('zoneSettingsPage.status.normal'),
+    I: t('zoneSettingsPage.status.silent'),
+    '24H': t('zoneSettingsPage.status.twentyFourHours'),
+    D: t('zoneSettingsPage.status.withDelay'),
+    F: t('zoneSettingsPage.status.warning'),
+    OFF: t('zoneSettingsPage.status.off'),
+  };
 
   const zoneSwitchHandler = async (toggle: boolean) => {
     const devicePhoneNumber = await getStorage('devicePhoneNumber');
     const password = await getStorage('password');
+
     const zoneKey: Record<ZoneKeyType, string> = {
       Z1: 'ZONE1',
       Z2: 'ZONE2',
@@ -54,71 +57,70 @@ const SensorsCard: React.FC<SenesorsCardtypeProps> = ({
 
     try {
       const sms = await sendSms(
-        devicePhoneNumber ? devicePhoneNumber : '',
+        devicePhoneNumber ?? '',
         `${password} ${zoneKey[item]}=${toggle ? 'OFF' : 'NORMAL'}`,
-        `Zone_${item.split('')[1]}_set`,
+        `Zone_${item[1]}_set`,
         ['access_denied', 'SETADMIN'],
       );
 
-      if (sms.body === `Zone_${item.split('')[1]}_set`) {
-        updateZone(item as ZoneKeyType, toggle ? 'OFF' : 'N');
+      if (sms.body === `Zone_${item[1]}_set`) {
+        updateZone(item, toggle ? 'OFF' : 'N');
       }
     } catch (e) {
-      if (e === 'SETADMIN') {
-        logout();
-      }
+      if (e === 'SETADMIN') logout();
     }
   };
 
   return (
-    <View>
-      <View className={'flex-row-reverse justify-between'}>
+    <View className="gap-3">
+      {/* Top row */}
+      <View className="flex-row-reverse justify-between items-center">
         <CustomSwitch
           value={isOn}
           activeColor="#3260C3"
-          inactiveColor={'#E2E2E2'}
-          inactiveThumbColor={'#414141'}
-          activeThumbColor={'#FFFFFF'}
-          showText={true}
-          textColorOn={'#FFFFFF'}
-          textColorOff={'#616161'}
-          size={'xs'}
+          inactiveColor={isDark ? '#171717' : '#E5E7EB'}
+          inactiveThumbColor="#4B5563"
+          activeThumbColor={isDark ? '#000' : '#fff'}
+          showText
+          textColorOn="#FFFFFF"
+          textColorOff={isDark ? '#fff' : '#6B7280'}
+          size="xs"
           darkModeIcons={false}
           switchHandler={zoneSwitchHandler}
-          disabled={loading || isSystemOn === 'DISARM'}
+          disabled={loading || isSystemDisarmed}
           loading={loading}
         />
-        <View className="flex flex-row items-center gap-2">
+
+        <View className="flex-row items-center gap-2">
           <Signal
             width={24}
             height={24}
-            stroke={isOn ? '#3E9911' : '#616161'}
+            stroke={isOn ? '#22C55E' : '#6B7280'}
           />
-          <Text>{item}</Text>
+
+          <Text className="text-black dark:text-white">{item}</Text>
         </View>
       </View>
 
-      <View className="flex flex-row items-center justify-between">
-        <Text
-          className={'text-[#020202] mt-4 text-sm'}
-          font={'font-yekan-medium'}
-        >
-          {title}
-        </Text>
-      </View>
+      {/* Title */}
+      <Text className="text-sm text-black dark:text-white font-medium mt-2">
+        {title}
+      </Text>
+
+      {/* Settings row */}
       <Pressable
         onPress={() =>
-          navigation.navigate('ZoneSettingsPage', {
-            zoneId: item,
-          })
+          navigation.navigate('ZoneSettingsPage', { zoneId: item })
         }
       >
-        <View className={'mt-4 flex-row items-center gap-1'}>
-          <Setting width={15} height={15} />
-          <Text className={'text-[#616161] text-sm'} font={'font-yekan-medium'}>
+        <View className="mt-3 flex-row items-center gap-2">
+          <Setting width={15} height={15} stroke="#6B7280" />
+
+          <Text className="text-sm text-neutral-500 dark:text-neutral-400">
             {zoneValue[value]}
           </Text>
-          <ArrowLeft width={14} height={14} />
+
+          <ArrowLeft width={14} height={14} stroke="#9CA3AF" />
         </View>
       </Pressable>
     </View>

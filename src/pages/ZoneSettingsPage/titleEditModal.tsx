@@ -31,11 +31,11 @@ export default function EditTitleModal({
   return (
     <Modal
       visible={visible}
-      transparent
+      backdropColor="#000000a3"
       animationType="fade"
       onShow={handleOpen}
     >
-      <View className="flex-1 justify-center items-center bg-black/40">
+      <View className="flex-1 justify-center items-center ">
         <View className="bg-white w-80 p-5 rounded-2xl">
           <Text className="text-base mb-3">
             {t('zoneSettingsPage.title.edit')}

@@ -1,9 +1,9 @@
 // @ts-ignore
-import MenuIcon from './menu-hamberger.svg';
+import MenuIcon from './MenuHamberger.tsx';
 import LightMode from './light-mode.svg';
 import DarkMode from './dark-mode.svg';
-import Arrow from './arrow.svg';
-import Edit from './edit.svg';
+import Arrow from './Arrow.tsx';
+import Edit from './Edit.tsx';
 import BlueEdit from './BlueEdit.tsx';
 import Trash from './Trash.tsx';
 import Home from './Home.tsx';

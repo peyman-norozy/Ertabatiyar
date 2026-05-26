@@ -14,14 +14,14 @@ const LogoutModal: React.FC<Props> = ({ visible, onClose, onLogout }) => {
   const { t } = useTranslation();
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 bg-black/50 justify-center items-center px-5">
-        <View className="bg-white w-full rounded-3xl p-5">
+    <Modal visible={visible} backdropColor="#000000a3" animationType="fade">
+      <View className="flex-1 justify-center items-center">
+        <View className="bg-white dark:bg-neutral-900 w-full rounded-3xl p-5">
           <View className="flex items-center justify-center">
             <Warning width={60} height={60} />
           </View>
           <View>
-            <Text className="my-4 text-center font-yekan-semibold">
+            <Text className="my-4 text-center font-yekan-semibold dark:text-white">
               {t('general.areYouSureWantExitApp')}
             </Text>
           </View>

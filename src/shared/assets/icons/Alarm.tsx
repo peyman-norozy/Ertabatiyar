@@ -5,12 +5,18 @@ type Props = {
   width?: number;
   height?: number;
   stroke?: string;
+  fill?: string;
 };
 
-const Alarm: React.FC<Props> = ({ width, height, stroke }) => {
+const Alarm: React.FC<Props> = ({
+  width,
+  height,
+  stroke,
+  fill = '#FFF1CA',
+}) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 22 21" fill="none">
-      <Rect width="22" height="21" rx="10.5" fill="#FFF1CA" />
+      <Rect width="22" height="21" rx="10.5" fill={fill} />
       <Path
         d="M4.3335 16.6667H17.6668"
         stroke={stroke}

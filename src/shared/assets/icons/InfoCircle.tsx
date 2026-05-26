@@ -18,14 +18,14 @@ const InfoCircle: React.FC<Props> = ({ width, height, stroke = '#292D32' }) => {
       />
       <Path
         d="M12 8V13"
-        stroke="#292D32"
+        stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <Path
         d="M11.9946 16H12.0036"
-        stroke="#292D32"
+        stroke={stroke}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

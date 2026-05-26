@@ -24,15 +24,15 @@ const PersonalInformationPage = () => {
   const navigation = useNavigation<any>();
   const { showToast } = useToast();
 
-  const { sendSms, setAllowedNumber, loading, lastSms } = useSms();
-  const { login, isLoggedIn } = useAuth();
-  const { devicePhoneNumber, setIsLogin, isLogin } = useIsLogin();
+  const { sendSms, setAllowedNumber, loading } = useSms();
+  const { login } = useAuth();
+  const { devicePhoneNumber, setIsLogin } = useIsLogin();
 
   const [newDevicePhoneNumber, setNewDevicePhoneNumber] = useState('');
   const [newUserPhoneNumber, setNewUserPhoneNumber] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const forgotPassword = () => {};
+  // const forgotPassword = () => {};
   const registerHandler = () => {
     navigation.navigate('RegisterStep1');
   };
@@ -132,7 +132,7 @@ const PersonalInformationPage = () => {
                 />
               </View>
             </View>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={forgotPassword}
               className="mt-4 self-end"
               activeOpacity={0.7}
@@ -140,7 +140,7 @@ const PersonalInformationPage = () => {
               <Text className="text-[#1890FF]" font={'font-yekan-medium'}>
                 {t('personalInformation.forgotPassword' as any)}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View
             className={'flex-row items-center justify-center gap-1 mb-8 mt-10'}
@@ -159,22 +159,24 @@ const PersonalInformationPage = () => {
           </View>
         </View>
       </ScrollView>
-      <View className="px-6 py-4 bg-white dark:bg-neutral-800 border-t border-neutral-200">
-        <Button
-          title={t('personalInformation.input.button.title' as any)}
-          variant="primary"
-          size="lg"
-          disabled={
-            !(
-              newDevicePhoneNumber?.length >= 11 &&
-              newUserPhoneNumber?.length >= 11 &&
-              newPassword?.length > 2
-            )
-          }
-          loading={loading}
-          fullWidth
-          onPress={registerButtonHandler}
-        />
+      <View className="bg-white dark:bg-neutral-800">
+        <View className="px-6 py-4 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800  rounded-t-2xl">
+          <Button
+            title={t('personalInformation.input.button.title' as any)}
+            variant="primary"
+            size="lg"
+            disabled={
+              !(
+                newDevicePhoneNumber?.length >= 11 &&
+                newUserPhoneNumber?.length >= 11 &&
+                newPassword?.length > 2
+              )
+            }
+            loading={loading}
+            fullWidth
+            onPress={registerButtonHandler}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
