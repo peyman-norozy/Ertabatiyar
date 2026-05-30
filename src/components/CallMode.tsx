@@ -21,16 +21,16 @@ const CallMode = () => {
     const password = await getStorage('password');
 
     const newValue = !currentValue;
-
     try {
       const sms = await sendSms(
         devicePhoneNumber ?? '',
-        `${password} CALL_${newValue ? 'ON' : 'OFF'}`,
-        `call_function_${newValue ? 'enabled' : 'disabled'}`,
+        `${password} CALL${newValue ? 'ON' : 'OFF'}`,
+        `call_function_${newValue ? 'enabled.' : 'disabled.'}`,
         ['access_denied', 'SETADMIN'],
       );
+      console.log(sms.body, 'sdjfueuegfgftrtryyyyy');
 
-      if (sms.body === `call_function_${newValue ? 'enabled' : 'disabled'}`) {
+      if (sms.body === `call_function_${newValue ? 'enabled.' : 'disabled.'}`) {
         updateZone('CALL', newValue ? 'ON' : 'OFF');
       }
     } catch (e) {
