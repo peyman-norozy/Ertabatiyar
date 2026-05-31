@@ -1,5 +1,7 @@
+import { useThemeMode } from '@/hook/useThemeMode';
 import i18n from '@/localization/i18n';
 import React, { Dispatch, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -21,8 +23,10 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
   onValueChange,
   selectedValue,
 }) => {
-  const [open, setOpen] = useState(false);
+  const { isDark } = useThemeMode();
+  const { t } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
+  const [open, setOpen] = useState(false);
 
   return (
     <View
@@ -47,19 +51,25 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
         setItems={setOption || (() => {})}
         listMode="MODAL"
         rtl={isRtl}
-        placeholder="انتخاب کنید..."
-        modalTitle="انتخاب زمان"
+        placeholder={t('general.select')}
         modalAnimationType="slide"
         modalContentContainerStyle={{
-          backgroundColor: '#F8FAFC',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
+          backgroundColor: isDark ? '#171717' : '#F8FAFC',
           paddingTop: 20,
+        }}
+        arrowIconStyle={{
+          tintColor: isDark ? '#F8FAFC' : '#111827',
+        }}
+        tickIconStyle={{
+          tintColor: isDark ? '#F8FAFC' : '#111827',
+        }}
+        closeIconStyle={{
+          tintColor: isDark ? '#F8FAFC' : '#111827',
         }}
         modalTitleStyle={{
           fontSize: 18,
           fontFamily: 'IRANYekanXFaNum-Bold',
-          color: '#111827',
+          color: isDark ? '#F8FAFC' : '#111827',
           textAlign: 'center',
           marginBottom: 16,
         }}
@@ -67,57 +77,59 @@ const SelectPicker: React.FC<SelectPickerTypeProps> = ({
           borderRadius: 16,
           marginHorizontal: 12,
           marginVertical: 4,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: isDark ? '#171717' : '#FFFFFF',
           borderWidth: 1,
-          borderColor: '#E5E7EB',
+          borderColor: isDark ? '#374151' : '#E5E7EB',
           minHeight: 54,
+          marginBottom: 25,
         }}
         listItemLabelStyle={{
           fontFamily: 'IRANYekanXFaNum-Regular',
           fontSize: 14,
-          color: '#111827',
+          color: isDark ? '#F8FAFC' : '#111827',
           textAlign: 'left',
         }}
         selectedItemContainerStyle={{
-          backgroundColor: '#EFF6FF',
-          borderColor: '#2563EB',
+          backgroundColor: isDark ? '#1E40AF' : '#EFF6FF',
+          borderColor: isDark ? '#3B82F6' : '#2563EB',
         }}
         selectedItemLabelStyle={{
-          color: '#2563EB',
+          color: isDark ? '#F8FAFC' : '#111827',
           fontFamily: 'IRANYekanXFaNum-Bold',
         }}
         itemSeparator={false}
         searchable
-        searchPlaceholder="جستجو..."
+        searchPlaceholder={t('general.search')}
         searchContainerStyle={{
           borderBottomWidth: 0,
           paddingHorizontal: 12,
           marginBottom: 12,
+          direction: isRtl ? 'rtl' : 'ltr',
         }}
         searchTextInputStyle={{
           minHeight: 48,
           borderRadius: 14,
-          borderColor: '#E5E7EB',
-          backgroundColor: '#FFFFFF',
-          textAlign: 'left',
+          borderColor: isDark ? '#374151' : '#E5E7EB',
+          backgroundColor: isDark ? '#171717' : '#FFFFFF',
+          textAlign: isRtl ? 'right' : 'left',
           fontFamily: 'IRANYekanXFaNum-Regular',
+          color: isDark ? '#F8FAFC' : '#111827',
+          direction: isRtl ? 'rtl' : 'ltr',
         }}
         style={{
           minHeight: 56,
           borderRadius: 14,
-          borderColor: '#D1D5DB',
-          backgroundColor: '#FFFFFF',
+          borderColor: isDark ? '#374151' : '#D1D5DB',
+          backgroundColor: isDark ? '#171717' : '#FFFFFF',
           paddingHorizontal: 16,
         }}
         textStyle={{
           fontSize: 14,
           fontFamily: 'IRANYekanXFaNum-Regular',
-          textAlign: 'right',
-          color: '#111827',
+          color: isDark ? '#F8FAFC' : '#111827',
         }}
         placeholderStyle={{
-          color: '#9CA3AF',
-          textAlign: 'left',
+          color: isDark ? '#9CA3AF' : '#9CA3AF',
         }}
       />
     </View>

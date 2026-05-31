@@ -9,6 +9,8 @@
     "next": "下一步",
     "yes": "是",
     "no": "否",
+    "search": "搜索...",
+    "select": "请选择...",
     "seconds": "{{count}}秒",
     "connection_delay": "连接延迟",
     "disconnection_delay": "断开延迟",

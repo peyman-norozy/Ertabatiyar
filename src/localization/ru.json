@@ -9,6 +9,8 @@
     "next": "Далее",
     "yes": "Да",
     "no": "Нет",
+    "search": "Поиск...",
+    "select": "Выберите...",
     "seconds": "{{count}} секунда",
     "seconds_plural": "{{count}} секунд",
     "connection_delay": "Задержка соединения",

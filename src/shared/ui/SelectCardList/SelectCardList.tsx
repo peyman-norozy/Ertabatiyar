@@ -36,11 +36,11 @@ export function SelectCardList({
   const isSystemOn = systemStatus;
 
   const delayOptions = [
-    { label: t('seconds', { count: 0 }), value: '0' },
-    { label: t('seconds', { count: 30 }), value: '30' },
-    { label: t('seconds', { count: 60 }), value: '60' },
-    { label: t('seconds', { count: 90 }), value: '90' },
-    { label: t('seconds', { count: 120 }), value: '120' },
+    { label: t('general.seconds', { count: 0 }), value: '0' },
+    { label: t('general.seconds', { count: 30 }), value: '30' },
+    { label: t('general.seconds', { count: 60 }), value: '60' },
+    { label: t('general.seconds', { count: 90 }), value: '90' },
+    { label: t('general.seconds', { count: 120 }), value: '120' },
   ];
 
   if (loading) {
@@ -239,7 +239,7 @@ export function SelectCardList({
                     }}
                   >
                     <View className="mt-4">
-                      <Text className="text-[#020202] text-sm">
+                      <Text className="text-[#020202] dark:text-white text-sm">
                         {t('general.connection_delay')}
                       </Text>
                       <SelectPicker
@@ -252,7 +252,7 @@ export function SelectCardList({
                       />
                     </View>
                     <View className="mt-4">
-                      <Text className="text-[#020202] text-sm">
+                      <Text className="text-[#020202] dark:text-white text-sm">
                         {t('general.disconnection_delay')}
                       </Text>
                       <SelectPicker

@@ -9,6 +9,8 @@
     "next": "بعدی",
     "yes": "بله",
     "no": "خیر",
+    "search": "جستجو...",
+    "select": "انتخاب کنید...",
     "seconds": "{{count}} ثانیه",
     "connection_delay": "تاخیر در اتصال",
     "disconnection_delay": "تاخیر در قطع",

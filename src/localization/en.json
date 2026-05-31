@@ -9,6 +9,8 @@
     "next": "Next",
     "yes": "Yes",
     "no": "No",
+    "search": "Search...",
+    "select": "Select...",
     "seconds": "{{count}} second",
     "seconds_plural": "{{count}} seconds",
     "connection_delay": "Connection delay",
