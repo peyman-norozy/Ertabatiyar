@@ -28,7 +28,6 @@ const CallMode = () => {
         `call_function_${newValue ? 'enabled.' : 'disabled.'}`,
         ['access_denied', 'SETADMIN'],
       );
-      console.log(sms.body, 'sdjfueuegfgftrtryyyyy');
 
       if (sms.body === `call_function_${newValue ? 'enabled.' : 'disabled.'}`) {
         updateZone('CALL', newValue ? 'ON' : 'OFF');
