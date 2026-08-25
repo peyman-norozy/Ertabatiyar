@@ -1,6 +1,6 @@
 import { Pressable, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
-import { ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
+import { Arrow, ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { getStorage } from '@/utils/storage';
 import { useSms } from '@/hook/useSms';
@@ -14,6 +14,10 @@ import { useTranslation } from 'react-i18next';
 interface SensorsCardProps {
   item: ZoneKeyType;
   value: string;
+  status: string;
+  output: string;
+  enterDelay: string;
+  exitDelay: string;
   active: boolean;
   title: string;
   onZoneAdded: () => void;
@@ -24,27 +28,59 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
   active,
   title,
   value,
+  status,
 }) => {
   const { t } = useTranslation();
-  const { sendSms, loading } = useSms();
-  const { systemStatus, updateZone } = useZonesContext();
-  const { logout } = useAuth();
-  const navigation = useNavigation<AppNavigation>();
-  const { isDark } = useThemeMode();
-  const isOn = active;
-  const isSystemDisarmed = systemStatus === 'DISARM';
 
-  const zoneValue: Record<string, string> = {
+  const { sendSms, loading } = useSms();
+
+  const { systemStatus, updateZone } = useZonesContext();
+
+  const { logout } = useAuth();
+
+  const navigation = useNavigation<AppNavigation>();
+
+  const { isDark } = useThemeMode();
+
+  const isOn = active;
+
+  const isSystemDisarmed = systemStatus === 'D';
+
+  /*
+   * Zone Type
+   *
+   * N  = NORMAL
+   * I  = INSTANT
+   * 24 = 24 HOUR
+   * S  = SILENT
+   * F  = FIRE
+   * D  = DELAY
+   * O  = OFF
+   */
+  const zoneTypeValue: Record<string, string> = {
     N: t('zoneSettingsPage.status.normal'),
-    I: t('zoneSettingsPage.status.silent'),
-    '24H': t('zoneSettingsPage.status.twentyFourHours'),
+    I: t('zoneSettingsPage.status.instant'),
+    '24': t('zoneSettingsPage.status.twentyFourHours'),
+    S: t('zoneSettingsPage.status.silent'),
+    F: t('zoneSettingsPage.status.fire'),
     D: t('zoneSettingsPage.status.withDelay'),
-    F: t('zoneSettingsPage.status.warning'),
-    OFF: t('zoneSettingsPage.status.off'),
+    O: t('zoneSettingsPage.status.off'),
+  };
+
+  /*
+   * Zone Status
+   *
+   * I = IDLE
+   * T = TRIGGERED
+   */
+  const zoneStatusValue: Record<string, string> = {
+    I: t('zoneSettingsPage.zoneStatus.idle'),
+    T: t('zoneSettingsPage.zoneStatus.triggered'),
   };
 
   const zoneSwitchHandler = async (toggle: boolean) => {
     const devicePhoneNumber = await getStorage('devicePhoneNumber');
+
     const password = await getStorage('password');
 
     const zoneKey: Record<ZoneKeyType, string> = {
@@ -64,16 +100,19 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
       );
 
       if (sms.body === `Zone_${item[1]}_set`) {
-        updateZone(item, toggle ? 'OFF' : 'N');
+        updateZone(item, toggle ? 'O' : 'N');
       }
     } catch (e) {
-      if (e === 'SETADMIN') logout();
+      if (e === 'SETADMIN') {
+        logout();
+      }
     }
   };
 
   return (
     <View className="gap-3">
       {/* Top row */}
+
       <View className="flex-row-reverse justify-between items-center">
         <CustomSwitch
           value={isOn}
@@ -87,7 +126,7 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
           size="xs"
           darkModeIcons={false}
           switchHandler={zoneSwitchHandler}
-          disabled={loading || isSystemDisarmed}
+          disabled={loading}
           loading={loading}
         />
 
@@ -103,26 +142,38 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
       </View>
 
       {/* Title */}
+
       <Text className="text-sm text-black dark:text-white font-medium mt-2">
         {title}
       </Text>
 
-      {/* Settings row */}
+      {/* Zone type */}
+
       <Pressable
         onPress={() =>
-          navigation.navigate('ZoneSettingsPage', { zoneId: item })
+          navigation.navigate('ZoneSettingsPage', {
+            zoneId: item,
+          })
         }
       >
-        <View className="mt-3 flex-row items-center gap-2">
-          <Setting width={15} height={15} stroke="#6B7280" />
-
-          <Text className="text-sm text-neutral-500 dark:text-neutral-400">
-            {zoneValue[value]}
-          </Text>
-
-          <ArrowLeft width={14} height={14} stroke="#9CA3AF" />
+        <View className="mt-3 flex-row justify-between gap-1">
+          <View className="flex-row items-center gap-1">
+            <Setting width={15} height={15} stroke="#6B7280" />
+            <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+              {zoneTypeValue[value] ?? value}
+            </Text>
+          </View>
+          <View className="rotate-180">
+            <Arrow width={14} height={14} fill="#9CA3AF" />
+          </View>
         </View>
       </Pressable>
+
+      {/* Zone status */}
+
+      {/* <Text className="text-xs text-neutral-400">
+        {zoneStatusValue[status] ?? status}
+      </Text> */}
     </View>
   );
 };

@@ -57,7 +57,14 @@
       "massageAdmin": "In this section, you can add up to 10 phone numbers as admins so selected numbers can manage the app.",
       "sensorsMode": "Changing the sensor mode will change the status of all sensors",
       "repeatPasswordNotMatch": "Password and repeat password do not match."
-    }
+    },
+    "antennaPlacement": "Update Antenna Placement",
+    "veryWeak": "Very weak",
+    "weak": "Weak",
+    "good":"Good",
+    "veryGood":"Very good",
+    "antennaPower": "Antenna Power:",
+    "update":"update"
   },
   "banner": {
     "advancedControl": "Advanced Sensor Control",

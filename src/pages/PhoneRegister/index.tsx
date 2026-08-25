@@ -117,7 +117,6 @@ const Index = () => {
             onPress={async () => {
               await setStorage('devicePhoneNumber', devicePhoneNumber);
               await setStorage('userPhoneNumber', userPhoneNumber);
-
               setAllowedNumber(devicePhoneNumber)
                 .then(async () => {
                   const sms = await sendSms(

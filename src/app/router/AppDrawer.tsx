@@ -46,7 +46,7 @@ export const AppDrawer = () => {
         component={ProfilePage}
         options={{
           header: () => (
-            <CustomHeader title={t('menu.profile')} showMenuButton />
+            <CustomHeader title={t('menu.profile')} showBackButton />
           ),
         }}
       />

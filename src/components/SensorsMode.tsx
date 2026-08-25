@@ -12,51 +12,131 @@ import SensorsModeModal from './SensorsModeModal';
 
 const SensorsMode = () => {
   const { systemStatus, reload } = useZonesContext();
+
   const { sendSms, loading } = useSms();
+
   const { logout } = useAuth();
 
   const [sensorModalVisible, setSensorModalVisible] = useState(false);
-  const [systemSwitchCurrentValue, setsystemSwitchCurrentValue] = useState('');
 
-  const isOn = systemStatus;
+  const [systemSwitchCurrentValue, setSystemSwitchCurrentValue] = useState('');
+
   const { t } = useTranslation();
 
+  // ============================================
+  // فرمان‌هایی که به دستگاه ارسال می‌شوند
+  // این قسمت نباید تغییر کند
+  // ============================================
+
   const items = [
-    { title: t('sensorsItem.active' as any), value: 'ARM', disabled: loading },
-    { title: t('sensorsItem.semiActive' as any), value: 'SEMIARM', disabled: loading },
-    { title: t('sensorsItem.inactive' as any), value: 'DISARM', disabled: loading },
+    {
+      title: t('sensorsItem.active' as any),
+      value: 'ARM',
+      disabled: loading,
+    },
+    {
+      title: t('sensorsItem.semiActive' as any),
+      value: 'SEMIARM',
+      disabled: loading,
+    },
+    {
+      title: t('sensorsItem.inactive' as any),
+      value: 'DISARM',
+      disabled: loading,
+    },
   ];
 
-  const systemSwitchHandler = async (currentValue: string) => {
-    if (isOn === currentValue) return;
-    setsystemSwitchCurrentValue(currentValue);
+  // ============================================
+  // تبدیل وضعیت دریافتی دستگاه به command
+  //
+  // Device:
+  // A = ARM
+  // S = SEMIARM
+  // D = DISARM
+  // ============================================
+
+  const getSystemCommand = (status: string) => {
+    switch (status) {
+      case 'A':
+        return 'ARM';
+
+      case 'S':
+        return 'SEMIARM';
+
+      case 'D':
+        return 'DISARM';
+
+      default:
+        return '';
+    }
+  };
+
+  // وضعیت فعلی دستگاه
+  const currentSystemCommand = getSystemCommand(systemStatus);
+
+  // ============================================
+  // انتخاب حالت جدید
+  // ============================================
+
+  const systemSwitchHandler = (currentValue: string) => {
+    // اگر همان حالت فعلی انتخاب شده، کاری نکن
+    if (currentSystemCommand === currentValue) {
+      return;
+    }
+
+    setSystemSwitchCurrentValue(currentValue);
+
     setSensorModalVisible(true);
   };
 
+  // ============================================
+  // ارسال فرمان به دستگاه
+  // ============================================
+
   const submitSensorsModeHandler = async () => {
     const devicePhoneNumber = await getStorage('devicePhoneNumber');
+
     const password = await getStorage('password');
 
     try {
       const sms = await sendSms(
         devicePhoneNumber ?? '',
+
+        // مهم:
+        // اینجا همچنان ARM / SEMIARM / DISARM
         `${password} ${systemSwitchCurrentValue}`,
-        'CALL:',
+
+        'SYS:',
+
         ['access_denied', 'SETADMIN'],
       );
 
-      if (sms.body.includes('CALL:')) {
+      console.log('System mode SMS:', sms);
+
+      // پاسخ جدید دستگاه:
+      //
+      // SYS:A
+      // SYS:S
+      // SYS:D
+      //
+      // یا:
+      //
+      // SYS:D C:1 Z1:O/B/I/0/0 ...
+
+      if (sms.body.includes('SYS:')) {
         const parsedData = parseDeviceSms(sms.body);
+
         await setStorage('deviceZones', JSON.stringify(parsedData));
-        reload();
+
+        await reload();
       }
     } catch (e) {
       if (e === 'SETADMIN') {
         logout();
       }
+    } finally {
+      setSensorModalVisible(false);
     }
-
-    setSensorModalVisible(false);
   };
 
   return (
@@ -68,28 +148,33 @@ const SensorsMode = () => {
       "
     >
       {/* Title */}
+
       <Text className="text-base text-black dark:text-white font-yekan-bold">
         {t('mainPage.sensorsMode' as any)}
       </Text>
 
       {/* Description */}
+
       <Text className="text-xs text-neutral-500 dark:text-neutral-400 font-yekan-semibold">
         {t('mainPage.sensorsText' as any)}
       </Text>
 
       {/* Buttons */}
+
       <View className="flex-row justify-between mt-3">
         {items.map(item => (
           <AnimatedButton
             key={item.value}
             title={item.title}
-            width={'w-28'}
-            height={'h-11'}
-            active={isOn === item.value}
+            width="w-28"
+            height="h-11"
+            active={currentSystemCommand === item.value}
             onPress={() => systemSwitchHandler(item.value)}
           />
         ))}
       </View>
+
+      {/* Confirmation Modal */}
 
       <SensorsModeModal
         visible={sensorModalVisible}

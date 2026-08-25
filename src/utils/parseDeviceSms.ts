@@ -1,68 +1,108 @@
-type DeviceZonesStorage = {
-  zones: Record<string, string>;
+export type DeviceZone = {
+  type: string;
+  output: string;
+  status: string;
+  enterDelay: string;
+  exitDelay: string;
+};
+
+export type DeviceZonesStorage = {
+  zones: Record<string, DeviceZone>;
   call: Record<string, string>;
-  system: Record<string, Record<string, string>>;
+  system: Record<string, string>;
   systemStatus: string;
   admin: string[];
-  output: Record<string, string>;
 };
 
 export const parseDeviceSms = (body: string): DeviceZonesStorage => {
-  const zones: Record<string, string> = {};
-
+  const zones: Record<string, DeviceZone> = {};
   const call: Record<string, string> = {};
-
-  const system: Record<string, Record<string, string>> = {};
-
-  const output: Record<string, string> = {};
+  const system: Record<string, string> = {};
 
   let admin: string[] = [];
 
-  const admMatch = body.match(/ADM:\s*(.+)/);
+  const normalizedBody = body
+    .replace(/\r/g, ' ')
+    .replace(/\n/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // ============================================
+  // ADM
+  // ============================================
+
+  const admMatch = normalizedBody.match(/ADM:\s*(.+)$/);
 
   if (admMatch?.[1]) {
-    admin = admMatch[1].trim().split(/\s+/).filter(Boolean);
+    admin = admMatch[1]
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
   }
 
-  const mainPart = body.split('ADM:')[0].trim();
-
+  // ============================================
   // SYS
-  const sysMatch = mainPart.match(/SYS:([A-Z]+)/);
+  // ============================================
+
+  const sysMatch = normalizedBody.match(/(?:^|\s)SYS:([A-Z]+)/);
 
   const systemStatus = sysMatch?.[1] ?? '';
 
-  // CALL
-  const callMatch = mainPart.match(/CALL:([A-Z]+)/);
+  if (systemStatus) {
+    system.status = systemStatus;
+  }
 
-  if (callMatch) {
+  // ============================================
+  // CALL
+  // ============================================
+
+  const callMatch = normalizedBody.match(/(?:^|\s)C:(\d+)/);
+
+  if (callMatch?.[1]) {
     call.CALL = callMatch[1];
   }
 
+  // ============================================
   // ZONES
+  // ============================================
+
+  /**
+   * Format:
+   *
+   * Z1:N/B/I/0/0
+   *
+   * Z2:24/B/T/10/30
+   *
+   * Z3:S/P/I/0/0
+   *
+   * Structure:
+   *
+   * Z<number>:TYPE/OUTPUT/STATUS/ENTRY_DELAY/EXIT_DELAY
+   */
+
   const zoneRegex =
-    /(Z\d+):([A-Z0-9]+)\/([A-Z]+)\/([A-Z]+)(?:\/E:(\d+s))?(?:\/X:(\d+s))?/g;
+    /(?:^|\s)(Z\d+):([^/\s]+)\/([^/\s]+)\/([^/\s]+)\/([^/\s]+)\/([^/\s]+)/g;
 
-  let match;
+  let match: RegExpExecArray | null;
 
-  while ((match = zoneRegex.exec(mainPart)) !== null) {
-    const [, zoneKey, zoneStatus, outputValue, _idle, enterDelay, exitDelay] =
-      match;
+  while ((match = zoneRegex.exec(normalizedBody)) !== null) {
+    const [
+      ,
+      zoneKey,
+      type,
+      output,
+      status,
+      enterDelay,
+      exitDelay,
+    ] = match;
 
-    zones[zoneKey] = zoneStatus;
-
-    output[zoneKey] = outputValue;
-
-    system[zoneKey] = {
-      ...(system[zoneKey] || {}),
+    zones[zoneKey] = {
+      type,
+      output,
+      status,
+      enterDelay,
+      exitDelay,
     };
-
-    if (enterDelay) {
-      system[zoneKey].E = enterDelay;
-    }
-
-    if (exitDelay) {
-      system[zoneKey].X = exitDelay;
-    }
   }
 
   return {
@@ -71,6 +111,5 @@ export const parseDeviceSms = (body: string): DeviceZonesStorage => {
     system,
     systemStatus,
     admin,
-    output,
   };
 };

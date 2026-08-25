@@ -7,3 +7,7 @@ export const russia = require('./ru.png');
 export const china = require('./zh.png');
 export const logoHeader = require('./ertebatyar_logo_header.png');
 export const simCard = require('./sim_card.png');
+export const antennaVeryWeak = require('./antennaVeryWeak.png');
+export const antennaVeryGood = require('./antennaVeryGood.png');
+export const antennaGood = require('./antennaGood.png');
+export const antennaWeak = require('./antennaWeak.png');

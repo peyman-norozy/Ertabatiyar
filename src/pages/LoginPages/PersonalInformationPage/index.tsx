@@ -49,7 +49,7 @@ const PersonalInformationPage = () => {
         const getLastsms = await sendSms(
           newDevicePhoneNumber,
           `${newPassword} GETALL`,
-          'CALL:',
+          'SYS:',
           ['access_denied', 'SETADMIN'],
           login,
           async () => {
@@ -58,7 +58,9 @@ const PersonalInformationPage = () => {
             await setStorage('password', newPassword);
           },
         );
+
         const parsedData = parseDeviceSms(getLastsms.body);
+
         await setStorage('deviceZones', JSON.stringify(parsedData));
       })
       .catch((err: any) => {

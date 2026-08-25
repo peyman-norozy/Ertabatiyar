@@ -28,6 +28,7 @@ import Lock from './Lock.tsx';
 import InfoCircle from './InfoCircle.tsx';
 import Translate from './Translate.tsx';
 import Logout from './Logout.tsx';
+import Refresh from './Refresh.tsx';
 
 export {
   MenuIcon,
