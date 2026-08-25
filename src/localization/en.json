@@ -61,14 +61,15 @@
     "antennaPlacement": "Update Antenna Placement",
     "veryWeak": "Very weak",
     "weak": "Weak",
-    "good":"Good",
-    "veryGood":"Very good",
+    "good": "Good",
+    "veryGood": "Very good",
     "antennaPower": "Antenna Power:",
-    "update":"update"
+    "update": "update"
   },
   "banner": {
     "advancedControl": "Advanced Sensor Control",
-    "advancedControlDescription": "Where precision meets security"
+    "smartResponse": "smart response",
+    "secureSecurity": "secure security"
   },
   "menu": {
     "home": "Home",

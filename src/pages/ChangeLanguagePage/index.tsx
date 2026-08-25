@@ -15,8 +15,6 @@ import { britain, iran, russia, china } from '@/shared/assets/images';
 import { useNavigation } from '@react-navigation/native';
 import AnimatedButtonLanguage from '@/components/AnimatedButtonLanguage';
 import Restart from 'react-native-restart';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
 import { useThemeMode } from '@/hook/useThemeMode';
 
 const languageData = [

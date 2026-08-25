@@ -63,11 +63,12 @@
     "good": "خوب",
     "veryGood": "خیلی خوب",
     "antennaPower": "قدرت آنتن:",
-    "update":"بروزرسانی"
+    "update": "بروزرسانی"
   },
   "banner": {
     "advancedControl": "کنترل پیشرفته حسگرها",
-    "advancedControlDescription": " جایی که دقت با امنیت یکی می‌شه"
+    "smartResponse": "واکنش هوشمند",
+    "secureSecurity": "امنیت مطمئن"
   },
   "menu": {
     "home": "خانه",

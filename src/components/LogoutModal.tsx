@@ -15,7 +15,7 @@ const LogoutModal: React.FC<Props> = ({ visible, onClose, onLogout }) => {
 
   return (
     <Modal visible={visible} backdropColor="#000000a3" animationType="fade">
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 justify-center items-center px-6">
         <View className="bg-white dark:bg-neutral-900 w-full rounded-3xl p-5">
           <View className="flex items-center justify-center">
             <Warning width={60} height={60} />

@@ -143,7 +143,7 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
 
       {/* Title */}
 
-      <Text className="text-sm text-black dark:text-white font-medium mt-2">
+      <Text className="text-sm text-black dark:text-white font-yekan-bold mt-2">
         {title}
       </Text>
 

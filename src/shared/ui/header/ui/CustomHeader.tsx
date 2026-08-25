@@ -50,7 +50,7 @@ const CustomHeader: React.FC<CustomHeaderPropsType> = ({
           <View>
             <Image
               source={logoHeader}
-              className="w-[92px] h-[29px]"
+              className="w-[100px] h-[29px]"
               style={{
                 opacity: 1,
               }}

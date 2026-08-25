@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import SensorsCard from '@/components/card/SensorsCard.tsx';
@@ -23,8 +23,7 @@ type ZoneEntry = {
 const Sensors = () => {
   const { t } = useTranslation();
 
-  const { zones, reload, addedZones, loadAddedZones, systemStatus } =
-    useZonesContext();
+  const { zones, reload, addedZones, loadAddedZones } = useZonesContext();
 
   const { modalVisible, selectedZone, mode, openAddModal, closeModal } =
     useZoneModalContext();
@@ -72,11 +71,189 @@ const Sensors = () => {
       );
   }, [addedZones, zones]);
 
+  /**
+   * Render single sensor card
+   */
+  const renderZone = (item: ZoneEntry) => {
+    return (
+      <View
+        style={{
+          width: '50%',
+          alignItems: 'center',
+        }}
+      >
+        <View className="p-2 w-full">
+          <View
+            className="
+              bg-white dark:bg-neutral-800
+              border border-neutral-200 dark:border-neutral-700
+              rounded-2xl p-3
+            "
+          >
+            <SensorsCard
+              item={item.key as ZoneKeyType}
+              value={item.value}
+              status={item.status}
+              output={item.output}
+              enterDelay={item.enterDelay}
+              exitDelay={item.exitDelay}
+              active={item.switchValue}
+              title={item.title}
+              onZoneAdded={loadAddedZones}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  /**
+   * Add zone button
+   */
+  const renderAddZone = (fullWidth = false) => {
+    return (
+      <View
+        style={{
+          width: fullWidth ? '100%' : '50%',
+          alignItems: 'center',
+        }}
+      >
+        <View className="p-2 w-full mt-1">
+          <View
+            className="
+              flex items-center justify-center gap-3
+              border-2 border-dashed
+              border-neutral-300 dark:border-neutral-600
+              rounded-2xl p-6
+              bg-white dark:bg-neutral-900
+            "
+          >
+            <TouchableOpacity
+              onPress={openAddModal}
+              className="
+                bg-neutral-200 dark:bg-neutral-700
+                rounded-full p-2
+              "
+            >
+              <Add width={30} height={30} stroke="#9CA3AF" />
+            </TouchableOpacity>
+
+            <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+              {t('general.sensorAdd')}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  /**
+   * Build rows manually.
+   *
+   * Examples:
+   *
+   * 1 zone:
+   * [ Zone 1 ][ Add ]
+   *
+   * 2 zones:
+   * [ Zone 1 ][ Zone 2 ]
+   * [          Add Zone          ]
+   *
+   * 3 zones:
+   * [ Zone 1 ][ Zone 2 ]
+   * [ Zone 3 ][ Add ]
+   *
+   * 4 zones:
+   * [ Zone 1 ][ Zone 2 ]
+   * [ Zone 3 ][ Zone 4 ]
+   *
+   * 5 zones:
+   * [ Zone 1 ][ Zone 2 ]
+   * [ Zone 3 ][ Zone 4 ]
+   * [ Zone 5 ][          ]
+   */
+  const renderZoneRows = () => {
+    const rows: React.ReactNode[] = [];
+
+    for (let i = 0; i < zoneEntries.length; i += 2) {
+      const firstZone = zoneEntries[i];
+      const secondZone = zoneEntries[i + 1];
+
+      rows.push(
+        <View
+          key={`row-${i}`}
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+          }}
+        >
+          {renderZone(firstZone)}
+
+          {secondZone ? (
+            renderZone(secondZone)
+          ) : addedZones.length < 5 ? (
+            renderAddZone(false)
+          ) : (
+            <View style={{ width: '50%' }} />
+          )}
+        </View>,
+      );
+    }
+
+    /**
+     * If the number of zones is even and there are
+     * still available slots, put Add Zone on a new
+     * full-width row.
+     *
+     * Example:
+     *
+     * [ Zone 1 ][ Zone 2 ]
+     * [       Add Zone       ]
+     */
+    if (
+      zoneEntries.length > 0 &&
+      zoneEntries.length % 2 === 0 &&
+      addedZones.length < 5
+    ) {
+      rows.push(
+        <View
+          key="add-zone-full-row"
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+          }}
+        >
+          {renderAddZone(true)}
+        </View>,
+      );
+    }
+
+    /**
+     * When there are zero zones,
+     * show Add Zone as full width.
+     */
+    if (zoneEntries.length === 0 && addedZones.length < 5) {
+      rows.push(
+        <View
+          key="add-zone-empty"
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+          }}
+        >
+          {renderAddZone(true)}
+        </View>,
+      );
+    }
+
+    return rows;
+  };
+
   return (
     <View
       className="
         mx-4 mt-6 p-4 rounded-xl
-        bg-white dark:bg-neutral-900
+        bg-[#EFEFEF] dark:bg-neutral-900
         border border-neutral-200 dark:border-neutral-700
       "
     >
@@ -84,88 +261,7 @@ const Sensors = () => {
         {t('sensors.title' as any)}
       </Text>
 
-      <FlatList
-        data={zoneEntries}
-        numColumns={2}
-        scrollEnabled={false}
-        keyExtractor={item => item.key}
-        contentContainerStyle={{
-          marginTop: 20,
-        }}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              width: '50%',
-              alignItems: 'center',
-            }}
-          >
-            <View className="p-2 w-full">
-              <View
-                className="
-                  bg-white dark:bg-neutral-800
-                  border border-neutral-200 dark:border-neutral-700
-                  rounded-2xl p-3
-                "
-              >
-                <SensorsCard
-                  item={item.key as ZoneKeyType}
-                  value={item.value}
-                  status={item.status}
-                  output={item.output}
-                  enterDelay={item.enterDelay}
-                  exitDelay={item.exitDelay}
-                  active={item.switchValue}
-                  title={item.title}
-                  onZoneAdded={loadAddedZones}
-                />
-              </View>
-            </View>
-          </View>
-        )}
-        ListEmptyComponent={
-          <View className="items-center py-5">
-            <Text className="text-neutral-500 dark:text-neutral-400">
-              {t('general.noSensors' as any)}
-            </Text>
-          </View>
-        }
-        ListFooterComponent={
-          addedZones.length < 5 ? (
-            <View
-              style={{
-                width: zoneEntries.length % 2 === 0 ? '100%' : '50%',
-                alignItems: 'center',
-              }}
-            >
-              <View className="p-2 w-full mt-1">
-                <View
-                  className="
-                    flex items-center justify-center gap-3
-                    border-2 border-dashed
-                    border-neutral-300 dark:border-neutral-600
-                    rounded-2xl p-6
-                    bg-white dark:bg-neutral-900
-                  "
-                >
-                  <TouchableOpacity
-                    onPress={openAddModal}
-                    className="
-                      bg-neutral-200 dark:bg-neutral-700
-                      rounded-full p-2
-                    "
-                  >
-                    <Add width={30} height={30} stroke="#9CA3AF" />
-                  </TouchableOpacity>
-
-                  <Text className="text-sm text-neutral-500 dark:text-neutral-400">
-                    {t('general.sensorAdd')}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          ) : null
-        }
-      />
+      <View className="mt-5">{renderZoneRows()}</View>
 
       <AddZoneModal
         visible={modalVisible}
