@@ -17,6 +17,7 @@ module.exports = {
         'yekan-heavy': ['IRANYekanXFaNum-Heavy'],
         'yekan-medium': ['IRANYekanXFaNum-Medium'],
         'yekan-ultralight': ['IRANYekanXFaNum-UltraLight'],
+        'yekan-xvf': ['IRANYekanXVF'],
       },
       fontSize: {
         base: '16px',

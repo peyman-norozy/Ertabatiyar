@@ -83,7 +83,9 @@ const Input: React.FC<InputProps> = ({
 
         <TextInput
           className={`
-            flex-1 px-4 py-3 text-sm text-gray-900 dark:text-gray-200 font-yekan
+            flex-1 px-4 py-3 text-sm text-gray-900 dark:text-gray-200 ${
+              isRTL ? 'font-yekan' : 'font-yekan-xvf'
+            }
             ${leftIcon ? '' : 'pl-4'}
             ${rightIcon || type === 'password' ? 'pr-2' : 'pr-4'}
             ${inputClassName}
