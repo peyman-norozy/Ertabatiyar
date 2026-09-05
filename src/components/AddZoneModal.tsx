@@ -138,12 +138,16 @@ const AddZoneModal: React.FC<Props> = ({
               }}
               textStyle={{
                 color: isDark ? '#FFFFFF' : '#404040',
+                fontFamily: 'IRANYekanXFaNum-Medium',
               }}
               placeholderStyle={{
                 color: '#9ca3af',
+                fontFamily: 'IRANYekanXFaNum-Regular',
+                fontSize: 12,
               }}
               listItemLabelStyle={{
                 color: isDark ? '#FFFFFF' : '#404040',
+                fontFamily: 'IRANYekanXFaNum-Medium',
               }}
             />
           ) : (

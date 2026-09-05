@@ -43,16 +43,12 @@ const HomePage = () => {
                 {t('banner.advancedControl')}
               </Text>
               <Text
-                className={`text-white text-lg font-yekan mt-9 ${
-                  i18n.language === 'fa' ? 'text-left' : 'text-right'
-                }`}
+                className={`text-white text-lg font-yekan mt-9 text-left`}
               >
                 {t('banner.smartResponse')}
               </Text>
               <Text
-                className={`text-white text-lg font-yekan ${
-                  i18n.language === 'fa' ? 'text-left' : 'text-right'
-                }`}
+                className={`text-white text-lg font-yekan text-left`}
               >
                 {t('banner.secureSecurity')}
               </Text>
