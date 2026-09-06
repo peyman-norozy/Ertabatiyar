@@ -62,7 +62,7 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
     I: t('zoneSettingsPage.status.instant'),
     '24': t('zoneSettingsPage.status.twentyFourHours'),
     S: t('zoneSettingsPage.status.silent'),
-    F: t('zoneSettingsPage.status.fire'),
+    F: t('zoneSettingsPage.status.warning'),
     D: t('zoneSettingsPage.status.withDelay'),
     O: t('zoneSettingsPage.status.off'),
   };

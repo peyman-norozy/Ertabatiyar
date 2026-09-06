@@ -214,6 +214,8 @@ const Admin = () => {
         'REMOVE_ADMIN',
         JSON.stringify(parsedAdmins.map(item => item.phone)),
       );
+
+      showToast(t('general.messages.admin_updated'), 'success');
     } catch (e: any) {
       console.log('ADMINLIST error:', e);
 
@@ -294,7 +296,7 @@ const Admin = () => {
       console.log('ADD ADMIN response:', sms.body);
 
       if (sms.body === 'admin_number_updated.') {
-        showToast(t('general.adminAdded'), 'success');
+        showToast(t('general.messages.adminAdded'), 'success');
 
         setModalVisible(false);
         setAdminPhone('');
@@ -379,7 +381,7 @@ const Admin = () => {
    * آیا کل بخش Admin در حال قفل است؟
    * ============================================
    */
-  const isAdminBusy = loading || adminListLoading;
+  const isAdminBusy = loading;
 
   return (
     <View
@@ -408,14 +410,14 @@ const Admin = () => {
 
       <View className="mt-5">
         <Button
-          title={adminListLoading ? t('general.sending') : t('general.update')}
+          title={isAdminBusy ? t('general.sending') : t('general.update')}
           variant="primary"
           fullWidth
           disabled={isAdminBusy}
-          loading={adminListLoading}
+          loading={isAdminBusy}
           onPress={getAdminListHandler}
           icon={
-            adminListLoading ? undefined : (
+            isAdminBusy ? undefined : (
               <Refresh width={24} height={24} stroke="#ffffff" />
             )
           }
@@ -443,7 +445,7 @@ const Admin = () => {
                   dark:border-neutral-700
                   px-4 py-3
                   rounded-xl
-                  ${adminListLoading ? 'opacity-50' : ''}
+                  ${loading ? 'opacity-50' : ''}
                 `}
               >
                 {/* PHONE */}

@@ -50,7 +50,7 @@ const PersonalInformationPage = () => {
           newDevicePhoneNumber,
           `${newPassword} GETALL`,
           'SYS:',
-          ['access_denied', 'SETADMIN'],
+          ['access_denied', 'SETADMIN', 'wrong_password!'],
           login,
           async () => {
             await setStorage('userPhoneNumber', newUserPhoneNumber);
@@ -62,10 +62,13 @@ const PersonalInformationPage = () => {
         const parsedData = parseDeviceSms(getLastsms.body);
 
         await setStorage('deviceZones', JSON.stringify(parsedData));
+        showToast(t('successSMS.success_enter'), 'success');
       })
       .catch((err: any) => {
         if (err === 'SETADMIN') {
           showToast(t('errorSMS.pleaseRegister'), 'error');
+        } else if (err === 'wrong_password!') {
+          showToast(t('errorSMS.wrong_password'), 'error');
         }
       });
   };
