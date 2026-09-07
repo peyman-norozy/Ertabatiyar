@@ -5,8 +5,7 @@ import { Button, Input, Text } from '@/shared/ui';
 
 import { Add, Trash, UserAdmin } from '@/shared/assets/icons';
 
-import { useZonesContext } from '@/context/ZonesContext';
-import { getStorage } from '@/utils/storage';
+import { getStorage, setStorage } from '@/utils/storage';
 import { useSms } from '@/context/SmsContext';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +25,6 @@ const time = 5000;
 const Admin = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
-  const { admin, updateZone } = useZonesContext();
   const { sendSms, loading } = useSms();
   const { isDark } = useThemeMode();
 
@@ -67,54 +65,26 @@ const Admin = () => {
   useEffect(() => {
     const loadSavedAdmins = async () => {
       try {
-        /**
-         * اول از Context استفاده می‌کنیم.
-         *
-         * admin از useZones می‌آید و از deviceZones
-         * خوانده شده است.
-         */
-        if (admin && admin.length > 0) {
-          const savedAdmins: AdminItem[] = admin.map((phone, index) => ({
-            index,
-            phone,
-          }));
+        const savedAdmins = await getStorage('deviceAdmins');
 
-          setAdmins(savedAdmins);
+        if (!savedAdmins) {
+          setAdmins([]);
           setAdminListLoaded(true);
-
           return;
         }
 
-        /**
-         * اگر Context هنوز آماده نشده بود،
-         * مستقیم Storage را هم بررسی می‌کنیم.
-         */
-        const saved = await getStorage('deviceZones');
+        const parsedAdmins: AdminItem[] = JSON.parse(savedAdmins);
 
-        if (!saved) {
-          return;
-        }
-
-        const parsed = JSON.parse(saved);
-
-        if (Array.isArray(parsed.admin) && parsed.admin.length > 0) {
-          const savedAdmins: AdminItem[] = parsed.admin.map(
-            (phone: string, index: number) => ({
-              index,
-              phone,
-            }),
-          );
-
-          setAdmins(savedAdmins);
-          setAdminListLoaded(true);
-        }
-      } catch (e) {
-        console.log('loadSavedAdmins error:', e);
+        setAdmins(parsedAdmins);
+        setAdminListLoaded(true);
+      } catch (error) {
+        console.log('loadSavedAdmins error:', error);
+        setAdmins([]);
       }
     };
 
     loadSavedAdmins();
-  }, [admin]);
+  }, []);
 
   /**
    * ============================================
@@ -131,7 +101,13 @@ const Admin = () => {
     const result: AdminItem[] = [];
 
     /**
-     * فقط بخش admin_numbers را پیدا می‌کنیم.
+     * پیدا کردن بخش admin_numbers
+     *
+     * مثال:
+     *
+     * admin_numbers:
+     * 0: +989362718986
+     * 3: +989105343598
      */
     const adminSectionMatch = body.match(/admin_numbers:\s*([\s\S]*)/i);
 
@@ -142,8 +118,9 @@ const Admin = () => {
     const adminSection = adminSectionMatch[1];
 
     /**
-     * مثال:
+     * پیدا کردن index و شماره تلفن
      *
+     * مثال:
      * 0: +989362718986
      * 3: +989105343598
      */
@@ -210,10 +187,7 @@ const Admin = () => {
        *
        * فقط شماره‌ها را ذخیره می‌کنیم.
        */
-      await updateZone(
-        'REMOVE_ADMIN',
-        JSON.stringify(parsedAdmins.map(item => item.phone)),
-      );
+      await setStorage('deviceAdmins', JSON.stringify(parsedAdmins));
 
       showToast(t('general.messages.admin_updated'), 'success');
     } catch (e: any) {

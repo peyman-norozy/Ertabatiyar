@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getStorage, setStorage } from '@/utils/storage';
-import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 
 export type DeviceZone = {
   type: string;
@@ -20,7 +19,6 @@ export type DeviceZonesStorage = {
   call: Record<string, string>;
   system: Record<string, string>;
   systemStatus: string;
-  admin: string[];
 };
 
 export const useZones = () => {
@@ -31,8 +29,6 @@ export const useZones = () => {
   const [system, setSystem] = useState<Record<string, string>>({});
 
   const [systemStatus, setSystemStatus] = useState('');
-
-  const [admin, setAdmin] = useState<string[]>([]);
 
   const [addedZones, setAddedZones] = useState<AddedZone[]>([]);
 
@@ -46,9 +42,7 @@ export const useZones = () => {
     try {
       const savedZones = await getStorage('addedZones');
 
-      setAddedZones(
-        savedZones ? JSON.parse(savedZones) : [],
-      );
+      setAddedZones(savedZones ? JSON.parse(savedZones) : []);
     } catch (e) {
       console.log('loadAddedZones error:', e);
     }
@@ -63,16 +57,12 @@ export const useZones = () => {
       const value = await getStorage('deviceZones');
 
       if (value) {
-        const parsed: Partial<DeviceZonesStorage> =
-          JSON.parse(value);
+        const parsed: Partial<DeviceZonesStorage> = JSON.parse(value);
 
         setZones(parsed.zones || {});
         setCall(parsed.call || {});
         setSystem(parsed.system || {});
-        setSystemStatus(
-          parsed.systemStatus || '',
-        );
-        setAdmin(parsed.admin || []);
+        setSystemStatus(parsed.systemStatus || '');
       }
 
       await loadAddedZones();
@@ -91,16 +81,11 @@ export const useZones = () => {
   // Save Zones
   // ============================================
 
-  const saveZones = async (
-    newZones: Record<string, DeviceZone>,
-  ) => {
+  const saveZones = async (newZones: Record<string, DeviceZone>) => {
     try {
-      const value =
-        await getStorage('deviceZones');
+      const value = await getStorage('deviceZones');
 
-      const parsed = value
-        ? JSON.parse(value)
-        : {};
+      const parsed = value ? JSON.parse(value) : {};
 
       const updated = {
         ...parsed,
@@ -109,10 +94,7 @@ export const useZones = () => {
 
       setZones(newZones);
 
-      await setStorage(
-        'deviceZones',
-        JSON.stringify(updated),
-      );
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
       console.log('saveZones error:', e);
     }
@@ -122,17 +104,11 @@ export const useZones = () => {
   // Update Zone
   // ============================================
 
-  const updateZone = async (
-    key: string,
-    value: string,
-  ) => {
+  const updateZone = async (key: string, value: string) => {
     try {
-      const valueStorage =
-        await getStorage('deviceZones');
+      const valueStorage = await getStorage('deviceZones');
 
-      const parsed = valueStorage
-        ? JSON.parse(valueStorage)
-        : {};
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
 
       // ========================================
       // CALL
@@ -151,10 +127,7 @@ export const useZones = () => {
 
         setCall(newCall);
 
-        await setStorage(
-          'deviceZones',
-          JSON.stringify(updated),
-        );
+        await setStorage('deviceZones', JSON.stringify(updated));
 
         return;
       }
@@ -178,66 +151,7 @@ export const useZones = () => {
         setSystem(newSystem);
         setSystemStatus(value);
 
-        await setStorage(
-          'deviceZones',
-          JSON.stringify(updated),
-        );
-
-        return;
-      }
-
-      // ========================================
-      // ADMIN
-      // ========================================
-
-      if (key === 'ADMIN') {
-        const currentAdmins =
-          parsed.admin || [];
-
-        const formattedValue =
-          formatIranPhoneNumber(value);
-
-        const newAdmin =
-          currentAdmins.includes(formattedValue)
-            ? currentAdmins
-            : [
-                ...currentAdmins,
-                formattedValue,
-              ];
-
-        const updated = {
-          ...parsed,
-          admin: newAdmin,
-        };
-
-        setAdmin(newAdmin);
-
-        await setStorage(
-          'deviceZones',
-          JSON.stringify(updated),
-        );
-
-        return;
-      }
-
-      // ========================================
-      // REMOVE ADMIN
-      // ========================================
-
-      if (key === 'REMOVE_ADMIN') {
-        const newAdmin = JSON.parse(value);
-
-        const updated = {
-          ...parsed,
-          admin: newAdmin,
-        };
-
-        setAdmin(newAdmin);
-
-        await setStorage(
-          'deviceZones',
-          JSON.stringify(updated),
-        );
+        await setStorage('deviceZones', JSON.stringify(updated));
 
         return;
       }
@@ -246,14 +160,13 @@ export const useZones = () => {
       // ZONE
       // ========================================
 
-      const currentZone: DeviceZone =
-        parsed.zones?.[key] || {
-          type: 'O',
-          output: 'N',
-          status: 'I',
-          enterDelay: '0',
-          exitDelay: '0',
-        };
+      const currentZone: DeviceZone = parsed.zones?.[key] || {
+        type: 'O',
+        output: 'N',
+        status: 'I',
+        enterDelay: '0',
+        exitDelay: '0',
+      };
 
       const newZone: DeviceZone = {
         ...currentZone,
@@ -272,10 +185,7 @@ export const useZones = () => {
 
       setZones(newZones);
 
-      await setStorage(
-        'deviceZones',
-        JSON.stringify(updated),
-      );
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
       console.log('updateZone error:', e);
     }
@@ -285,26 +195,19 @@ export const useZones = () => {
   // Update Zone Status
   // ============================================
 
-  const updateZoneStatus = async (
-    key: string,
-    status: string,
-  ) => {
+  const updateZoneStatus = async (key: string, status: string) => {
     try {
-      const valueStorage =
-        await getStorage('deviceZones');
+      const valueStorage = await getStorage('deviceZones');
 
-      const parsed = valueStorage
-        ? JSON.parse(valueStorage)
-        : {};
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
 
-      const currentZone: DeviceZone =
-        parsed.zones?.[key] || {
-          type: 'O',
-          output: 'N',
-          status: 'I',
-          enterDelay: '0',
-          exitDelay: '0',
-        };
+      const currentZone: DeviceZone = parsed.zones?.[key] || {
+        type: 'O',
+        output: 'N',
+        status: 'I',
+        enterDelay: '0',
+        exitDelay: '0',
+      };
 
       const newZone: DeviceZone = {
         ...currentZone,
@@ -323,15 +226,9 @@ export const useZones = () => {
 
       setZones(newZones);
 
-      await setStorage(
-        'deviceZones',
-        JSON.stringify(updated),
-      );
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
-      console.log(
-        'updateZoneStatus error:',
-        e,
-      );
+      console.log('updateZoneStatus error:', e);
     }
   };
 
@@ -339,26 +236,19 @@ export const useZones = () => {
   // Update Zone Output
   // ============================================
 
-  const updateOutput = async (
-    zoneKey: string,
-    value: string,
-  ) => {
+  const updateOutput = async (zoneKey: string, value: string) => {
     try {
-      const valueStorage =
-        await getStorage('deviceZones');
+      const valueStorage = await getStorage('deviceZones');
 
-      const parsed = valueStorage
-        ? JSON.parse(valueStorage)
-        : {};
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
 
-      const currentZone: DeviceZone =
-        parsed.zones?.[zoneKey] || {
-          type: 'O',
-          output: 'N',
-          status: 'I',
-          enterDelay: '0',
-          exitDelay: '0',
-        };
+      const currentZone: DeviceZone = parsed.zones?.[zoneKey] || {
+        type: 'O',
+        output: 'N',
+        status: 'I',
+        enterDelay: '0',
+        exitDelay: '0',
+      };
 
       const newZone: DeviceZone = {
         ...currentZone,
@@ -377,15 +267,9 @@ export const useZones = () => {
 
       setZones(newZones);
 
-      await setStorage(
-        'deviceZones',
-        JSON.stringify(updated),
-      );
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
-      console.log(
-        'updateOutput error:',
-        e,
-      );
+      console.log('updateOutput error:', e);
     }
   };
 
@@ -393,27 +277,19 @@ export const useZones = () => {
   // Update Zone System / Delay
   // ============================================
 
-  const updateSystem = async (
-    zoneId: string,
-    key: string,
-    value: string,
-  ) => {
+  const updateSystem = async (zoneId: string, key: string, value: string) => {
     try {
-      const valueStorage =
-        await getStorage('deviceZones');
+      const valueStorage = await getStorage('deviceZones');
 
-      const parsed = valueStorage
-        ? JSON.parse(valueStorage)
-        : {};
+      const parsed = valueStorage ? JSON.parse(valueStorage) : {};
 
-      const currentZone: DeviceZone =
-        parsed.zones?.[zoneId] || {
-          type: 'O',
-          output: 'N',
-          status: 'I',
-          enterDelay: '0',
-          exitDelay: '0',
-        };
+      const currentZone: DeviceZone = parsed.zones?.[zoneId] || {
+        type: 'O',
+        output: 'N',
+        status: 'I',
+        enterDelay: '0',
+        exitDelay: '0',
+      };
 
       const newZone: DeviceZone = {
         ...currentZone,
@@ -439,15 +315,9 @@ export const useZones = () => {
 
       setZones(newZones);
 
-      await setStorage(
-        'deviceZones',
-        JSON.stringify(updated),
-      );
+      await setStorage('deviceZones', JSON.stringify(updated));
     } catch (e) {
-      console.log(
-        'updateSystem error:',
-        e,
-      );
+      console.log('updateSystem error:', e);
     }
   };
 
@@ -455,24 +325,16 @@ export const useZones = () => {
     zones,
     call,
     system,
-    admin,
     addedZones,
-
     setAddedZones,
-
     loadAddedZones,
-
     loading,
-
     updateZone,
     updateZoneStatus,
     updateOutput,
     updateSystem,
-
     systemStatus,
-
     saveZones,
-
     reload: loadZones,
   };
 };
