@@ -2,7 +2,7 @@ import { Image, StatusBar, View } from 'react-native';
 import { Button, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { simCard } from '@/shared/assets/images';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { getStorage, setStorage } from '@/utils/storage';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';

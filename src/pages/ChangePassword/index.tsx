@@ -11,7 +11,7 @@ import {
 import { changePassword } from '@/shared/assets/images';
 import { Button, Input } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { useAuth } from '@/context/AuthContext';
 import { getStorage, setStorage } from '@/utils/storage';
 import { useToast } from '@/context/ToastContext';

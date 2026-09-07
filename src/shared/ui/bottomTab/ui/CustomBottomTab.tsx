@@ -12,7 +12,7 @@ import { Chart, SimCard, Synchronization } from '@/shared/assets/icons';
 import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { getStorage, setStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { useAuth } from '@/context/AuthContext';
 import { parseDeviceSms } from '@/utils/parseDeviceSms';
 import { useZonesContext } from '@/context/ZonesContext';
@@ -276,11 +276,13 @@ const CustomBottomTab: React.FC<Props> = ({
                 ${cooldown ? 'bg-[#A2A2A2]' : 'bg-[#3260C3]'}
               `}
             >
-              {loading ? (
+              <Synchronization width={26} height={26} stroke="#FFFFFF" />
+
+              {/* {loading ? (
                 <ActivityIndicator color="#fff" />
               ) : (
                 <Synchronization width={26} height={26} stroke="#FFFFFF" />
-              )}
+              )} */}
             </Animated.View>
           </TouchableOpacity>
 

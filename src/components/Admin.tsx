@@ -7,7 +7,7 @@ import { Add, Trash, UserAdmin } from '@/shared/assets/icons';
 
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/context/ToastContext';
@@ -410,16 +410,17 @@ const Admin = () => {
 
       <View className="mt-5">
         <Button
-          title={isAdminBusy ? t('general.sending') : t('general.update')}
+          title={t('general.update')}
           variant="primary"
           fullWidth
           disabled={isAdminBusy}
-          loading={isAdminBusy}
+          // loading={isAdminBusy}
           onPress={getAdminListHandler}
           icon={
-            isAdminBusy ? undefined : (
-              <Refresh width={24} height={24} stroke="#ffffff" />
-            )
+            // isAdminBusy ? undefined : (
+            //   <Refresh width={24} height={24} stroke="#ffffff" />
+            // )
+            <Refresh width={24} height={24} stroke="#ffffff" />
           }
         />
       </View>

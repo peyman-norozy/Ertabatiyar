@@ -3,7 +3,7 @@ import { Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import AnimatedButton from '@/components/AnimatedButton.tsx';
 import { useZonesContext } from '@/context/ZonesContext';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { getStorage, setStorage } from '@/utils/storage';
 import { useAuth } from '@/context/AuthContext';
 import { parseDeviceSms } from '@/utils/parseDeviceSms';

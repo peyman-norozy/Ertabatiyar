@@ -3,7 +3,7 @@ import { CustomSwitch, Text } from '@/shared/ui';
 import { Arrow, ArrowLeft, Setting, Signal } from '@/shared/assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { getStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import type { ZoneKeyType } from '@/types/zone';
 import { AppNavigation } from '@/helpers/appNavigation';
 import { useZonesContext } from '@/context/ZonesContext';
@@ -127,7 +127,7 @@ const SensorsCard: React.FC<SensorsCardProps> = ({
           darkModeIcons={false}
           switchHandler={zoneSwitchHandler}
           disabled={loading}
-          loading={loading}
+          // loading={loading}
         />
 
         <View className="flex-row items-center gap-2">

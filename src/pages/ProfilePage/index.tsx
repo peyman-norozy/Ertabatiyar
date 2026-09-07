@@ -7,7 +7,7 @@ import {
   antennaGood,
   antennaVeryGood,
 } from '@/shared/assets/images';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { getStorage, setStorage } from '@/utils/storage';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
@@ -29,10 +29,7 @@ const ProfilePage = () => {
   }, []);
 
   const getAntennaStatus = (antenna: string) => {
-    const percentage = Number.parseInt(
-      antenna.replace('%', '').trim(),
-      10
-    );
+    const percentage = Number.parseInt(antenna.replace('%', '').trim(), 10);
 
     if (percentage <= 25) {
       return {
@@ -64,18 +61,15 @@ const ProfilePage = () => {
   const antennaStatus = getAntennaStatus(newSimAnten);
 
   const selectSubmitHandler = async () => {
-    const devicePhoneNumber =
-      (await getStorage('devicePhoneNumber')) || '';
+    const devicePhoneNumber = (await getStorage('devicePhoneNumber')) || '';
 
     const password = (await getStorage('password')) || '';
 
     try {
-      const sms = await sendSms(
-        devicePhoneNumber,
-        `${password} SIG`,
-        `RSSI:`,
-        ['USSD_TIMEOUT', 'SETADMIN']
-      );
+      const sms = await sendSms(devicePhoneNumber, `${password} SIG`, `RSSI:`, [
+        'USSD_TIMEOUT',
+        'SETADMIN',
+      ]);
 
       if (sms.body.includes('RSSI:')) {
         const antenna = sms.body.split(':')[2]?.trim() || '0';
@@ -95,14 +89,10 @@ const ProfilePage = () => {
 
   return (
     <View className="flex-1 bg-[#F9F9F9] dark:bg-neutral-800">
-      <StatusBar
-        backgroundColor="white"
-        barStyle="dark-content"
-      />
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
 
       <ScrollView>
         <View className="flex items-center gap-2 mt-40">
-
           <Image
             source={antennaStatus.image}
             className="w-[144px] h-[119px]"
@@ -130,7 +120,7 @@ const ProfilePage = () => {
                 text-sm
               "
             >
-               {t('general.antennaPower' as any)}
+              {t('general.antennaPower' as any)}
             </Text>
 
             <Text
@@ -144,7 +134,6 @@ const ProfilePage = () => {
               {newSimAnten}
             </Text>
           </View>
-
         </View>
       </ScrollView>
 

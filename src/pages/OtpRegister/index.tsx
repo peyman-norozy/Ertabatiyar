@@ -19,7 +19,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { logoBlue } from '@/shared/assets/images';
 import { RotateRight } from '@/shared/assets/icons';
 import { getStorage, setStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';

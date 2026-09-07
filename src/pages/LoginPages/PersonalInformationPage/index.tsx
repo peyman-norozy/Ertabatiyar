@@ -12,7 +12,7 @@ import { Input, Button, Text } from '@/shared/ui';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { setStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { useAuth } from '@/context/AuthContext';
 import { useIsLogin } from '@/hook/useIsLogin';
 import { useEffect, useState } from 'react';

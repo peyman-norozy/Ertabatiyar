@@ -19,7 +19,7 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootDrawerParamList } from '@/shared/ui/header/model';
 
 import { useZonesContext } from '@/context/ZonesContext';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 
 import { getStorage, setStorage } from '@/utils/storage';
 

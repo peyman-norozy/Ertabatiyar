@@ -2,7 +2,7 @@ import { Image, View } from 'react-native';
 import { CustomSwitch, Text } from '@/shared/ui';
 import { useZonesContext } from '@/context/ZonesContext';
 import { getStorage } from '@/utils/storage';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '@/hook/useThemeMode';
@@ -122,7 +122,7 @@ const CallMode = () => {
         darkModeIcons={false}
         switchHandler={callSwitchHandler}
         disabled={loading}
-        loading={loading}
+        // loading={loading}
       />
     </View>
   );

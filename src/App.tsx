@@ -22,6 +22,9 @@ import { ZonesProvider } from './context/ZonesContext.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
 import { ZoneModalProvider } from './context/ZoneModalContext.tsx';
 import { AppLoadingScreen } from './shared/ui/index.ts';
+import { SmsProvider } from './context/SmsContext.tsx';
+import GlobalSmsLoader from './components/GlobalSmsLoader.tsx';
+import GlobalSmsTimeoutModal from './components/GlobalSmsTimeoutModal.tsx';
 
 const { SmsModule } = NativeModules;
 
@@ -87,26 +90,30 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="flex-1 bg-white dark:bg-neutral-900">
-        <StatusBar backgroundColor="white" barStyle="dark-content" />
-        <ZonesProvider>
-          <ZoneModalProvider>
-            <DeviceProvider>
-              <ToastProvider>
-                <AppBootstrap />
-                <AppRouter />
-              </ToastProvider>
-            </DeviceProvider>
-          </ZoneModalProvider>
-        </ZonesProvider>
-        {loading && (
-          <View className="absolute inset-0 z-[9999] items-center justify-center bg-blue-800">
-            <AppLoadingScreen />
-          </View>
-        )}
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <SmsProvider>
+      <SafeAreaProvider>
+        <SafeAreaView className="flex-1 bg-white dark:bg-neutral-900">
+          <StatusBar backgroundColor="white" barStyle="dark-content" />
+          <ZonesProvider>
+            <ZoneModalProvider>
+              <DeviceProvider>
+                <ToastProvider>
+                  <AppBootstrap />
+                  <AppRouter />
+                </ToastProvider>
+              </DeviceProvider>
+            </ZoneModalProvider>
+          </ZonesProvider>
+          <GlobalSmsLoader />
+          <GlobalSmsTimeoutModal />
+          {loading && (
+            <View className="absolute inset-0 z-[9999] items-center justify-center bg-blue-800">
+              <AppLoadingScreen />
+            </View>
+          )}
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </SmsProvider>
   );
 }
 

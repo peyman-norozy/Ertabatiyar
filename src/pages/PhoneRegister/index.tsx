@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { getStorage, setStorage } from '@/utils/storage';
 import { formatIranPhoneNumber } from '@/utils/formatIranPhoneNumber';
-import { useSms } from '@/hook/useSms';
+import { useSms } from '@/context/SmsContext';
 
 const Index = () => {
   const { t } = useTranslation();
